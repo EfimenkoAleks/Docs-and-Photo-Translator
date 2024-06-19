@@ -8,22 +8,20 @@
 
 /* Begin PBXBuildFile section */
 		CEE988F42C21B5EB00870D32 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEE988F32C21B5EB00870D32 /* AppDelegate.swift */; };
-		CEE988F62C21B5EB00870D32 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEE988F52C21B5EB00870D32 /* SceneDelegate.swift */; };
-		CEE988F82C21B5EB00870D32 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEE988F72C21B5EB00870D32 /* ViewController.swift */; };
-		CEE988FB2C21B5EB00870D32 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CEE988F92C21B5EB00870D32 /* Main.storyboard */; };
 		CEE988FD2C21B5ED00870D32 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = CEE988FC2C21B5ED00870D32 /* Assets.xcassets */; };
 		CEE989002C21B5ED00870D32 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CEE988FE2C21B5ED00870D32 /* LaunchScreen.storyboard */; };
+		CEE9890A2C22DB5500870D32 /* CoordinatorProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEE989092C22DB5500870D32 /* CoordinatorProtocol.swift */; };
+		CEE9890C2C22DBCD00870D32 /* DP_TabCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEE9890B2C22DBCD00870D32 /* DP_TabCoordinator.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		CEE988F02C21B5EB00870D32 /* Docs and Photo Translator.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Docs and Photo Translator.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		CEE988F32C21B5EB00870D32 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		CEE988F52C21B5EB00870D32 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
-		CEE988F72C21B5EB00870D32 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
-		CEE988FA2C21B5EB00870D32 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		CEE988FC2C21B5ED00870D32 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		CEE988FF2C21B5ED00870D32 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		CEE989012C21B5ED00870D32 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		CEE989092C22DB5500870D32 /* CoordinatorProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoordinatorProtocol.swift; sourceTree = "<group>"; };
+		CEE9890B2C22DBCD00870D32 /* DP_TabCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DP_TabCoordinator.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -56,15 +54,30 @@
 		CEE988F22C21B5EB00870D32 /* Docs and Photo Translator */ = {
 			isa = PBXGroup;
 			children = (
+				CEE989072C22DAFA00870D32 /* Services */,
 				CEE988F32C21B5EB00870D32 /* AppDelegate.swift */,
-				CEE988F52C21B5EB00870D32 /* SceneDelegate.swift */,
-				CEE988F72C21B5EB00870D32 /* ViewController.swift */,
-				CEE988F92C21B5EB00870D32 /* Main.storyboard */,
 				CEE988FC2C21B5ED00870D32 /* Assets.xcassets */,
 				CEE988FE2C21B5ED00870D32 /* LaunchScreen.storyboard */,
 				CEE989012C21B5ED00870D32 /* Info.plist */,
 			);
 			path = "Docs and Photo Translator";
+			sourceTree = "<group>";
+		};
+		CEE989072C22DAFA00870D32 /* Services */ = {
+			isa = PBXGroup;
+			children = (
+				CEE989082C22DB0E00870D32 /* Coordinators */,
+			);
+			path = Services;
+			sourceTree = "<group>";
+		};
+		CEE989082C22DB0E00870D32 /* Coordinators */ = {
+			isa = PBXGroup;
+			children = (
+				CEE989092C22DB5500870D32 /* CoordinatorProtocol.swift */,
+				CEE9890B2C22DBCD00870D32 /* DP_TabCoordinator.swift */,
+			);
+			path = Coordinators;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -127,7 +140,6 @@
 			files = (
 				CEE989002C21B5ED00870D32 /* LaunchScreen.storyboard in Resources */,
 				CEE988FD2C21B5ED00870D32 /* Assets.xcassets in Resources */,
-				CEE988FB2C21B5EB00870D32 /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -138,23 +150,15 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				CEE988F82C21B5EB00870D32 /* ViewController.swift in Sources */,
+				CEE9890C2C22DBCD00870D32 /* DP_TabCoordinator.swift in Sources */,
 				CEE988F42C21B5EB00870D32 /* AppDelegate.swift in Sources */,
-				CEE988F62C21B5EB00870D32 /* SceneDelegate.swift in Sources */,
+				CEE9890A2C22DB5500870D32 /* CoordinatorProtocol.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXVariantGroup section */
-		CEE988F92C21B5EB00870D32 /* Main.storyboard */ = {
-			isa = PBXVariantGroup;
-			children = (
-				CEE988FA2C21B5EB00870D32 /* Base */,
-			);
-			name = Main.storyboard;
-			sourceTree = "<group>";
-		};
 		CEE988FE2C21B5ED00870D32 /* LaunchScreen.storyboard */ = {
 			isa = PBXVariantGroup;
 			children = (
@@ -216,7 +220,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 16.2;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
@@ -270,7 +274,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 16.2;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				SDKROOT = iphoneos;
@@ -295,12 +299,13 @@
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = "Efimenko.Docs-and-Photo-Translator";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.Docs-and-Photo-Translator";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
@@ -323,12 +328,13 @@
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = "Efimenko.Docs-and-Photo-Translator";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.Docs-and-Photo-Translator";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
