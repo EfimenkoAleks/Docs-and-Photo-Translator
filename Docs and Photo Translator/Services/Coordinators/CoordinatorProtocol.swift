@@ -7,7 +7,7 @@
 
 import UIKit
 
-protocol Coordinator {
+protocol DP_Coordinator {
     var navigationController: UINavigationController? { get set }
-    var cildren: [Coordinator] { get set }
+    var cildren: [DP_Coordinator] { get set }
 }

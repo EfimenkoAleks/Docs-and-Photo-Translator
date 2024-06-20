@@ -7,6 +7,8 @@
 
 import UIKit
 
+typealias SM_AppDelegateExtension = AppDelegate
+
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
@@ -15,8 +17,21 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         
         window = UIWindow(frame: UIScreen.main.bounds)
-        _ = DP_TabCoordinator(with: window)
+        
+        setupRootViewController()
         
         return true
+    }
+}
+
+private extension SM_AppDelegateExtension {
+    func setupRootViewController() {
+        
+        guard let window = window else { return }
+        
+        DP_StartCoordinator.shared.window = window
+        DP_StartCoordinator.shared.sm_strart()
+        
+        window.makeKeyAndVisible()
     }
 }

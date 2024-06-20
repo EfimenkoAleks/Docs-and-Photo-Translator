@@ -11,7 +11,22 @@
 		CEE988FD2C21B5ED00870D32 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = CEE988FC2C21B5ED00870D32 /* Assets.xcassets */; };
 		CEE989002C21B5ED00870D32 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CEE988FE2C21B5ED00870D32 /* LaunchScreen.storyboard */; };
 		CEE9890A2C22DB5500870D32 /* CoordinatorProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEE989092C22DB5500870D32 /* CoordinatorProtocol.swift */; };
-		CEE9890C2C22DBCD00870D32 /* DP_TabCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEE9890B2C22DBCD00870D32 /* DP_TabCoordinator.swift */; };
+		CEE989122C230B9000870D32 /* DP_PhotoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEE989102C230B9000870D32 /* DP_PhotoViewController.swift */; };
+		CEE989132C230B9000870D32 /* DP_PhotoViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = CEE989112C230B9000870D32 /* DP_PhotoViewController.xib */; };
+		CEE989162C230C6300870D32 /* DP_TabBarItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEE989152C230C6300870D32 /* DP_TabBarItem.swift */; };
+		CEE989182C230CBD00870D32 /* DP_CustomTabBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEE989172C230CBD00870D32 /* DP_CustomTabBar.swift */; };
+		CEE9891B2C230D0B00870D32 /* Block.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEE9891A2C230D0B00870D32 /* Block.swift */; };
+		CEE9891E2C230D8300870D32 /* DP_Colors.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEE9891D2C230D8300870D32 /* DP_Colors.swift */; };
+		CEE989202C230DD300870D32 /* UIColor+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEE9891F2C230DD300870D32 /* UIColor+Extensions.swift */; };
+		CEE989222C230F6A00870D32 /* DP_TabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEE989212C230F6A00870D32 /* DP_TabBarController.swift */; };
+		CEE989242C23105800870D32 /* DP_TabBarSelectedItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEE989232C23105800870D32 /* DP_TabBarSelectedItem.swift */; };
+		CEE989262C23116500870D32 /* DP_TabBarItemType.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEE989252C23116500870D32 /* DP_TabBarItemType.swift */; };
+		CEE989282C2311EA00870D32 /* DP_TabbarModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEE989272C2311EA00870D32 /* DP_TabbarModels.swift */; };
+		CEE9892B2C2314AA00870D32 /* DP_BaseViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEE9892A2C2314AA00870D32 /* DP_BaseViewController.swift */; };
+		CEE9892E2C2315A100870D32 /* DP_BaseLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEE9892D2C2315A100870D32 /* DP_BaseLoader.swift */; };
+		CEE989302C23160100870D32 /* DP_TitleLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEE9892F2C23160100870D32 /* DP_TitleLabel.swift */; };
+		CEE989332C23187400870D32 /* DP_PhotoCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEE989322C23187400870D32 /* DP_PhotoCoordinator.swift */; };
+		CEE989372C231BAF00870D32 /* DP_StartCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEE989362C231BAF00870D32 /* DP_StartCoordinator.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -21,7 +36,22 @@
 		CEE988FF2C21B5ED00870D32 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		CEE989012C21B5ED00870D32 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		CEE989092C22DB5500870D32 /* CoordinatorProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoordinatorProtocol.swift; sourceTree = "<group>"; };
-		CEE9890B2C22DBCD00870D32 /* DP_TabCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DP_TabCoordinator.swift; sourceTree = "<group>"; };
+		CEE989102C230B9000870D32 /* DP_PhotoViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DP_PhotoViewController.swift; sourceTree = "<group>"; };
+		CEE989112C230B9000870D32 /* DP_PhotoViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = DP_PhotoViewController.xib; sourceTree = "<group>"; };
+		CEE989152C230C6300870D32 /* DP_TabBarItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DP_TabBarItem.swift; sourceTree = "<group>"; };
+		CEE989172C230CBD00870D32 /* DP_CustomTabBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DP_CustomTabBar.swift; sourceTree = "<group>"; };
+		CEE9891A2C230D0B00870D32 /* Block.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Block.swift; sourceTree = "<group>"; };
+		CEE9891D2C230D8300870D32 /* DP_Colors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DP_Colors.swift; sourceTree = "<group>"; };
+		CEE9891F2C230DD300870D32 /* UIColor+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIColor+Extensions.swift"; sourceTree = "<group>"; };
+		CEE989212C230F6A00870D32 /* DP_TabBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DP_TabBarController.swift; sourceTree = "<group>"; };
+		CEE989232C23105800870D32 /* DP_TabBarSelectedItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DP_TabBarSelectedItem.swift; sourceTree = "<group>"; };
+		CEE989252C23116500870D32 /* DP_TabBarItemType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DP_TabBarItemType.swift; sourceTree = "<group>"; };
+		CEE989272C2311EA00870D32 /* DP_TabbarModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DP_TabbarModels.swift; sourceTree = "<group>"; };
+		CEE9892A2C2314AA00870D32 /* DP_BaseViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DP_BaseViewController.swift; sourceTree = "<group>"; };
+		CEE9892D2C2315A100870D32 /* DP_BaseLoader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DP_BaseLoader.swift; sourceTree = "<group>"; };
+		CEE9892F2C23160100870D32 /* DP_TitleLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DP_TitleLabel.swift; sourceTree = "<group>"; };
+		CEE989322C23187400870D32 /* DP_PhotoCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DP_PhotoCoordinator.swift; sourceTree = "<group>"; };
+		CEE989362C231BAF00870D32 /* DP_StartCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DP_StartCoordinator.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -54,6 +84,10 @@
 		CEE988F22C21B5EB00870D32 /* Docs and Photo Translator */ = {
 			isa = PBXGroup;
 			children = (
+				CEE9892C2C23154600870D32 /* CastomElements */,
+				CEE9891C2C230D6500870D32 /* Models */,
+				CEE989192C230CEB00870D32 /* Extension */,
+				CEE9890D2C230B0600870D32 /* Controllers */,
 				CEE989072C22DAFA00870D32 /* Services */,
 				CEE988F32C21B5EB00870D32 /* AppDelegate.swift */,
 				CEE988FC2C21B5ED00870D32 /* Assets.xcassets */,
@@ -74,10 +108,101 @@
 		CEE989082C22DB0E00870D32 /* Coordinators */ = {
 			isa = PBXGroup;
 			children = (
+				CEE989342C231B6500870D32 /* StartCoordinator */,
+				CEE989312C23184900870D32 /* PhotoCoordinator */,
 				CEE989092C22DB5500870D32 /* CoordinatorProtocol.swift */,
-				CEE9890B2C22DBCD00870D32 /* DP_TabCoordinator.swift */,
 			);
 			path = Coordinators;
+			sourceTree = "<group>";
+		};
+		CEE9890D2C230B0600870D32 /* Controllers */ = {
+			isa = PBXGroup;
+			children = (
+				CEE989292C23149900870D32 /* Base */,
+				CEE989142C230BE400870D32 /* TabBar */,
+				CEE9890F2C230B2600870D32 /* Texts */,
+				CEE9890E2C230B1300870D32 /* Photos */,
+			);
+			path = Controllers;
+			sourceTree = "<group>";
+		};
+		CEE9890E2C230B1300870D32 /* Photos */ = {
+			isa = PBXGroup;
+			children = (
+				CEE989102C230B9000870D32 /* DP_PhotoViewController.swift */,
+				CEE989112C230B9000870D32 /* DP_PhotoViewController.xib */,
+			);
+			path = Photos;
+			sourceTree = "<group>";
+		};
+		CEE9890F2C230B2600870D32 /* Texts */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Texts;
+			sourceTree = "<group>";
+		};
+		CEE989142C230BE400870D32 /* TabBar */ = {
+			isa = PBXGroup;
+			children = (
+				CEE989152C230C6300870D32 /* DP_TabBarItem.swift */,
+				CEE989172C230CBD00870D32 /* DP_CustomTabBar.swift */,
+				CEE989212C230F6A00870D32 /* DP_TabBarController.swift */,
+				CEE989232C23105800870D32 /* DP_TabBarSelectedItem.swift */,
+				CEE989252C23116500870D32 /* DP_TabBarItemType.swift */,
+				CEE989272C2311EA00870D32 /* DP_TabbarModels.swift */,
+			);
+			path = TabBar;
+			sourceTree = "<group>";
+		};
+		CEE989192C230CEB00870D32 /* Extension */ = {
+			isa = PBXGroup;
+			children = (
+				CEE9891A2C230D0B00870D32 /* Block.swift */,
+				CEE9891F2C230DD300870D32 /* UIColor+Extensions.swift */,
+			);
+			path = Extension;
+			sourceTree = "<group>";
+		};
+		CEE9891C2C230D6500870D32 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				CEE9891D2C230D8300870D32 /* DP_Colors.swift */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		CEE989292C23149900870D32 /* Base */ = {
+			isa = PBXGroup;
+			children = (
+				CEE9892A2C2314AA00870D32 /* DP_BaseViewController.swift */,
+			);
+			path = Base;
+			sourceTree = "<group>";
+		};
+		CEE9892C2C23154600870D32 /* CastomElements */ = {
+			isa = PBXGroup;
+			children = (
+				CEE9892D2C2315A100870D32 /* DP_BaseLoader.swift */,
+				CEE9892F2C23160100870D32 /* DP_TitleLabel.swift */,
+			);
+			path = CastomElements;
+			sourceTree = "<group>";
+		};
+		CEE989312C23184900870D32 /* PhotoCoordinator */ = {
+			isa = PBXGroup;
+			children = (
+				CEE989322C23187400870D32 /* DP_PhotoCoordinator.swift */,
+			);
+			path = PhotoCoordinator;
+			sourceTree = "<group>";
+		};
+		CEE989342C231B6500870D32 /* StartCoordinator */ = {
+			isa = PBXGroup;
+			children = (
+				CEE989362C231BAF00870D32 /* DP_StartCoordinator.swift */,
+			);
+			path = StartCoordinator;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -140,6 +265,7 @@
 			files = (
 				CEE989002C21B5ED00870D32 /* LaunchScreen.storyboard in Resources */,
 				CEE988FD2C21B5ED00870D32 /* Assets.xcassets in Resources */,
+				CEE989132C230B9000870D32 /* DP_PhotoViewController.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -150,9 +276,23 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				CEE9890C2C22DBCD00870D32 /* DP_TabCoordinator.swift in Sources */,
+				CEE989162C230C6300870D32 /* DP_TabBarItem.swift in Sources */,
+				CEE9891B2C230D0B00870D32 /* Block.swift in Sources */,
+				CEE989302C23160100870D32 /* DP_TitleLabel.swift in Sources */,
+				CEE989242C23105800870D32 /* DP_TabBarSelectedItem.swift in Sources */,
+				CEE989332C23187400870D32 /* DP_PhotoCoordinator.swift in Sources */,
+				CEE989282C2311EA00870D32 /* DP_TabbarModels.swift in Sources */,
+				CEE989182C230CBD00870D32 /* DP_CustomTabBar.swift in Sources */,
 				CEE988F42C21B5EB00870D32 /* AppDelegate.swift in Sources */,
 				CEE9890A2C22DB5500870D32 /* CoordinatorProtocol.swift in Sources */,
+				CEE989122C230B9000870D32 /* DP_PhotoViewController.swift in Sources */,
+				CEE9892B2C2314AA00870D32 /* DP_BaseViewController.swift in Sources */,
+				CEE9892E2C2315A100870D32 /* DP_BaseLoader.swift in Sources */,
+				CEE989222C230F6A00870D32 /* DP_TabBarController.swift in Sources */,
+				CEE989202C230DD300870D32 /* UIColor+Extensions.swift in Sources */,
+				CEE989372C231BAF00870D32 /* DP_StartCoordinator.swift in Sources */,
+				CEE989262C23116500870D32 /* DP_TabBarItemType.swift in Sources */,
+				CEE9891E2C230D8300870D32 /* DP_Colors.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -296,7 +436,6 @@
 				INFOPLIST_FILE = "Docs and Photo Translator/Info.plist";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
-				INFOPLIST_KEY_UIMainStoryboardFile = Main;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
@@ -325,7 +464,6 @@
 				INFOPLIST_FILE = "Docs and Photo Translator/Info.plist";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
-				INFOPLIST_KEY_UIMainStoryboardFile = Main;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
