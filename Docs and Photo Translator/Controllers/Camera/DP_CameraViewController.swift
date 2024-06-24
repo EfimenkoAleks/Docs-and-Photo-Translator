@@ -21,7 +21,7 @@ class DP_CameraViewController: DP_BaseViewController {
     private let layer = AVSampleBufferDisplayLayer()
     private lazy var client = DP_VideoManager()
     private let liveManager: DP_BroadCastLiveManager = DP_BroadCastLiveManager()
-    private let helper: SM_PhotoHelper = SM_PhotoHelper()
+    private let helper: DP_CameraHelper = DP_CameraHelper()
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -45,7 +45,6 @@ class DP_CameraViewController: DP_BaseViewController {
               let data = image.jpegData(compressionQuality: 0.7) else { return }
         
         helper.dp_saveNewPhoto(data: data)
-    
     }
 }
 

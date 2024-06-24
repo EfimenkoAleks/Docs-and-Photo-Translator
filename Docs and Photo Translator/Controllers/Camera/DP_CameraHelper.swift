@@ -7,7 +7,7 @@
 
 import Foundation
 
-final class SM_PhotoHelper: NSObject {
+final class DP_CameraHelper: NSObject {
     
     private var preferens: DP_PreferencesProtocol
     private var screenNumber = 0

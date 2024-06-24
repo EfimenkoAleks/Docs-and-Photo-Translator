@@ -11,6 +11,15 @@
 		CE07717D2C295ACE002A95A3 /* DP_Preferences.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE07717C2C295ACE002A95A3 /* DP_Preferences.swift */; };
 		CE07717F2C295B16002A95A3 /* DP_ConstantUserDefaultsKeys.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE07717E2C295B16002A95A3 /* DP_ConstantUserDefaultsKeys.swift */; };
 		CE0771812C295D5A002A95A3 /* DP_CameraHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE0771802C295D5A002A95A3 /* DP_CameraHelper.swift */; };
+		CE0771832C296793002A95A3 /* DP_PhotoTableManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE0771822C296793002A95A3 /* DP_PhotoTableManager.swift */; };
+		CE0771872C296B88002A95A3 /* DP_PhotoCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE0771852C296B88002A95A3 /* DP_PhotoCell.swift */; };
+		CE0771882C296B88002A95A3 /* DP_PhotoCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = CE0771862C296B88002A95A3 /* DP_PhotoCell.xib */; };
+		CE07718A2C29798E002A95A3 /* DP_ReusableCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE0771892C29798E002A95A3 /* DP_ReusableCell.swift */; };
+		CE07718C2C2979D4002A95A3 /* DP_PhotoModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE07718B2C2979D4002A95A3 /* DP_PhotoModel.swift */; };
+		CE07718E2C297A22002A95A3 /* DP_ConstantId.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE07718D2C297A22002A95A3 /* DP_ConstantId.swift */; };
+		CE0771902C297C08002A95A3 /* DP_PhotoHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE07718F2C297C08002A95A3 /* DP_PhotoHelper.swift */; };
+		CE0771922C299C09002A95A3 /* Date+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE0771912C299C09002A95A3 /* Date+Extension.swift */; };
+		CE0771942C29A10E002A95A3 /* DP_BaseCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE0771932C29A10E002A95A3 /* DP_BaseCell.swift */; };
 		CEE988F42C21B5EB00870D32 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEE988F32C21B5EB00870D32 /* AppDelegate.swift */; };
 		CEE988FD2C21B5ED00870D32 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = CEE988FC2C21B5ED00870D32 /* Assets.xcassets */; };
 		CEE989002C21B5ED00870D32 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CEE988FE2C21B5ED00870D32 /* LaunchScreen.storyboard */; };
@@ -50,6 +59,15 @@
 		CE07717C2C295ACE002A95A3 /* DP_Preferences.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DP_Preferences.swift; sourceTree = "<group>"; };
 		CE07717E2C295B16002A95A3 /* DP_ConstantUserDefaultsKeys.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DP_ConstantUserDefaultsKeys.swift; sourceTree = "<group>"; };
 		CE0771802C295D5A002A95A3 /* DP_CameraHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DP_CameraHelper.swift; sourceTree = "<group>"; };
+		CE0771822C296793002A95A3 /* DP_PhotoTableManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DP_PhotoTableManager.swift; sourceTree = "<group>"; };
+		CE0771852C296B88002A95A3 /* DP_PhotoCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DP_PhotoCell.swift; sourceTree = "<group>"; };
+		CE0771862C296B88002A95A3 /* DP_PhotoCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = DP_PhotoCell.xib; sourceTree = "<group>"; };
+		CE0771892C29798E002A95A3 /* DP_ReusableCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DP_ReusableCell.swift; sourceTree = "<group>"; };
+		CE07718B2C2979D4002A95A3 /* DP_PhotoModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DP_PhotoModel.swift; sourceTree = "<group>"; };
+		CE07718D2C297A22002A95A3 /* DP_ConstantId.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DP_ConstantId.swift; sourceTree = "<group>"; };
+		CE07718F2C297C08002A95A3 /* DP_PhotoHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DP_PhotoHelper.swift; sourceTree = "<group>"; };
+		CE0771912C299C09002A95A3 /* Date+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Date+Extension.swift"; sourceTree = "<group>"; };
+		CE0771932C29A10E002A95A3 /* DP_BaseCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DP_BaseCell.swift; sourceTree = "<group>"; };
 		CEE988F02C21B5EB00870D32 /* Docs and Photo Translator.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Docs and Photo Translator.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		CEE988F32C21B5EB00870D32 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		CEE988FC2C21B5ED00870D32 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -101,6 +119,7 @@
 			isa = PBXGroup;
 			children = (
 				CE0771792C295A84002A95A3 /* Preferences */,
+				CE07718D2C297A22002A95A3 /* DP_ConstantId.swift */,
 			);
 			path = Constants;
 			sourceTree = "<group>";
@@ -113,6 +132,15 @@
 				CE07717E2C295B16002A95A3 /* DP_ConstantUserDefaultsKeys.swift */,
 			);
 			path = Preferences;
+			sourceTree = "<group>";
+		};
+		CE0771842C296AEB002A95A3 /* Cell */ = {
+			isa = PBXGroup;
+			children = (
+				CE0771852C296B88002A95A3 /* DP_PhotoCell.swift */,
+				CE0771862C296B88002A95A3 /* DP_PhotoCell.xib */,
+			);
+			path = Cell;
 			sourceTree = "<group>";
 		};
 		CEE988E72C21B5EB00870D32 = {
@@ -184,8 +212,11 @@
 		CEE9890E2C230B1300870D32 /* Photos */ = {
 			isa = PBXGroup;
 			children = (
+				CE0771842C296AEB002A95A3 /* Cell */,
 				CEE989102C230B9000870D32 /* DP_PhotoViewController.swift */,
 				CEE989112C230B9000870D32 /* DP_PhotoViewController.xib */,
+				CE0771822C296793002A95A3 /* DP_PhotoTableManager.swift */,
+				CE07718F2C297C08002A95A3 /* DP_PhotoHelper.swift */,
 			);
 			path = Photos;
 			sourceTree = "<group>";
@@ -217,6 +248,8 @@
 			children = (
 				CEE9891A2C230D0B00870D32 /* Block.swift */,
 				CEE9891F2C230DD300870D32 /* UIColor+Extensions.swift */,
+				CE0771892C29798E002A95A3 /* DP_ReusableCell.swift */,
+				CE0771912C299C09002A95A3 /* Date+Extension.swift */,
 			);
 			path = Extension;
 			sourceTree = "<group>";
@@ -226,6 +259,7 @@
 			children = (
 				CEE9891D2C230D8300870D32 /* DP_Colors.swift */,
 				CEE989552C26D5D500870D32 /* DP_DownLoad.swift */,
+				CE07718B2C2979D4002A95A3 /* DP_PhotoModel.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -243,6 +277,7 @@
 			children = (
 				CEE9892D2C2315A100870D32 /* DP_BaseLoader.swift */,
 				CEE9892F2C23160100870D32 /* DP_TitleLabel.swift */,
+				CE0771932C29A10E002A95A3 /* DP_BaseCell.swift */,
 			);
 			path = CastomElements;
 			sourceTree = "<group>";
@@ -375,6 +410,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				CE0771882C296B88002A95A3 /* DP_PhotoCell.xib in Resources */,
 				CEE989002C21B5ED00870D32 /* LaunchScreen.storyboard in Resources */,
 				CEE989472C242FBD00870D32 /* DP_CameraViewController.xib in Resources */,
 				CEE9893F2C242E4D00870D32 /* DP_TextViewController.xib in Resources */,
@@ -398,29 +434,37 @@
 				CEE989462C242FBD00870D32 /* DP_CameraViewController.swift in Sources */,
 				CE07717B2C295AAC002A95A3 /* DP_PreferencesProtocol.swift in Sources */,
 				CEE989302C23160100870D32 /* DP_TitleLabel.swift in Sources */,
+				CE07718E2C297A22002A95A3 /* DP_ConstantId.swift in Sources */,
 				CEE989542C26D59500870D32 /* DP_FileManager.swift in Sources */,
 				CEE989242C23105800870D32 /* DP_TabBarSelectedItem.swift in Sources */,
+				CE07718A2C29798E002A95A3 /* DP_ReusableCell.swift in Sources */,
+				CE0771902C297C08002A95A3 /* DP_PhotoHelper.swift in Sources */,
 				CEE989332C23187400870D32 /* DP_PhotoCoordinator.swift in Sources */,
 				CE0771812C295D5A002A95A3 /* DP_CameraHelper.swift in Sources */,
 				CEE989282C2311EA00870D32 /* DP_TabbarModels.swift in Sources */,
 				CEE989182C230CBD00870D32 /* DP_CustomTabBar.swift in Sources */,
+				CE0771922C299C09002A95A3 /* Date+Extension.swift in Sources */,
 				CEE988F42C21B5EB00870D32 /* AppDelegate.swift in Sources */,
 				CEE9894B2C25B57000870D32 /* DP_VideoCaptureManager.swift in Sources */,
+				CE0771942C29A10E002A95A3 /* DP_BaseCell.swift in Sources */,
 				CEE989562C26D5D500870D32 /* DP_DownLoad.swift in Sources */,
 				CE07717D2C295ACE002A95A3 /* DP_Preferences.swift in Sources */,
 				CEE9890A2C22DB5500870D32 /* CoordinatorProtocol.swift in Sources */,
 				CEE989122C230B9000870D32 /* DP_PhotoViewController.swift in Sources */,
 				CEE9892B2C2314AA00870D32 /* DP_BaseViewController.swift in Sources */,
+				CE0771832C296793002A95A3 /* DP_PhotoTableManager.swift in Sources */,
 				CE07717F2C295B16002A95A3 /* DP_ConstantUserDefaultsKeys.swift in Sources */,
 				CEE9892E2C2315A100870D32 /* DP_BaseLoader.swift in Sources */,
 				CEE9893E2C242E4D00870D32 /* DP_TextViewController.swift in Sources */,
 				CEE989222C230F6A00870D32 /* DP_TabBarController.swift in Sources */,
 				CEE9893A2C242DD900870D32 /* DP_TextCoordinator.swift in Sources */,
 				CEE989202C230DD300870D32 /* UIColor+Extensions.swift in Sources */,
+				CE07718C2C2979D4002A95A3 /* DP_PhotoModel.swift in Sources */,
 				CEE989372C231BAF00870D32 /* DP_StartCoordinator.swift in Sources */,
 				CEE9894F2C26CA8B00870D32 /* DP_VideoManager.swift in Sources */,
 				CEE989262C23116500870D32 /* DP_TabBarItemType.swift in Sources */,
 				CEE9891E2C230D8300870D32 /* DP_Colors.swift in Sources */,
+				CE0771872C296B88002A95A3 /* DP_PhotoCell.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

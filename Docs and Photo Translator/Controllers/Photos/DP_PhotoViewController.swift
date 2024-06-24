@@ -11,7 +11,10 @@ typealias DP_PhotoViewControllerExtension = DP_PhotoViewController
 
 class DP_PhotoViewController: DP_BaseViewController {
     
+    @IBOutlet private weak var photoTableView: UITableView!
+
     var coordinator: DP_PhotoCoordinatorProtocol?
+    private var photoManager: DP_PhotoTableManager?
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -28,8 +31,13 @@ class DP_PhotoViewController: DP_BaseViewController {
 private extension DP_PhotoViewControllerExtension {
     
     func dp_configUI() {
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) { [weak self] in
-            self?.view.backgroundColor = .systemRed
-        }
+//        DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) { [weak self] in
+//            self?.view.backgroundColor = .systemRed
+//        }
+        dp_createManager()
+    }
+    
+    func dp_createManager() {
+        photoManager = DP_PhotoTableManager(photoTableView)
     }
 }
