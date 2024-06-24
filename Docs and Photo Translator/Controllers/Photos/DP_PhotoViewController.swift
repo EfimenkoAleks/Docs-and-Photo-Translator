@@ -19,11 +19,17 @@ class DP_PhotoViewController: DP_BaseViewController {
         dp_configUI()
     }
 
+    override func viewWillAppear(_ animated: Bool) {
+        isSmallBackButtonEnabled = false
+      super.viewWillAppear(animated)
+    }
 }
 
 private extension DP_PhotoViewControllerExtension {
     
     func dp_configUI() {
-        
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) { [weak self] in
+            self?.view.backgroundColor = .systemRed
+        }
     }
 }

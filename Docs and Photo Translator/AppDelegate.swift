@@ -30,7 +30,7 @@ private extension SM_AppDelegateExtension {
         guard let window = window else { return }
         
         DP_StartCoordinator.shared.window = window
-        DP_StartCoordinator.shared.sm_strart()
+        DP_StartCoordinator.shared.dp_strart()
         
         window.makeKeyAndVisible()
     }

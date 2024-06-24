@@ -7,6 +7,10 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		CE07717B2C295AAC002A95A3 /* DP_PreferencesProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE07717A2C295AAC002A95A3 /* DP_PreferencesProtocol.swift */; };
+		CE07717D2C295ACE002A95A3 /* DP_Preferences.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE07717C2C295ACE002A95A3 /* DP_Preferences.swift */; };
+		CE07717F2C295B16002A95A3 /* DP_ConstantUserDefaultsKeys.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE07717E2C295B16002A95A3 /* DP_ConstantUserDefaultsKeys.swift */; };
+		CE0771812C295D5A002A95A3 /* DP_CameraHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE0771802C295D5A002A95A3 /* DP_CameraHelper.swift */; };
 		CEE988F42C21B5EB00870D32 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEE988F32C21B5EB00870D32 /* AppDelegate.swift */; };
 		CEE988FD2C21B5ED00870D32 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = CEE988FC2C21B5ED00870D32 /* Assets.xcassets */; };
 		CEE989002C21B5ED00870D32 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CEE988FE2C21B5ED00870D32 /* LaunchScreen.storyboard */; };
@@ -27,9 +31,25 @@
 		CEE989302C23160100870D32 /* DP_TitleLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEE9892F2C23160100870D32 /* DP_TitleLabel.swift */; };
 		CEE989332C23187400870D32 /* DP_PhotoCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEE989322C23187400870D32 /* DP_PhotoCoordinator.swift */; };
 		CEE989372C231BAF00870D32 /* DP_StartCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEE989362C231BAF00870D32 /* DP_StartCoordinator.swift */; };
+		CEE9893A2C242DD900870D32 /* DP_TextCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEE989392C242DD900870D32 /* DP_TextCoordinator.swift */; };
+		CEE9893E2C242E4D00870D32 /* DP_TextViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEE9893C2C242E4D00870D32 /* DP_TextViewController.swift */; };
+		CEE9893F2C242E4D00870D32 /* DP_TextViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = CEE9893D2C242E4D00870D32 /* DP_TextViewController.xib */; };
+		CEE989422C242F5E00870D32 /* DP_CameraCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEE989412C242F5E00870D32 /* DP_CameraCoordinator.swift */; };
+		CEE989462C242FBD00870D32 /* DP_CameraViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEE989442C242FBD00870D32 /* DP_CameraViewController.swift */; };
+		CEE989472C242FBD00870D32 /* DP_CameraViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = CEE989452C242FBD00870D32 /* DP_CameraViewController.xib */; };
+		CEE9894B2C25B57000870D32 /* DP_VideoCaptureManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEE9894A2C25B57000870D32 /* DP_VideoCaptureManager.swift */; };
+		CEE9894D2C25B6E000870D32 /* H264Encoder.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEE9894C2C25B6E000870D32 /* H264Encoder.swift */; };
+		CEE9894F2C26CA8B00870D32 /* DP_VideoManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEE9894E2C26CA8B00870D32 /* DP_VideoManager.swift */; };
+		CEE989512C26CFC300870D32 /* DP_BroadCastLiveManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEE989502C26CFC300870D32 /* DP_BroadCastLiveManager.swift */; };
+		CEE989542C26D59500870D32 /* DP_FileManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEE989532C26D59500870D32 /* DP_FileManager.swift */; };
+		CEE989562C26D5D500870D32 /* DP_DownLoad.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEE989552C26D5D500870D32 /* DP_DownLoad.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		CE07717A2C295AAC002A95A3 /* DP_PreferencesProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DP_PreferencesProtocol.swift; sourceTree = "<group>"; };
+		CE07717C2C295ACE002A95A3 /* DP_Preferences.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DP_Preferences.swift; sourceTree = "<group>"; };
+		CE07717E2C295B16002A95A3 /* DP_ConstantUserDefaultsKeys.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DP_ConstantUserDefaultsKeys.swift; sourceTree = "<group>"; };
+		CE0771802C295D5A002A95A3 /* DP_CameraHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DP_CameraHelper.swift; sourceTree = "<group>"; };
 		CEE988F02C21B5EB00870D32 /* Docs and Photo Translator.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Docs and Photo Translator.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		CEE988F32C21B5EB00870D32 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		CEE988FC2C21B5ED00870D32 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -52,6 +72,18 @@
 		CEE9892F2C23160100870D32 /* DP_TitleLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DP_TitleLabel.swift; sourceTree = "<group>"; };
 		CEE989322C23187400870D32 /* DP_PhotoCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DP_PhotoCoordinator.swift; sourceTree = "<group>"; };
 		CEE989362C231BAF00870D32 /* DP_StartCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DP_StartCoordinator.swift; sourceTree = "<group>"; };
+		CEE989392C242DD900870D32 /* DP_TextCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DP_TextCoordinator.swift; sourceTree = "<group>"; };
+		CEE9893C2C242E4D00870D32 /* DP_TextViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DP_TextViewController.swift; sourceTree = "<group>"; };
+		CEE9893D2C242E4D00870D32 /* DP_TextViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = DP_TextViewController.xib; sourceTree = "<group>"; };
+		CEE989412C242F5E00870D32 /* DP_CameraCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DP_CameraCoordinator.swift; sourceTree = "<group>"; };
+		CEE989442C242FBD00870D32 /* DP_CameraViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DP_CameraViewController.swift; sourceTree = "<group>"; };
+		CEE989452C242FBD00870D32 /* DP_CameraViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = DP_CameraViewController.xib; sourceTree = "<group>"; };
+		CEE9894A2C25B57000870D32 /* DP_VideoCaptureManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DP_VideoCaptureManager.swift; sourceTree = "<group>"; };
+		CEE9894C2C25B6E000870D32 /* H264Encoder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = H264Encoder.swift; sourceTree = "<group>"; };
+		CEE9894E2C26CA8B00870D32 /* DP_VideoManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DP_VideoManager.swift; sourceTree = "<group>"; };
+		CEE989502C26CFC300870D32 /* DP_BroadCastLiveManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DP_BroadCastLiveManager.swift; sourceTree = "<group>"; };
+		CEE989532C26D59500870D32 /* DP_FileManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DP_FileManager.swift; sourceTree = "<group>"; };
+		CEE989552C26D5D500870D32 /* DP_DownLoad.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DP_DownLoad.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -65,6 +97,24 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		CE0771782C295A77002A95A3 /* Constants */ = {
+			isa = PBXGroup;
+			children = (
+				CE0771792C295A84002A95A3 /* Preferences */,
+			);
+			path = Constants;
+			sourceTree = "<group>";
+		};
+		CE0771792C295A84002A95A3 /* Preferences */ = {
+			isa = PBXGroup;
+			children = (
+				CE07717A2C295AAC002A95A3 /* DP_PreferencesProtocol.swift */,
+				CE07717C2C295ACE002A95A3 /* DP_Preferences.swift */,
+				CE07717E2C295B16002A95A3 /* DP_ConstantUserDefaultsKeys.swift */,
+			);
+			path = Preferences;
+			sourceTree = "<group>";
+		};
 		CEE988E72C21B5EB00870D32 = {
 			isa = PBXGroup;
 			children = (
@@ -84,6 +134,7 @@
 		CEE988F22C21B5EB00870D32 /* Docs and Photo Translator */ = {
 			isa = PBXGroup;
 			children = (
+				CE0771782C295A77002A95A3 /* Constants */,
 				CEE9892C2C23154600870D32 /* CastomElements */,
 				CEE9891C2C230D6500870D32 /* Models */,
 				CEE989192C230CEB00870D32 /* Extension */,
@@ -100,6 +151,7 @@
 		CEE989072C22DAFA00870D32 /* Services */ = {
 			isa = PBXGroup;
 			children = (
+				CEE989482C25B53000870D32 /* Managers */,
 				CEE989082C22DB0E00870D32 /* Coordinators */,
 			);
 			path = Services;
@@ -108,6 +160,8 @@
 		CEE989082C22DB0E00870D32 /* Coordinators */ = {
 			isa = PBXGroup;
 			children = (
+				CEE989402C242F3100870D32 /* CameraCoordinator */,
+				CEE989382C242DAC00870D32 /* TextCoordinator */,
 				CEE989342C231B6500870D32 /* StartCoordinator */,
 				CEE989312C23184900870D32 /* PhotoCoordinator */,
 				CEE989092C22DB5500870D32 /* CoordinatorProtocol.swift */,
@@ -118,6 +172,7 @@
 		CEE9890D2C230B0600870D32 /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
+				CEE989432C242F9A00870D32 /* Camera */,
 				CEE989292C23149900870D32 /* Base */,
 				CEE989142C230BE400870D32 /* TabBar */,
 				CEE9890F2C230B2600870D32 /* Texts */,
@@ -138,6 +193,8 @@
 		CEE9890F2C230B2600870D32 /* Texts */ = {
 			isa = PBXGroup;
 			children = (
+				CEE9893C2C242E4D00870D32 /* DP_TextViewController.swift */,
+				CEE9893D2C242E4D00870D32 /* DP_TextViewController.xib */,
 			);
 			path = Texts;
 			sourceTree = "<group>";
@@ -168,6 +225,7 @@
 			isa = PBXGroup;
 			children = (
 				CEE9891D2C230D8300870D32 /* DP_Colors.swift */,
+				CEE989552C26D5D500870D32 /* DP_DownLoad.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -203,6 +261,60 @@
 				CEE989362C231BAF00870D32 /* DP_StartCoordinator.swift */,
 			);
 			path = StartCoordinator;
+			sourceTree = "<group>";
+		};
+		CEE989382C242DAC00870D32 /* TextCoordinator */ = {
+			isa = PBXGroup;
+			children = (
+				CEE989392C242DD900870D32 /* DP_TextCoordinator.swift */,
+			);
+			path = TextCoordinator;
+			sourceTree = "<group>";
+		};
+		CEE989402C242F3100870D32 /* CameraCoordinator */ = {
+			isa = PBXGroup;
+			children = (
+				CEE989412C242F5E00870D32 /* DP_CameraCoordinator.swift */,
+			);
+			path = CameraCoordinator;
+			sourceTree = "<group>";
+		};
+		CEE989432C242F9A00870D32 /* Camera */ = {
+			isa = PBXGroup;
+			children = (
+				CEE989442C242FBD00870D32 /* DP_CameraViewController.swift */,
+				CEE989452C242FBD00870D32 /* DP_CameraViewController.xib */,
+				CE0771802C295D5A002A95A3 /* DP_CameraHelper.swift */,
+			);
+			path = Camera;
+			sourceTree = "<group>";
+		};
+		CEE989482C25B53000870D32 /* Managers */ = {
+			isa = PBXGroup;
+			children = (
+				CEE989522C26D57700870D32 /* FileManager */,
+				CEE989492C25B54000870D32 /* VideoCaptureManager */,
+			);
+			path = Managers;
+			sourceTree = "<group>";
+		};
+		CEE989492C25B54000870D32 /* VideoCaptureManager */ = {
+			isa = PBXGroup;
+			children = (
+				CEE9894A2C25B57000870D32 /* DP_VideoCaptureManager.swift */,
+				CEE9894C2C25B6E000870D32 /* H264Encoder.swift */,
+				CEE9894E2C26CA8B00870D32 /* DP_VideoManager.swift */,
+				CEE989502C26CFC300870D32 /* DP_BroadCastLiveManager.swift */,
+			);
+			path = VideoCaptureManager;
+			sourceTree = "<group>";
+		};
+		CEE989522C26D57700870D32 /* FileManager */ = {
+			isa = PBXGroup;
+			children = (
+				CEE989532C26D59500870D32 /* DP_FileManager.swift */,
+			);
+			path = FileManager;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -264,6 +376,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				CEE989002C21B5ED00870D32 /* LaunchScreen.storyboard in Resources */,
+				CEE989472C242FBD00870D32 /* DP_CameraViewController.xib in Resources */,
+				CEE9893F2C242E4D00870D32 /* DP_TextViewController.xib in Resources */,
 				CEE988FD2C21B5ED00870D32 /* Assets.xcassets in Resources */,
 				CEE989132C230B9000870D32 /* DP_PhotoViewController.xib in Resources */,
 			);
@@ -277,20 +391,34 @@
 			buildActionMask = 2147483647;
 			files = (
 				CEE989162C230C6300870D32 /* DP_TabBarItem.swift in Sources */,
+				CEE989512C26CFC300870D32 /* DP_BroadCastLiveManager.swift in Sources */,
+				CEE989422C242F5E00870D32 /* DP_CameraCoordinator.swift in Sources */,
+				CEE9894D2C25B6E000870D32 /* H264Encoder.swift in Sources */,
 				CEE9891B2C230D0B00870D32 /* Block.swift in Sources */,
+				CEE989462C242FBD00870D32 /* DP_CameraViewController.swift in Sources */,
+				CE07717B2C295AAC002A95A3 /* DP_PreferencesProtocol.swift in Sources */,
 				CEE989302C23160100870D32 /* DP_TitleLabel.swift in Sources */,
+				CEE989542C26D59500870D32 /* DP_FileManager.swift in Sources */,
 				CEE989242C23105800870D32 /* DP_TabBarSelectedItem.swift in Sources */,
 				CEE989332C23187400870D32 /* DP_PhotoCoordinator.swift in Sources */,
+				CE0771812C295D5A002A95A3 /* DP_CameraHelper.swift in Sources */,
 				CEE989282C2311EA00870D32 /* DP_TabbarModels.swift in Sources */,
 				CEE989182C230CBD00870D32 /* DP_CustomTabBar.swift in Sources */,
 				CEE988F42C21B5EB00870D32 /* AppDelegate.swift in Sources */,
+				CEE9894B2C25B57000870D32 /* DP_VideoCaptureManager.swift in Sources */,
+				CEE989562C26D5D500870D32 /* DP_DownLoad.swift in Sources */,
+				CE07717D2C295ACE002A95A3 /* DP_Preferences.swift in Sources */,
 				CEE9890A2C22DB5500870D32 /* CoordinatorProtocol.swift in Sources */,
 				CEE989122C230B9000870D32 /* DP_PhotoViewController.swift in Sources */,
 				CEE9892B2C2314AA00870D32 /* DP_BaseViewController.swift in Sources */,
+				CE07717F2C295B16002A95A3 /* DP_ConstantUserDefaultsKeys.swift in Sources */,
 				CEE9892E2C2315A100870D32 /* DP_BaseLoader.swift in Sources */,
+				CEE9893E2C242E4D00870D32 /* DP_TextViewController.swift in Sources */,
 				CEE989222C230F6A00870D32 /* DP_TabBarController.swift in Sources */,
+				CEE9893A2C242DD900870D32 /* DP_TextCoordinator.swift in Sources */,
 				CEE989202C230DD300870D32 /* UIColor+Extensions.swift in Sources */,
 				CEE989372C231BAF00870D32 /* DP_StartCoordinator.swift in Sources */,
+				CEE9894F2C26CA8B00870D32 /* DP_VideoManager.swift in Sources */,
 				CEE989262C23116500870D32 /* DP_TabBarItemType.swift in Sources */,
 				CEE9891E2C230D8300870D32 /* DP_Colors.swift in Sources */,
 			);

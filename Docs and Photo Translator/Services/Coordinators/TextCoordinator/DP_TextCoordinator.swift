@@ -1,25 +1,25 @@
 //
-//  DP_PhotoCoordinator.swift
+//  DP_TextCoordinator.swift
 //  Docs and Photo Translator
 //
-//  Created by Aleksandr on 19.06.2024.
+//  Created by Aleksandr on 20.06.2024.
 //
 
 import UIKit
 
-enum DP_PhotoCoordinatorEvent {
+enum DP_TextCoordinatorEvent {
     case back
     case detail
 }
 
-protocol DP_PhotoCoordinatorProtocol: DP_Coordinator {
+protocol DP_TextCoordinatorProtocol: DP_Coordinator {
     var navigationController: UINavigationController? { get set }
     var navigationTabController: UINavigationController? { get set }
     func dp_start()
-    func dp_eventOccurred(with type: DP_PhotoCoordinatorEvent)
+    func dp_eventOccurred(with type: DP_TextCoordinatorEvent)
 }
 
-class DP_PhotoCoordinator: DP_PhotoCoordinatorProtocol {
+class DP_TextCoordinator: DP_TextCoordinatorProtocol {
     var cildren: [DP_Coordinator] = []
     
     var navigationController: UINavigationController?
@@ -27,15 +27,15 @@ class DP_PhotoCoordinator: DP_PhotoCoordinatorProtocol {
     private var controller: UIViewController?
     
     func dp_start() {
-        let vc = DP_PhotoViewController()
+        let vc = DP_TextViewController()
         vc.coordinator = self
         controller = vc
         navigationTabController?.pushViewController(vc, animated: true)
     }
 }
 
-extension DP_PhotoCoordinator {
-    func dp_eventOccurred(with type: DP_PhotoCoordinatorEvent) {
+extension DP_TextCoordinator {
+    func dp_eventOccurred(with type: DP_TextCoordinatorEvent) {
         switch type {
         case .detail:
 //            var detailCoordinator: SM_MusikLibraryCoordinatorProtocol = SM_MusikLibraryCoordinator()
@@ -52,4 +52,3 @@ extension DP_PhotoCoordinator {
         }
     }
 }
-

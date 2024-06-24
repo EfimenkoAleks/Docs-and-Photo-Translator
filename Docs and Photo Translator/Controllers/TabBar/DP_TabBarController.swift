@@ -84,7 +84,7 @@ private extension DP_TabBarControllerExtension {
    
     private func dp_selectDevice() {
         
-        DP_StartCoordinator.shared.dp_startFlov(controller: DP_PhotoViewController())
+        DP_StartCoordinator.shared.dp_startFlov(controller: DP_CameraViewController())
         
         dp_updateSelectedViewController()
     }
@@ -99,7 +99,7 @@ private extension DP_TabBarControllerExtension {
             let navController = UINavigationController()
             firstCoordinator.navigationTabController = navController
             firstCoordinator.navigationController = self.coordinator?.navigationController
-            firstCoordinator.dp_start(color: .systemMint)
+            firstCoordinator.dp_start()
             navController.tabBarItem = itemForVC.item
             return navController
         case .camera:
@@ -107,15 +107,15 @@ private extension DP_TabBarControllerExtension {
             let navController = UINavigationController()
             firstCoordinator.navigationTabController = navController
             firstCoordinator.navigationController = self.coordinator?.navigationController
-            firstCoordinator.dp_start(color: .yellow)
+            firstCoordinator.dp_start()
             navController.tabBarItem = itemForVC.item
             return navController
         case .text:
-            var firstCoordinator: DP_PhotoCoordinatorProtocol = DP_PhotoCoordinator()
+            var firstCoordinator: DP_TextCoordinatorProtocol = DP_TextCoordinator()
             let navController = UINavigationController()
             firstCoordinator.navigationTabController = navController
             firstCoordinator.navigationController = self.coordinator?.navigationController
-            firstCoordinator.dp_start(color: .systemRed)
+            firstCoordinator.dp_start()
             navController.tabBarItem = itemForVC.item
             return navController
         }

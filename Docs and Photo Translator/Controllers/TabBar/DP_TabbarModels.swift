@@ -18,8 +18,8 @@ enum DP_TabbarModels: CaseIterable {
 extension DP_TabbarModelsExtension {
     var image: String {
         switch self {
-        case .photo: return "media"
-        case .text: return "web"
+        case .photo: return "photo"
+        case .text: return "text"
         case .camera: return ""
         }
     }
