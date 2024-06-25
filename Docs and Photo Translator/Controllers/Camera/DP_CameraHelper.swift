@@ -18,6 +18,8 @@ final class DP_CameraHelper: NSObject {
     }
     
     func dp_saveNewPhoto(data: Data) {
+        let lastNumber = dp_getNumber()
+        screenNumber = lastNumber.last ?? 0
         screenNumber += 1
         
         _ = DP_FileManager.shared.dp_saveData(data, path: "screen\(screenNumber)")

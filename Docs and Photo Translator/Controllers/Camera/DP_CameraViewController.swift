@@ -7,6 +7,7 @@
 
 import UIKit
 import AVFoundation
+import Vision
 
 typealias DP_CameraViewControllerExtension = DP_CameraViewController
 
@@ -45,6 +46,7 @@ class DP_CameraViewController: DP_BaseViewController {
               let data = image.jpegData(compressionQuality: 0.7) else { return }
         
         helper.dp_saveNewPhoto(data: data)
+        dp_recognizeText(image: image)
     }
 }
 
@@ -81,5 +83,28 @@ private extension DP_CameraViewControllerExtension {
 
     func handleDismiss() {
         DP_StartCoordinator.shared.dp_strart()
+    }
+    
+    func dp_recognizeText(image: UIImage) {
+        guard let cgImage = image.cgImage else { return }
+        let imageRequestHandler = VNImageRequestHandler(cgImage: cgImage, orientation: .up)
+        let size = CGSize(width: cgImage.width, height: cgImage.height)
+        let bounds = CGRect(origin: .zero, size: size)
+        let request = VNRecognizeTextRequest { request, error in
+            guard let results = request.results as? [VNRecognizedTextObservation],
+                  error == nil else { return }
+            
+            let str = results.compactMap {
+                $0.topCandidates(1).first?.string}.joined(separator: "\n")
+            print(str)
+       
+        }
+        DispatchQueue.global(qos: .userInitiated).async {
+            do {
+                try imageRequestHandler.perform([request])
+            } catch {
+                print(error)
+            }
+        }
     }
 }
