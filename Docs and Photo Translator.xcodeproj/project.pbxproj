@@ -22,6 +22,9 @@
 		CE0771922C299C09002A95A3 /* Date+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE0771912C299C09002A95A3 /* Date+Extension.swift */; };
 		CE0771942C29A10E002A95A3 /* DP_BaseCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE0771932C29A10E002A95A3 /* DP_BaseCell.swift */; };
 		CEBEF38C2C2C00C1008D0FAC /* DP_TranslateManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEBEF38B2C2C00C1008D0FAC /* DP_TranslateManager.swift */; };
+		CEBEF3902C2D7B85008D0FAC /* DP_PhotoDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEBEF38E2C2D7B85008D0FAC /* DP_PhotoDetailViewController.swift */; };
+		CEBEF3912C2D7B85008D0FAC /* DP_PhotoDetailViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = CEBEF38F2C2D7B85008D0FAC /* DP_PhotoDetailViewController.xib */; };
+		CEBEF3932C2D9B9C008D0FAC /* DP_PhotoDetailCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEBEF3922C2D9B9C008D0FAC /* DP_PhotoDetailCoordinator.swift */; };
 		CEE988F42C21B5EB00870D32 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEE988F32C21B5EB00870D32 /* AppDelegate.swift */; };
 		CEE988FD2C21B5ED00870D32 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = CEE988FC2C21B5ED00870D32 /* Assets.xcassets */; };
 		CEE989002C21B5ED00870D32 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CEE988FE2C21B5ED00870D32 /* LaunchScreen.storyboard */; };
@@ -74,6 +77,9 @@
 		CE0771912C299C09002A95A3 /* Date+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Date+Extension.swift"; sourceTree = "<group>"; };
 		CE0771932C29A10E002A95A3 /* DP_BaseCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DP_BaseCell.swift; sourceTree = "<group>"; };
 		CEBEF38B2C2C00C1008D0FAC /* DP_TranslateManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DP_TranslateManager.swift; sourceTree = "<group>"; };
+		CEBEF38E2C2D7B85008D0FAC /* DP_PhotoDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DP_PhotoDetailViewController.swift; sourceTree = "<group>"; };
+		CEBEF38F2C2D7B85008D0FAC /* DP_PhotoDetailViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = DP_PhotoDetailViewController.xib; sourceTree = "<group>"; };
+		CEBEF3922C2D9B9C008D0FAC /* DP_PhotoDetailCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DP_PhotoDetailCoordinator.swift; sourceTree = "<group>"; };
 		CEE988F02C21B5EB00870D32 /* Docs and Photo Translator.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Docs and Photo Translator.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		CEE988F32C21B5EB00870D32 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		CEE988FC2C21B5ED00870D32 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -175,6 +181,15 @@
 			path = TranslateManager;
 			sourceTree = "<group>";
 		};
+		CEBEF38D2C2D7B45008D0FAC /* PhotoDetail */ = {
+			isa = PBXGroup;
+			children = (
+				CEBEF38E2C2D7B85008D0FAC /* DP_PhotoDetailViewController.swift */,
+				CEBEF38F2C2D7B85008D0FAC /* DP_PhotoDetailViewController.xib */,
+			);
+			path = PhotoDetail;
+			sourceTree = "<group>";
+		};
 		CEE988E72C21B5EB00870D32 = {
 			isa = PBXGroup;
 			children = (
@@ -246,6 +261,7 @@
 		CEE9890E2C230B1300870D32 /* Photos */ = {
 			isa = PBXGroup;
 			children = (
+				CEBEF38D2C2D7B45008D0FAC /* PhotoDetail */,
 				CE0771842C296AEB002A95A3 /* Cell */,
 				CEE989102C230B9000870D32 /* DP_PhotoViewController.swift */,
 				CEE989112C230B9000870D32 /* DP_PhotoViewController.xib */,
@@ -320,6 +336,7 @@
 			isa = PBXGroup;
 			children = (
 				CEE989322C23187400870D32 /* DP_PhotoCoordinator.swift */,
+				CEBEF3922C2D9B9C008D0FAC /* DP_PhotoDetailCoordinator.swift */,
 			);
 			path = PhotoCoordinator;
 			sourceTree = "<group>";
@@ -452,6 +469,7 @@
 				CEE989002C21B5ED00870D32 /* LaunchScreen.storyboard in Resources */,
 				CEE989472C242FBD00870D32 /* DP_CameraViewController.xib in Resources */,
 				CEE9893F2C242E4D00870D32 /* DP_TextViewController.xib in Resources */,
+				CEBEF3912C2D7B85008D0FAC /* DP_PhotoDetailViewController.xib in Resources */,
 				CEE988FD2C21B5ED00870D32 /* Assets.xcassets in Resources */,
 				CEE989132C230B9000870D32 /* DP_PhotoViewController.xib in Resources */,
 			);
@@ -526,10 +544,12 @@
 				CEE989162C230C6300870D32 /* DP_TabBarItem.swift in Sources */,
 				CEE989512C26CFC300870D32 /* DP_BroadCastLiveManager.swift in Sources */,
 				CEE989422C242F5E00870D32 /* DP_CameraCoordinator.swift in Sources */,
+				CEBEF3902C2D7B85008D0FAC /* DP_PhotoDetailViewController.swift in Sources */,
 				CEE9894D2C25B6E000870D32 /* H264Encoder.swift in Sources */,
 				CEE9891B2C230D0B00870D32 /* Block.swift in Sources */,
 				CEE989462C242FBD00870D32 /* DP_CameraViewController.swift in Sources */,
 				CE07717B2C295AAC002A95A3 /* DP_PreferencesProtocol.swift in Sources */,
+				CEBEF3932C2D9B9C008D0FAC /* DP_PhotoDetailCoordinator.swift in Sources */,
 				CEE989302C23160100870D32 /* DP_TitleLabel.swift in Sources */,
 				CE07718E2C297A22002A95A3 /* DP_ConstantId.swift in Sources */,
 				CEE989542C26D59500870D32 /* DP_FileManager.swift in Sources */,

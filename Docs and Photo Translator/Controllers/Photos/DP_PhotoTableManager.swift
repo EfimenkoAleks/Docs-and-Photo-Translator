@@ -11,7 +11,7 @@ typealias DP_PhotoTableManagerExtension = DP_PhotoTableManager
 
 class DP_PhotoTableManager: NSObject {
     
-    var eventHandler: Block<()>?
+    var eventHandler: Block<(URL)>?
     private var tableView: UITableView
     private var data: [DP_PhotoModel] = []
     private let helper: DP_PhotoHelper = DP_PhotoHelper()
@@ -55,6 +55,6 @@ extension DP_PhotoTableManagerExtension: UITableViewDataSource {
 
 extension DP_PhotoTableManagerExtension: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-    //    eventHandler?(.selected(indexPath.row))
+        eventHandler?(data[indexPath.row].path)
     }
 }

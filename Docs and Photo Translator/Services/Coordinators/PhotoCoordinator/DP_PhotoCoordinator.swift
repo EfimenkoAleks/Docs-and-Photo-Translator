@@ -9,7 +9,7 @@ import UIKit
 
 enum DP_PhotoCoordinatorEvent {
     case back
-    case detail
+    case detail(URL)
 }
 
 protocol DP_PhotoCoordinatorProtocol: DP_Coordinator {
@@ -37,16 +37,15 @@ class DP_PhotoCoordinator: DP_PhotoCoordinatorProtocol {
 extension DP_PhotoCoordinator {
     func dp_eventOccurred(with type: DP_PhotoCoordinatorEvent) {
         switch type {
-        case .detail:
-//            var detailCoordinator: SM_MusikLibraryCoordinatorProtocol = SM_MusikLibraryCoordinator()
-//            detailCoordinator.navigationController = navigationController
-//            cildren.append(detailCoordinator)
-//            detailCoordinator.sm_start()
-//            detailCoordinator.handlerBback = { [unowned self] in
-//                self.sm_eventOccurred(with: .back)
-//            }
-            break
-       
+        case .detail(let model):
+            var detailCoordinator: DP_PhotoDetailCoordinatorProtocol = DP_PhotoDetailCoordinator()
+            detailCoordinator.navigationController = navigationController
+            cildren.append(detailCoordinator)
+            detailCoordinator.dp_start(model: model)
+            detailCoordinator.handlerBback = { [unowned self] in
+                self.dp_eventOccurred(with: .back)
+            }
+        
         case .back:
             DP_StartCoordinator.shared.dp_strart()
         }

@@ -39,5 +39,8 @@ private extension DP_PhotoViewControllerExtension {
     
     func dp_createManager() {
         photoManager = DP_PhotoTableManager(photoTableView)
+        photoManager?.eventHandler = { [weak self] url in
+            self?.coordinator?.dp_eventOccurred(with: .detail(url))
+        }
     }
 }
