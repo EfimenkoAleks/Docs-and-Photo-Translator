@@ -54,67 +54,37 @@ extension DP_PhotoDetailViewController {
             let data = try Data(contentsOf: path)
             guard let img = UIImage(data: data) else { return }
             
-            
-            // Usage:
-   //         if let image = UIImage(named: "image_with_text.jpg") {
-//                removeText(from: img) { inpaintedImage in
-//                    if let result = inpaintedImage {
-//                        // Do something with the result, e.g., display it in an UIImageView
-//
-//                        DispatchQueue.main.async { [weak self] in
-//                            self?.photoImage.image = result
-//                        }
-//                        print("Text removed successfully.")
-//                    } else {
-//                        print("Failed to remove text.")
-//                    }
-//                }
-     //       }
-          
-            dp_recognizeText(image: img)
            let normImg = scaleAndOrient(image: img)
             recognizeText(in: normImg)
-            
-          //  _ = removeTextFromImage(image: img)
-            
-//            processImage(img) { [weak self] rezult in
-//                switch rezult {
-//                case .success(let img):
-//                    self?.photoImage.image = img
-//
-//                case .failure(let error):
-//                    break
-//                }
-//            }
         } catch {
             photoImage.image = UIImage(named: "defaultPhoto")
         }
     }
     
-    func dp_recognizeText(image: UIImage) {
-        photoImage.image = image
-
-        guard let cgImage = image.cgImage else { return }
-        let imageRequestHandler = VNImageRequestHandler(cgImage: cgImage, orientation: .up)
-        let size = CGSize(width: cgImage.width, height: cgImage.height)
-        let bounds = CGRect(origin: .zero, size: size)
-        let request = VNRecognizeTextRequest { request, error in
-            guard let results = request.results as? [VNRecognizedTextObservation],
-                  error == nil else { return }
-
-            let str = results.compactMap {
-                $0.topCandidates(1).first?.string}.joined(separator: "\n")
-            print(str)
-
-        }
-        DispatchQueue.global(qos: .userInitiated).async {
-            do {
-                try imageRequestHandler.perform([request])
-            } catch {
-                print(error)
-            }
-        }
-    }
+//    func dp_recognizeText(image: UIImage) {
+//        photoImage.image = image
+//
+//        guard let cgImage = image.cgImage else { return }
+//        let imageRequestHandler = VNImageRequestHandler(cgImage: cgImage, orientation: .up)
+//        let size = CGSize(width: cgImage.width, height: cgImage.height)
+//        let bounds = CGRect(origin: .zero, size: size)
+//        let request = VNRecognizeTextRequest { request, error in
+//            guard let results = request.results as? [VNRecognizedTextObservation],
+//                  error == nil else { return }
+//
+//            let str = results.compactMap {
+//                $0.topCandidates(1).first?.string}.joined(separator: "\n")
+//            print(str)
+//
+//        }
+//        DispatchQueue.global(qos: .userInitiated).async {
+//            do {
+//                try imageRequestHandler.perform([request])
+//            } catch {
+//                print(error)
+//            }
+//        }
+//    }
 //
 //    func detectText(in image: UIImage, completion: @escaping ([VNTextObservation]?) -> Void) {
 //        guard let cgImage = image.cgImage else {
@@ -366,30 +336,44 @@ extension DP_PhotoDetailViewController {
             let string = results.compactMap {
                 $0.topCandidates(1).first?.string
             }.joined(separator: "\n")
+            
+            let strings = results.compactMap({$0.topCandidates(1).first?.string})
 
             let format = UIGraphicsImageRendererFormat()
             format.scale = 1
             let final = UIGraphicsImageRenderer(bounds: bounds, format: format).image { _ in
                 image.draw(in: bounds)
-                UIColor.red.setStroke()
-                UIColor.white.withAlphaComponent(0.9).setFill()
+                UIColor.white.withAlphaComponent(0.95).setFill()
                 for rect in rects {
                     let path = UIBezierPath(rect: rect)
-                    path.lineWidth = 2
-                    path.stroke()
                     path.fill()
                 }
             }
 
-            DispatchQueue.main.async { [self] in
-           //     let img = blurEffect(in: rects[0], from: final)
-                photoImage.image = final
+            DispatchQueue.main.async { [weak self] in
+                
+                guard let self = self else { return }
+                self.photoImage.image = final
                 print(string)
-                let lb = UILabel(frame: CGRect(x: 200, y: 400, width: 200, height: 50))
-                lb.textColor = .black
-                lb.text = string
-                photoImage.addSubview(lb)
-           //     label.text = string
+                
+                for (i, model) in strings.enumerated() {
+                    
+//                    let img = blurEffect(in: rects[i], from: final)
+//                    self.photoImage.image = img
+                    
+                    let rectLb = rects[i]
+                    let screen = self.photoImage.frame
+                    let width = screen.width / bounds.width
+                    let height = screen.height / bounds.height
+                    
+                    let lbX = rectLb.minX * width
+                    let lbY = rectLb.minY * height
+                 
+                    let lb = UILabel(frame: CGRect(x: lbX, y: lbY - 14, width: 200, height: 50))
+                    lb.textColor = .black
+                    lb.text = model
+                    self.photoImage.addSubview(lb)
+                }
             }
         }
 
@@ -521,12 +505,3 @@ extension DP_PhotoDetailViewController {
     }
 
 }
-
-//fileprivate extension CIImage {
-//    func resizeToSameHeight(as anotherImage: CIImage) -> CIImage {
-//        let size1 = extent.size
-//        let size2 = anotherImage.extent.size
-//        let transform = CGAffineTransform(scaleX: size2.width / size1.width, y: size2.height / size1.height)
-//        return transformed(by: transform)
-//    }
-//}
