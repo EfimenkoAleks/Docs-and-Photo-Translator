@@ -8,6 +8,9 @@
 import UIKit
 import Vision
 import CoreImage.CIFilterBuiltins
+import MLKit
+import MLKitTranslate
+
 
 class DP_PhotoDetailViewController: DP_BaseViewController {
 
@@ -295,10 +298,13 @@ extension DP_PhotoDetailViewController {
 //        CGImageRef imageRef = CGImageCreateWithImageInRect([imageToCrop CGImage], rect);
 //           UIImage *cropped = [UIImage imageWithCGImage:imageRef];
 //           CGImageRelease(imageRef);
+        
+        guard let img = cgImage.cropping(to: rect) else { return nil }
+        let image = UIImage(cgImage: img, scale: image.scale, orientation: image.imageOrientation)
 
 
             let currentFilter = CIFilter(name: "CIGaussianBlur")
-            let beginImage = CIImage(cgImage: cgImage)
+            let beginImage = CIImage(cgImage: img)
             currentFilter!.setValue(beginImage, forKey: kCIInputImageKey)
             currentFilter!.setValue(30, forKey: kCIInputRadiusKey)
 
@@ -311,8 +317,6 @@ extension DP_PhotoDetailViewController {
             let processedImage = UIImage(cgImage: cgimg!)
             return processedImage
         }
-
-
 
     func recognizeText(in image: UIImage) {
         guard let cgImage = image.cgImage else { return }
@@ -358,21 +362,35 @@ extension DP_PhotoDetailViewController {
                 
                 for (i, model) in strings.enumerated() {
                     
-//                    let img = blurEffect(in: rects[i], from: final)
+//                    let img = self.blurEffect(in: rects[i], from: final)
 //                    self.photoImage.image = img
-                    
-                    let rectLb = rects[i]
-                    let screen = self.photoImage.frame
-                    let width = screen.width / bounds.width
-                    let height = screen.height / bounds.height
-                    
-                    let lbX = rectLb.minX * width
-                    let lbY = rectLb.minY * height
-                 
-                    let lb = UILabel(frame: CGRect(x: lbX, y: lbY - 14, width: 200, height: 50))
-                    lb.textColor = .black
-                    lb.text = model
-                    self.photoImage.addSubview(lb)
+                
+   
+                    DP_TranslateManager.shared.getText(model) { rezText in
+                        switch rezText {
+                        case .success(let rezText):
+                            let rectLb = rects[i]
+                            let screen = self.photoImage.frame
+                            let width = screen.width / bounds.width
+                            let height = screen.height / bounds.height
+                            
+                            let lbX = rectLb.minX.rounded() * width
+                            let lbY = rectLb.minY.rounded() * height
+                            
+                            let lbHeight = rectLb.height * height
+                            let lbWidth = rectLb.width * width
+                         
+                            let lb = UILabel(frame: CGRect(x: lbX, y: lbY, width: lbWidth, height: lbHeight))
+                            lb.textColor = .black
+                            lb.textAlignment = .center
+                            lb.text = rezText
+                            lb.font = lb.font.withSize(lb.frame.height / 2)
+    
+                            self.photoImage.addSubview(lb)
+                        case .noLanguage:
+                            break
+                        }
+                    }
                 }
             }
         }

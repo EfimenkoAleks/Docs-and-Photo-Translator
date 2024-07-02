@@ -6,7 +6,7 @@
 //
 
 import UIKit
-import MLKit
+import MLKitTranslate
 
 typealias DP_TextViewControllerExtension = DP_TextViewController
 
@@ -190,8 +190,7 @@ extension DP_TextViewControllerExtension: UITextViewDelegate, UIPickerViewDataSo
         let inputLanguage = DP_TranslateManager.shared.allLanguages[inputPicker.selectedRow(inComponent: 0)]
         let outputLanguage = DP_TranslateManager.shared.allLanguages[outputPicker.selectedRow(inComponent: 0)]
       self.setDownloadDeleteButtonLabels()
-      let options = TranslatorOptions(sourceLanguage: inputLanguage, targetLanguage: outputLanguage)
-        DP_TranslateManager.shared.translator = Translator.translator(options: options)
+        DP_TranslateManager.shared.setOptionTranslate(inputLang: inputLanguage, outputLang: outputLanguage)
         self.setDownloadDeleteButtonLabels()
         DP_TranslateManager.shared.translate(inputText: inputTextView.text) { [weak self] zerText in
             self?.outputTextView.text = zerText

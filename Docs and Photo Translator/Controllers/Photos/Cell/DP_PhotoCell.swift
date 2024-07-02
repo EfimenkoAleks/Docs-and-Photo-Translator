@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import MLKitTranslate
 
 class DP_PhotoCell: UITableViewCell, ReusableCell {
 
@@ -15,7 +16,6 @@ class DP_PhotoCell: UITableViewCell, ReusableCell {
     @IBOutlet private weak var containerView: DP_BaseCell!
     
     func dp_configure(model: DP_PhotoModel) {
-        nameLabel.text = "to englesh" //model.name
         dateLabel.text = model.date
   
         do {
@@ -24,5 +24,12 @@ class DP_PhotoCell: UITableViewCell, ReusableCell {
         } catch {
             photoImage.image = UIImage(named: "defaultPhoto")
         }
+        
+       
+    //    guard let name = DP_TranslateManager.shared.currentLanguages else { return }
+        DP_TranslateManager.shared.dp_translateTag { [weak self] rezText in
+            self?.nameLabel.text = "to \(rezText)"
+        }
+         //model.name
     }
 }

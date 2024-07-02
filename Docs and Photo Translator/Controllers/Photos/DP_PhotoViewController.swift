@@ -31,10 +31,15 @@ class DP_PhotoViewController: DP_BaseViewController {
 private extension DP_PhotoViewControllerExtension {
     
     func dp_configUI() {
-//        DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) { [weak self] in
-//            self?.view.backgroundColor = .systemRed
-//        }
         dp_createManager()
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1) { [weak self] in
+            guard let self = self else { return }
+            self.coordinator?.dp_eventOccurred(with: .choiceLanguage)
+            self.coordinator?.eventHandler = { [weak self] _ in
+                guard let self = self else { return }
+                self.photoManager?.dp_reloadTable()
+            }
+        }
     }
     
     func dp_createManager() {

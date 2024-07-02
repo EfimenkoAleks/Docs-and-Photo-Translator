@@ -10,9 +10,12 @@ import UIKit
 enum DP_PhotoCoordinatorEvent {
     case back
     case detail(URL)
+    case choiceLanguage
+    case removeChild
 }
 
 protocol DP_PhotoCoordinatorProtocol: DP_Coordinator {
+    var eventHandler: Block<()>? { get set }
     var navigationController: UINavigationController? { get set }
     var navigationTabController: UINavigationController? { get set }
     func dp_start()
@@ -21,7 +24,7 @@ protocol DP_PhotoCoordinatorProtocol: DP_Coordinator {
 
 class DP_PhotoCoordinator: DP_PhotoCoordinatorProtocol {
     var cildren: [DP_Coordinator] = []
-    
+    var eventHandler: Block<()>?
     var navigationController: UINavigationController?
     var navigationTabController: UINavigationController?
     private var controller: UIViewController?
@@ -45,10 +48,25 @@ extension DP_PhotoCoordinator {
             detailCoordinator.handlerBback = { [unowned self] in
                 self.dp_eventOccurred(with: .back)
             }
+            
+        case .choiceLanguage:
+            guard let controller = controller else { return }
+            let child = DP_ChoiceLanguageViewController()
+            child.modalPresentationStyle = .fullScreen
+            child.isModalInPresentation = true
+            child.preferredContentSize = controller.view.frame.size
+            controller.present(child, animated: true)
+            child.eventHandlerBack = { [weak self] _ in
+                self?.dp_eventOccurred(with: .removeChild)
+                self?.eventHandler?(())
+            }
+            
+        case .removeChild:
+            guard let controller = controller else { return }
+            controller.removeChild()
         
         case .back:
             DP_StartCoordinator.shared.dp_strart()
         }
     }
 }
-

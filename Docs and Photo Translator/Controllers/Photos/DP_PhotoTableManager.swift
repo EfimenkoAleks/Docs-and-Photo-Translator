@@ -35,6 +35,10 @@ extension DP_PhotoTableManagerExtension {
     func registerTableViewCells() {
         tableView.register(DP_PhotoCell.nib, forCellReuseIdentifier: DP_ConstantId.photoCell)
     }
+    
+    func dp_reloadTable() {
+        tableView.reloadData()
+    }
 }
 
 extension DP_PhotoTableManagerExtension: UITableViewDataSource {
