@@ -9,5 +9,6 @@ import Foundation
 
 final class DP_ConstantUserDefaultsKeys: NSObject {
     static let photoNumber = "kPhotoNumber"
+    static let pinedPhotoNumber = "kPinedPhotoNumber"
     static let startLang = "kStartLang"
 }

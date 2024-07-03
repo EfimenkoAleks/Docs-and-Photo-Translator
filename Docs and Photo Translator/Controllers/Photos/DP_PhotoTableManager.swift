@@ -61,4 +61,16 @@ extension DP_PhotoTableManagerExtension: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         eventHandler?(data[indexPath.row].path)
     }
+    
+    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
+      if editingStyle == .delete {
+        print("Deleted")
+
+          helper.dp_deletePinedPhoto(url: data[indexPath.row].path)
+          helper.dp_deletePhoto(url: data[indexPath.row].path)
+          data.remove(at: indexPath.row)
+        self.tableView.deleteRows(at: [indexPath], with: .automatic)
+      }
+    }
 }
+

@@ -17,13 +17,21 @@ final class DP_CameraHelper: NSObject {
         super.init()
     }
     
-    func dp_saveNewPhoto(data: Data) {
+    func dp_saveNewPhoto(data: Data) -> URL? {
+        var rezUrl: URL?
         let lastNumber = dp_getNumber()
         screenNumber = lastNumber.last ?? 0
         screenNumber += 1
         
-        _ = DP_FileManager.shared.dp_saveData(data, path: "screen\(screenNumber)")
+        let photo = DP_FileManager.shared.dp_saveData(data, path: "\(screenNumber)")
         preferens.dp_saveNumberPhoto(number: screenNumber)
+        switch photo {
+        case .loaded(let url):
+            rezUrl = url
+        default:
+            break
+        }
+        return rezUrl
     }
     
     func dp_getNumber() -> [Int] {

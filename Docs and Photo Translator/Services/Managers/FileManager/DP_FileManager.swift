@@ -34,4 +34,18 @@ class DP_FileManager {
             return .loaded(fileURL)
         } else {  return .error }
     }
+    
+    func dp_removeFile(path: String) {
+        
+        guard let fileURL = dp_getFileUrlFromPath(path) else { return }
+        
+        if fileManager.fileExists(atPath: fileURL.path) {
+            // delete file
+            do {
+                try fileManager.removeItem(atPath: fileURL.path)
+            } catch {
+                print("Could not delete file, probably read-only filesystem")
+            }
+        }
+    }
 }

@@ -7,8 +7,6 @@
 
 import Foundation
 
-import Foundation
-
 final class DP_Preferences: DP_PreferencesProtocol {
     
     let defaults = UserDefaults.standard
@@ -31,6 +29,28 @@ final class DP_Preferences: DP_PreferencesProtocol {
     
     func dp_getPhotoNumber() -> [Int] {
         if let rez = defaults.array(forKey: DP_ConstantUserDefaultsKeys.photoNumber) as? [Int] {
+            return rez
+        } else { return [] }
+    }
+    
+    func dp_saveNumberPinedPhoto(number: Int) {
+        var arrInt: [Int] = dp_getPinedPhotoNumber()
+            if !arrInt.contains(number) {
+                arrInt.append(number)
+            }
+        defaults.setValue(arrInt, forKey: DP_ConstantUserDefaultsKeys.pinedPhotoNumber)
+    }
+    
+    func dp_deletePinedPhoto(arrInt: [Int]) {
+        defaults.setValue(arrInt, forKey: DP_ConstantUserDefaultsKeys.pinedPhotoNumber)
+    }
+    
+    func dp_deletePhoto(arrInt: [Int]) {
+        defaults.setValue(arrInt, forKey: DP_ConstantUserDefaultsKeys.photoNumber)
+    }
+    
+    func dp_getPinedPhotoNumber() -> [Int] {
+        if let rez = defaults.array(forKey: DP_ConstantUserDefaultsKeys.pinedPhotoNumber) as? [Int] {
             return rez
         } else { return [] }
     }

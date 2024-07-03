@@ -199,6 +199,13 @@
 			path = ChoiceLanguage;
 			sourceTree = "<group>";
 		};
+		CE465A572C34D8290055885A /* Setings */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Setings;
+			sourceTree = "<group>";
+		};
 		CEBEF38A2C2C0098008D0FAC /* TranslateManager */ = {
 			isa = PBXGroup;
 			children = (
@@ -276,6 +283,7 @@
 		CEE9890D2C230B0600870D32 /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
+				CE465A572C34D8290055885A /* Setings */,
 				CE465A4A2C3410950055885A /* ChoiceLanguage */,
 				CEE989432C242F9A00870D32 /* Camera */,
 				CEE989292C23149900870D32 /* Base */,

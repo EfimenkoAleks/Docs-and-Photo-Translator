@@ -36,7 +36,6 @@ class DP_StartCoordinator: DP_StartCoordinatorProtocol {
 
     func dp_startFlov(controller: UIViewController) {
         self.controller = controller
-        controller.view.backgroundColor = .systemPink
         navigationController = UINavigationController(rootViewController: controller)
         guard let navigationController = navigationController else {return}
         window?.rootViewController = navigationController

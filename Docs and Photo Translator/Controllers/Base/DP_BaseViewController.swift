@@ -104,9 +104,10 @@ class DP_BaseViewController: UIViewController {
   
     func dp_createRightNavBarItems(image: String, action: Selector) {
 
-        guard let buttonImage = UIImage(named: image) else { return }
+        guard let buttonImage = UIImage(systemName: image)?.withRenderingMode(.alwaysTemplate) else { return }
 
         let navButton = UIBarButtonItem(image: buttonImage, style: .plain, target: self, action: action)
+        navButton.tintColor = .white
         
         if self.navigationItem.rightBarButtonItems == nil {
             self.navigationItem.setRightBarButtonItems([navButton], animated: true)

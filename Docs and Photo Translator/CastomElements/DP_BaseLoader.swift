@@ -23,7 +23,7 @@ final class DP_BaseLoader: UIView {
     
     func dp_createView() {
         let popapView = UIView()
-        popapView.backgroundColor = .black.withAlphaComponent(0.8)
+        popapView.backgroundColor = .black.withAlphaComponent(0.7)
         popapView.alpha = 1
         popapView.translatesAutoresizingMaskIntoConstraints = false
         
