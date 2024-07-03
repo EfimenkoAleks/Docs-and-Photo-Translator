@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import MLKitTranslate
 
 typealias DP_ChoiceLanguageViewControllerExtension = DP_ChoiceLanguageViewController
 
@@ -27,8 +28,6 @@ class DP_ChoiceLanguageViewController: DP_BaseViewController {
 
     @IBAction func sm_didTapBackButton(_ sender: UIButton) {
         dp_checkDefaultLanguage()
-        dp_dismiss()
-        eventHandlerBack?(())
     }
 }
 
@@ -36,6 +35,46 @@ private extension DP_ChoiceLanguageViewControllerExtension {
     
     func dp_configureUI() {
         nameLabel.text = "Select language for translation"
+        NotificationCenter.default.addObserver(
+          self, selector: #selector(remoteModelDownloadDidComplete(notification:)),
+          name: .mlkitModelDownloadDidSucceed, object: nil)
+        NotificationCenter.default.addObserver(
+          self, selector: #selector(remoteModelDownloadDidComplete(notification:)),
+          name: .mlkitModelDownloadDidFail, object: nil)
+    }
+    
+    @objc
+    func remoteModelDownloadDidComplete(notification: NSNotification) {
+      let userInfo = notification.userInfo!
+      guard
+        let remoteModel =
+          userInfo[ModelDownloadUserInfoKey.remoteModel.rawValue] as? TranslateRemoteModel
+      else {
+        return
+      }
+      weak var weakSelf = self
+      DispatchQueue.main.async {
+        guard let strongSelf = weakSelf else {
+          print("Self is nil!")
+          return
+        }
+        let languageName = Locale.current.localizedString(
+          forLanguageCode: remoteModel.language.rawValue)!
+        if notification.name == .mlkitModelDownloadDidSucceed {
+            strongSelf.dp_dismissWithLang()
+        } else {
+            strongSelf.nameLabel.text = "Select language for translation"
+            strongSelf.dp_removeLoader()
+            strongSelf.dp_presentAlert(title: "An error occurred, please select another language")
+        }
+        strongSelf.dp_isDownloadLanguage()
+      }
+    }
+    
+    func dp_dismissWithLang() {
+        dp_removeLoader()
+        dp_dismiss()
+        eventHandlerBack?(())
     }
     
     func dp_createManager() {
@@ -47,9 +86,48 @@ private extension DP_ChoiceLanguageViewControllerExtension {
     }
     
     func dp_checkDefaultLanguage() {
-        if DP_TranslateManager.shared.currentLanguages == nil {
-            DP_TranslateManager.shared.currentLanguages = .english
-        }
+        dp_addLoader()
+        nameLabel.text = "Loading..."
+        handleDownloadDelete()
+        
         helper.dp_setStartLang(DP_TranslateManager.shared.currentLanguages?.rawValue ?? "")
+    }
+    
+    func handleDownloadDelete() {
+        let language = DP_TranslateManager.shared.allLanguages[languagePicker.selectedRow(inComponent: 0)]
+      if language == .english {
+          DP_TranslateManager.shared.currentLanguages = .english
+        return
+      }
+        if language == DP_TranslateManager.shared.currentLanguages {
+            dp_dismissWithLang()
+            return
+        }
+        DP_TranslateManager.shared.currentLanguages = language
+ 
+      let model = DP_TranslateManager.shared.model(forLanguage: language)
+      let modelManager = ModelManager.modelManager()
+      let languageName = Locale.current.localizedString(forLanguageCode: language.rawValue)!
+      if modelManager.isModelDownloaded(model) {
+        modelManager.deleteDownloadedModel(model) { error in
+          self.dp_isDownloadLanguage()
+        }
+      } else {
+        let conditions = ModelDownloadConditions(
+          allowsCellularAccess: true,
+          allowsBackgroundDownloading: true
+        )
+        modelManager.download(model, conditions: conditions)
+      }
+    }
+    
+    func dp_isDownloadLanguage() {
+        let outputLanguage = DP_TranslateManager.shared.allLanguages[languagePicker.selectedRow(inComponent: 0)]
+
+      if DP_TranslateManager.shared.isLanguageDownloaded(outputLanguage) {
+  
+      } else {
+ 
+      }
     }
 }

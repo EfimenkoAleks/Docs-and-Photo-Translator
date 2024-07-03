@@ -73,6 +73,22 @@ final class DP_PhotoHelper: NSObject {
         return models
     }
     
+    func dp_getPinedPhotos() -> [DP_PhotoModel] {
+        let arrInt = preferens.dp_getPinedPhotoNumber()
+        
+       let paths = arrInt.compactMap({DP_FileManager.shared.dp_getFileUrlFromPath("\($0)")})
+        let models: [DP_PhotoModel] = paths.map { url -> DP_PhotoModel in
+          var dateCreated = ""
+            if let attributes = try? FileManager.default.attributesOfItem(atPath: url.path) as [FileAttributeKey: Any],
+                let creationDate = attributes[FileAttributeKey.creationDate] as? Date {
+                dateCreated = Date.sm_convertDateToString(date: creationDate, formatter: "dd.MM.yy HH:mm")
+                }
+           return DP_PhotoModel(name: "", date: dateCreated, path: url)
+        }
+        
+        return models
+    }
+    
     ///  Scale and orient picture for Vision framework
     ///
     ///  From [Detecting Objects in Still Images](https://developer.apple.com/documentation/vision/detecting_objects_in_still_images).

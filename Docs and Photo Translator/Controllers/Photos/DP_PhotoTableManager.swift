@@ -7,6 +7,11 @@
 
 import UIKit
 
+enum DP_PhotoEvent {
+    case pined
+    case recent
+}
+
 typealias DP_PhotoTableManagerExtension = DP_PhotoTableManager
 
 class DP_PhotoTableManager: NSObject {
@@ -37,6 +42,16 @@ extension DP_PhotoTableManagerExtension {
     }
     
     func dp_reloadTable() {
+        tableView.reloadData()
+    }
+    
+    func dp_reloadTableWithData(_ event: DP_PhotoEvent) {
+        switch event {
+        case .pined:
+            data = helper.dp_getPinedPhotos()
+        case .recent:
+            data = helper.dp_getPhotos()
+        }
         tableView.reloadData()
     }
 }

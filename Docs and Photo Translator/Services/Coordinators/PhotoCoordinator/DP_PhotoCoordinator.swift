@@ -12,6 +12,7 @@ enum DP_PhotoCoordinatorEvent {
     case detail(URL)
     case choiceLanguage
     case removeChild
+    case polisity(DP_PolisityModel)
 }
 
 protocol DP_PhotoCoordinatorProtocol: DP_Coordinator {
@@ -60,6 +61,14 @@ extension DP_PhotoCoordinator {
                 self?.dp_eventOccurred(with: .removeChild)
                 self?.eventHandler?(())
             }
+            
+        case .polisity(let model):
+            guard let controller = controller else { return }
+            let child = DP_PolicyViewController(model: model)
+            child.modalPresentationStyle = .popover
+            child.isModalInPresentation = true
+          //  child.preferredContentSize = controller.view.frame.size
+            controller.present(child, animated: true)
             
         case .removeChild:
             guard let controller = controller else { return }

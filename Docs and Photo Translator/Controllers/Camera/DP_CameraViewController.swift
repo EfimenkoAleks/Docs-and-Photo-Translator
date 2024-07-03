@@ -69,6 +69,10 @@ private extension DP_CameraViewControllerExtension {
     
     func dp_configUI() {
         sm_addVideo()
+        
+        cameraButton.layer.cornerRadius = 12
+        cameraButton.layer.masksToBounds = true
+        cameraButton.backgroundColor = UIColor.black.withAlphaComponent(0.7)
     }
     
     func sm_getBuferForView(bufer: CMSampleBuffer) {

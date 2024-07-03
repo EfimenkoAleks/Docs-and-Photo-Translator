@@ -12,13 +12,14 @@ typealias DP_TextViewControllerExtension = DP_TextViewController
 
 class DP_TextViewController: DP_BaseViewController {
     
-    @IBOutlet var inputTextView: UITextView!
-     @IBOutlet var outputTextView: UITextView!
-     @IBOutlet var statusTextView: UITextView!
-     @IBOutlet var inputPicker: UIPickerView!
-     @IBOutlet var outputPicker: UIPickerView!
-     @IBOutlet var sourceDownloadDeleteButton: UIButton!
-     @IBOutlet var targetDownloadDeleteButton: UIButton!
+    @IBOutlet private var inputTextView: UITextView!
+     @IBOutlet private var outputTextView: UITextView!
+     @IBOutlet private var statusTextView: UITextView!
+     @IBOutlet private var inputPicker: UIPickerView!
+     @IBOutlet private var outputPicker: UIPickerView!
+     @IBOutlet private var sourceDownloadDeleteButton: UIButton!
+     @IBOutlet private var targetDownloadDeleteButton: UIButton!
+    @IBOutlet private weak var translateButton: UIButton!
     
     var coordinator: DP_TextCoordinatorProtocol?
 
@@ -60,12 +61,17 @@ class DP_TextViewController: DP_BaseViewController {
       self.statusTextView.text = msg
     }
 
+    override func dp_choiseLang() {
+        coordinator?.dp_eventOccurred(with: .choiceLanguage)
+    }
 }
 
 private extension DP_TextViewControllerExtension {
     
     func dp_configUI() {
         initStartComponent()
+        dp_hideKeyboardWhenTappedAround()
+        dp_createMenu()
     }
     
     func initStartComponent() {
@@ -131,14 +137,18 @@ private extension DP_TextViewControllerExtension {
         let outputLanguage = DP_TranslateManager.shared.allLanguages[outputPicker.selectedRow(inComponent: 0)]
       if DP_TranslateManager.shared.isLanguageDownloaded(inputLanguage) {
         self.sourceDownloadDeleteButton.setTitle("Delete Model", for: .normal)
+          sourceDownloadDeleteButton.titleLabel?.font = UIFont.systemFont(ofSize: 12)
       } else {
         self.sourceDownloadDeleteButton.setTitle("Download Model", for: .normal)
+          sourceDownloadDeleteButton.titleLabel?.font = UIFont.systemFont(ofSize: 12)
       }
       self.sourceDownloadDeleteButton.isHidden = inputLanguage == .english
       if DP_TranslateManager.shared.isLanguageDownloaded(outputLanguage) {
         self.targetDownloadDeleteButton.setTitle("Delete Model", for: .normal)
+          targetDownloadDeleteButton.titleLabel?.font = UIFont.systemFont(ofSize: 12)
       } else {
         self.targetDownloadDeleteButton.setTitle("Download Model", for: .normal)
+          targetDownloadDeleteButton.titleLabel?.font = UIFont.systemFont(ofSize: 12)
       }
       self.targetDownloadDeleteButton.isHidden = outputLanguage == .english
     }

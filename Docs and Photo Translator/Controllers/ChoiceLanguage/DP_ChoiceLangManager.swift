@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import MLKitTranslate
 
 typealias DP_ChoiceLangManagerExtension = DP_ChoiceLangManager
 
@@ -32,6 +33,9 @@ extension DP_ChoiceLangManagerExtension {
         if let language = DP_TranslateManager.shared.currentLanguages {
             picker.selectRow(
              DP_TranslateManager.shared.allLanguages.firstIndex(of: language) ?? 0, inComponent: 0, animated: false)
+        } else {
+            picker.selectRow(
+             DP_TranslateManager.shared.allLanguages.firstIndex(of: TranslateLanguage.english) ?? 0, inComponent: 0, animated: false)
         }
     }
 }
@@ -54,6 +58,6 @@ extension DP_ChoiceLangManagerExtension: UIPickerViewDataSource, UIPickerViewDel
     
     func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
         let inputLanguage = DP_TranslateManager.shared.allLanguages[picker.selectedRow(inComponent: 0)]
-        DP_TranslateManager.shared.currentLanguages = inputLanguage
+   //     DP_TranslateManager.shared.currentLanguages = inputLanguage
     }
 }
