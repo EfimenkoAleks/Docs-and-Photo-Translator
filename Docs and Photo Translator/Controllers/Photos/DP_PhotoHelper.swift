@@ -17,6 +17,10 @@ final class DP_PhotoHelper: NSObject {
         super.init()
     }
     
+    func dp_getStartLang() -> String? {
+        preferens.dp_getStartLang()
+    }
+    
     func dp_getNumber() -> [Int] {
         preferens.dp_getPhotoNumber()
     }

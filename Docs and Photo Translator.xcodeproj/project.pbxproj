@@ -26,6 +26,7 @@
 		CE465A4E2C3411120055885A /* DP_ChoiceLanguageViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = CE465A4C2C3411120055885A /* DP_ChoiceLanguageViewController.xib */; };
 		CE465A502C3414260055885A /* DP_ChoiceLangManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE465A4F2C3414260055885A /* DP_ChoiceLangManager.swift */; };
 		CE465A522C341A0E0055885A /* ViewController+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE465A512C341A0E0055885A /* ViewController+Extension.swift */; };
+		CE465A562C34737E0055885A /* DP_ChoiceLangHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE465A552C34737E0055885A /* DP_ChoiceLangHelper.swift */; };
 		CEBEF38C2C2C00C1008D0FAC /* DP_TranslateManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEBEF38B2C2C00C1008D0FAC /* DP_TranslateManager.swift */; };
 		CEBEF3902C2D7B85008D0FAC /* DP_PhotoDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEBEF38E2C2D7B85008D0FAC /* DP_PhotoDetailViewController.swift */; };
 		CEBEF3912C2D7B85008D0FAC /* DP_PhotoDetailViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = CEBEF38F2C2D7B85008D0FAC /* DP_PhotoDetailViewController.xib */; };
@@ -87,6 +88,7 @@
 		CE465A4C2C3411120055885A /* DP_ChoiceLanguageViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = DP_ChoiceLanguageViewController.xib; sourceTree = "<group>"; };
 		CE465A4F2C3414260055885A /* DP_ChoiceLangManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DP_ChoiceLangManager.swift; sourceTree = "<group>"; };
 		CE465A512C341A0E0055885A /* ViewController+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ViewController+Extension.swift"; sourceTree = "<group>"; };
+		CE465A552C34737E0055885A /* DP_ChoiceLangHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DP_ChoiceLangHelper.swift; sourceTree = "<group>"; };
 		CEBEF38B2C2C00C1008D0FAC /* DP_TranslateManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DP_TranslateManager.swift; sourceTree = "<group>"; };
 		CEBEF38E2C2D7B85008D0FAC /* DP_PhotoDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DP_PhotoDetailViewController.swift; sourceTree = "<group>"; };
 		CEBEF38F2C2D7B85008D0FAC /* DP_PhotoDetailViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = DP_PhotoDetailViewController.xib; sourceTree = "<group>"; };
@@ -192,6 +194,7 @@
 				CE465A4B2C3411120055885A /* DP_ChoiceLanguageViewController.swift */,
 				CE465A4C2C3411120055885A /* DP_ChoiceLanguageViewController.xib */,
 				CE465A4F2C3414260055885A /* DP_ChoiceLangManager.swift */,
+				CE465A552C34737E0055885A /* DP_ChoiceLangHelper.swift */,
 			);
 			path = ChoiceLanguage;
 			sourceTree = "<group>";
@@ -599,6 +602,7 @@
 				CEE989562C26D5D500870D32 /* DP_DownLoad.swift in Sources */,
 				CE07717D2C295ACE002A95A3 /* DP_Preferences.swift in Sources */,
 				CEE9890A2C22DB5500870D32 /* CoordinatorProtocol.swift in Sources */,
+				CE465A562C34737E0055885A /* DP_ChoiceLangHelper.swift in Sources */,
 				CEE989122C230B9000870D32 /* DP_PhotoViewController.swift in Sources */,
 				CEE9892B2C2314AA00870D32 /* DP_BaseViewController.swift in Sources */,
 				CE0771832C296793002A95A3 /* DP_PhotoTableManager.swift in Sources */,

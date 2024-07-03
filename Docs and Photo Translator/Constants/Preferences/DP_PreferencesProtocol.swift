@@ -10,4 +10,6 @@ import Foundation
 protocol DP_PreferencesProtocol {
     func dp_saveNumberPhoto(number: Int)
     func dp_getPhotoNumber() -> [Int]
+    func dp_setStartLang(_ startLang: String)
+    func dp_getStartLang() -> String?
 }

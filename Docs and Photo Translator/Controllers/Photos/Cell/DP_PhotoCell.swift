@@ -24,12 +24,9 @@ class DP_PhotoCell: UITableViewCell, ReusableCell {
         } catch {
             photoImage.image = UIImage(named: "defaultPhoto")
         }
-        
-       
-    //    guard let name = DP_TranslateManager.shared.currentLanguages else { return }
+  
         DP_TranslateManager.shared.dp_translateTag { [weak self] rezText in
             self?.nameLabel.text = "to \(rezText)"
         }
-         //model.name
     }
 }

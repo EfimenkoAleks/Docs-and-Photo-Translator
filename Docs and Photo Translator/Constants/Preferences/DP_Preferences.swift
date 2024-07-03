@@ -13,6 +13,14 @@ final class DP_Preferences: DP_PreferencesProtocol {
     
     let defaults = UserDefaults.standard
     
+    func dp_setStartLang(_ startLang: String) {
+        defaults.setValue(startLang, forKey: DP_ConstantUserDefaultsKeys.startLang)
+    }
+    
+    func dp_getStartLang() -> String? {
+        defaults.string(forKey: DP_ConstantUserDefaultsKeys.startLang)
+    }
+    
     func dp_saveNumberPhoto(number: Int) {
         var arrInt: [Int] = dp_getPhotoNumber()
             if !arrInt.contains(number) {

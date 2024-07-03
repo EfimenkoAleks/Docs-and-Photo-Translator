@@ -15,7 +15,8 @@ class DP_PhotoViewController: DP_BaseViewController {
 
     var coordinator: DP_PhotoCoordinatorProtocol?
     private var photoManager: DP_PhotoTableManager?
-
+    private var helper: DP_PhotoHelper = DP_PhotoHelper()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -26,18 +27,26 @@ class DP_PhotoViewController: DP_BaseViewController {
         isSmallBackButtonEnabled = false
       super.viewWillAppear(animated)
     }
+    
+    override func dp_didTapSetings() {
+      
+    }
 }
 
 private extension DP_PhotoViewControllerExtension {
     
     func dp_configUI() {
+        dp_createRightSetingsNavBarItem()
         dp_createManager()
-        DispatchQueue.main.asyncAfter(deadline: .now() + 1) { [weak self] in
-            guard let self = self else { return }
-            self.coordinator?.dp_eventOccurred(with: .choiceLanguage)
-            self.coordinator?.eventHandler = { [weak self] _ in
+       
+        if helper.dp_getStartLang() == nil {
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) { [weak self] in
                 guard let self = self else { return }
-                self.photoManager?.dp_reloadTable()
+                self.coordinator?.dp_eventOccurred(with: .choiceLanguage)
+                self.coordinator?.eventHandler = { [weak self] _ in
+                    guard let self = self else { return }
+                    self.photoManager?.dp_reloadTable()
+                }
             }
         }
     }

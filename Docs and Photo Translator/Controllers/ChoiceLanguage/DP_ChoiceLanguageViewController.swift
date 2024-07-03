@@ -11,11 +11,12 @@ typealias DP_ChoiceLanguageViewControllerExtension = DP_ChoiceLanguageViewContro
 
 class DP_ChoiceLanguageViewController: DP_BaseViewController {
 
-    @IBOutlet weak var nameLabel: UILabel!
-    @IBOutlet weak var languagePicker: UIPickerView!
+    @IBOutlet private weak var nameLabel: UILabel!
+    @IBOutlet private weak var languagePicker: UIPickerView!
     
     var eventHandlerBack: Block<()>?
-    var manager: DP_ChoiceLangManager?
+    private var manager: DP_ChoiceLangManager?
+    private var helper: DP_ChoiceLangHelper = DP_ChoiceLangHelper()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -49,5 +50,6 @@ private extension DP_ChoiceLanguageViewControllerExtension {
         if DP_TranslateManager.shared.currentLanguages == nil {
             DP_TranslateManager.shared.currentLanguages = .english
         }
+        helper.dp_setStartLang(DP_TranslateManager.shared.currentLanguages?.rawValue ?? "")
     }
 }

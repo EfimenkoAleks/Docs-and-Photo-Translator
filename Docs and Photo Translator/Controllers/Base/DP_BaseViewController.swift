@@ -143,8 +143,11 @@ class DP_BaseViewController: UIViewController {
     }
     
     func dp_createRightSetingsNavBarItem() {
-        let rightBarButtonItem = UIBarButtonItem.init(image: UIImage(named: "setings"), style: .plain, target: self, action: #selector(dp_didTapSetings))
-        self.navigationItem.rightBarButtonItem = rightBarButtonItem
+        let img =  UIImage(systemName:  "line.3.horizontal")?.withRenderingMode(.alwaysTemplate)
+        let rightBarButtonItem = UIBarButtonItem.init(image: img, style: .plain, target: self, action: #selector(dp_didTapSetings))
+        rightBarButtonItem.tintColor = .white
+        
+        self.navigationItem.leftBarButtonItem = rightBarButtonItem
     }
     
     func dp_presentAlert(title: String = "", message: String = "") {
