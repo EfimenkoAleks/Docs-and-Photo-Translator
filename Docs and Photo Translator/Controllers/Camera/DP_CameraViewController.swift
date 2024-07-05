@@ -8,6 +8,7 @@
 import UIKit
 import AVFoundation
 import Vision
+import MLKitTranslate
 
 typealias DP_CameraViewControllerExtension = DP_CameraViewController
 
@@ -157,7 +158,7 @@ private extension DP_CameraViewControllerExtension {
                 photoHelper.dp_convert(boundingBox: $0.boundingBox, to: CGRect(origin: .zero, size: size))
             }
             
-            let string = results.compactMap {
+            let modelText = results.compactMap {
                 $0.topCandidates(1).first?.string
             }.joined(separator: "\n")
             
@@ -173,49 +174,60 @@ private extension DP_CameraViewControllerExtension {
                     path.fill()
                 }
             }
-            
-            DispatchQueue.main.async { [weak self] in
-                
-                guard let self = self else { return }
-                self.cameraImage.image = final
-                print(string)
-                
-                for (i, model) in strings.enumerated() {
-                    
-                    //                    let img = self.blurEffect(in: rects[i], from: final)
-                    //                    self.photoImage.image = img
-                    
-                    
-                    DP_TranslateManager.shared.getText(model) { rezText in
-                        switch rezText {
-                        case .success(let rezText):
-                            let rectLb = rects[i]
-                            let screen = self.cameraImage.frame
-                            let width = screen.width / bounds.width
-                            let height = screen.height / bounds.height
-                            
-                            let lbX = rectLb.minX.rounded() * width
-                            let lbY = rectLb.minY.rounded() * height
-                            
-                            let lbHeight = rectLb.height * height
-                            let lbWidth = rectLb.width * width
-                            
-                            let lb = UILabel(frame: CGRect(x: lbX, y: lbY, width: lbWidth, height: lbHeight))
-                            lb.textColor = .black
-                            lb.textAlignment = .center
-                            lb.text = rezText
-                            lb.font = lb.font.withSize(lb.frame.height / 2)
-                            
-                            self.cameraImage.addSubview(lb)
-                        case .noLanguage:
-                            break
+            photoHelper.dp_getTextForScaningLang(arrLangs: strings) { lang in
+                let originalLanguage = TranslateLanguage(rawValue: lang)
+                let currentLang = DP_TranslateManager.shared.currentLanguages
+                if originalLanguage != currentLang {
+                    DP_TranslateManager.shared.dp_translateTag(lang: originalLanguage) { [weak self] rezOrigin in
+                        guard let self = self else { return }
+                        DP_TranslateManager.shared.dp_translateTag(lang: currentLang) { [weak self] rezCurrent in
+                            guard let self = self else { return }
+                            self.dp_presentAlert(title: "The text uses - \(rezOrigin) language, your current language - \(rezCurrent)")
                         }
                     }
                 }
-                completion()
+                
+                DispatchQueue.main.async { [weak self] in
+                    
+                    guard let self = self else { return }
+                    self.cameraImage.image = final
+                    print(modelText)
+                    
+                    for (i, model) in strings.enumerated() {
+                        
+                        //                    let img = self.blurEffect(in: rects[i], from: final)
+                        //                    self.photoImage.image = img
+                        
+                        DP_TranslateManager.shared.getText(model, originalLanguage: originalLanguage) { rezText in
+                            switch rezText {
+                            case .success(let rezText):
+                                let rectLb = rects[i]
+                                let screen = self.cameraImage.frame
+                                let width = screen.width / bounds.width
+                                let height = screen.height / bounds.height
+                                
+                                let lbX = rectLb.minX.rounded() * width
+                                let lbY = rectLb.minY.rounded() * height
+                                
+                                let lbHeight = rectLb.height * height
+                                let lbWidth = rectLb.width * width
+                                
+                                let lb = UILabel(frame: CGRect(x: lbX, y: lbY, width: lbWidth, height: lbHeight))
+                                lb.textColor = .black
+                                lb.textAlignment = .center
+                                lb.text = rezText
+                                lb.font = lb.font.withSize(lb.frame.height / 2)
+                                
+                                self.cameraImage.addSubview(lb)
+                            case .noLanguage:
+                                break
+                            }
+                        }
+                    }
+                    completion()
+                }
             }
         }
-        
         DispatchQueue.global(qos: .userInitiated).async {
             do {
                 try imageRequestHandler.perform([request])

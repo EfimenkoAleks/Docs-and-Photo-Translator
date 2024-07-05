@@ -17,6 +17,64 @@ final class DP_PhotoHelper: NSObject {
         super.init()
     }
     
+    func dp_determineTheNumberOfLanguages(_ strings: [String], complletion: @escaping ([String]) -> Void) {
+      
+        let serialQueue = DispatchQueue(label: "queuename")
+        
+        let dispath = DispatchGroup()
+        var arrLangs: [String] = []
+        for text in strings {
+            dispath.enter()
+            DP_TranslateManager.shared.dp_identityLanguage(text: text) { lang in
+                guard let lang = lang else {
+                    dispath.leave()
+                    return
+                }
+                serialQueue.sync {
+                    arrLangs.append(lang)
+                    dispath.leave()
+                }
+            }
+        }
+        dispath.notify(queue: .main) {
+            complletion(arrLangs)
+        }
+    }
+    
+    func dp_determineTheMajority(arrLangs: [String], complletion: @escaping (String) -> Void) {
+        var dict: [String: Int] = [:]
+        let set: Set<String> = Set(arrLangs.map { $0 })
+        set.forEach { event in
+            dict[event] = 0
+        }
+        arrLangs.forEach { event in
+            let keys: [String] = Array(dict.keys)
+            if keys.contains(event) {
+                guard var vol = dict[event] else { return }
+                vol += 1
+                dict[event] = vol
+            } else {
+                dict[event] = 1
+            }
+        }
+        let fff = dict.sorted(by: {$0.value > $1.value})
+        print(fff.first!.key)
+        guard let lang = fff.first else {
+            complletion("en")
+            return
+        }
+        complletion(lang.key)
+    }
+    
+    func dp_getTextForScaningLang(arrLangs: [String], complletion: @escaping (String) -> Void) {
+        
+        dp_determineTheNumberOfLanguages(arrLangs) { [weak self] rez in
+            self?.dp_determineTheMajority(arrLangs: rez, complletion: { lang in
+                complletion(lang)
+            })
+        }
+    }
+    
     func dp_savePinedPhoto(url: URL) {
         guard let number = Int(url.lastPathComponent) else { return }
         preferens.dp_saveNumberPinedPhoto(number: number)

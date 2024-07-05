@@ -93,28 +93,28 @@ extension DP_PhotoDetailViewController {
     func dp_recognizeText(in image: UIImage, completion: @escaping () -> Void) {
         guard let cgImage = image.cgImage else { return }
         let imageRequestHandler = VNImageRequestHandler(cgImage: cgImage, orientation: .up)
-
+        
         let size = CGSize(width: cgImage.width, height: cgImage.height) // note, in pixels from `cgImage`; this assumes you have already rotate, too
         let bounds = CGRect(origin: .zero, size: size)
         // Create a new request to recognize text.
-
-
+        
+        
         let request = VNRecognizeTextRequest { [self] request, error in
             guard
                 let results = request.results as? [VNRecognizedTextObservation],
                 error == nil
             else { return }
-
+            
             let rects = results.map {
                 helper.dp_convert(boundingBox: $0.boundingBox, to: CGRect(origin: .zero, size: size))
             }
-
-            let string = results.compactMap {
+            
+            let modelText = results.compactMap {
                 $0.topCandidates(1).first?.string
             }.joined(separator: "\n")
             
             let strings = results.compactMap({$0.topCandidates(1).first?.string})
-
+            
             let format = UIGraphicsImageRendererFormat()
             format.scale = 1
             let final = UIGraphicsImageRenderer(bounds: bounds, format: format).image { _ in
@@ -125,49 +125,49 @@ extension DP_PhotoDetailViewController {
                     path.fill()
                 }
             }
-
-            DispatchQueue.main.async { [weak self] in
-                
-                guard let self = self else { return }
-                self.photoImage.image = final
-                print(string)
-                
-                for (i, model) in strings.enumerated() {
+            helper.dp_getTextForScaningLang(arrLangs: strings) { lang in
+                let originalLanguage = TranslateLanguage(rawValue: lang)
+                DispatchQueue.main.async { [weak self] in
                     
-//                    let img = self.blurEffect(in: rects[i], from: final)
-//                    self.photoImage.image = img
-                
-   
-                    DP_TranslateManager.shared.getText(model) { rezText in
-                        switch rezText {
-                        case .success(let rezText):
-                            let rectLb = rects[i]
-                            let screen = self.photoImage.frame
-                            let width = screen.width / bounds.width
-                            let height = screen.height / bounds.height
-                            
-                            let lbX = rectLb.minX.rounded() * width
-                            let lbY = rectLb.minY.rounded() * height
-                            
-                            let lbHeight = rectLb.height * height
-                            let lbWidth = rectLb.width * width
-                         
-                            let lb = UILabel(frame: CGRect(x: lbX, y: lbY, width: lbWidth, height: lbHeight))
-                            lb.textColor = .black
-                            lb.textAlignment = .center
-                            lb.text = rezText
-                            lb.font = lb.font.withSize(lb.frame.height / 2)
-    
-                            self.photoImage.addSubview(lb)
-                        case .noLanguage:
-                            break
+                    guard let self = self else { return }
+                    self.photoImage.image = final
+                    print(modelText)
+                    
+                    for (i, model) in strings.enumerated() {
+                        
+                        //                    let img = self.blurEffect(in: rects[i], from: final)
+                        //                    self.photoImage.image = img
+                        
+                        DP_TranslateManager.shared.getText(model, originalLanguage: originalLanguage) { rezText in
+                            switch rezText {
+                            case .success(let rezText):
+                                let rectLb = rects[i]
+                                let screen = self.photoImage.frame
+                                let width = screen.width / bounds.width
+                                let height = screen.height / bounds.height
+                                
+                                let lbX = rectLb.minX.rounded() * width
+                                let lbY = rectLb.minY.rounded() * height
+                                
+                                let lbHeight = rectLb.height * height
+                                let lbWidth = rectLb.width * width
+                                
+                                let lb = UILabel(frame: CGRect(x: lbX, y: lbY, width: lbWidth, height: lbHeight))
+                                lb.textColor = .black
+                                lb.textAlignment = .center
+                                lb.text = rezText
+                                lb.font = lb.font.withSize(lb.frame.height / 2)
+                                
+                                self.photoImage.addSubview(lb)
+                            case .noLanguage:
+                                break
+                            }
                         }
                     }
+                    completion()
                 }
-                completion()
             }
         }
-
         DispatchQueue.global(qos: .userInitiated).async {
             do {
                 try imageRequestHandler.perform([request])

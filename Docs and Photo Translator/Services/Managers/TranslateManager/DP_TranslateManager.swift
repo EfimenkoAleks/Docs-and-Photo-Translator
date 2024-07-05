@@ -41,10 +41,12 @@ final class DP_TranslateManager: NSObject {
           DP_TranslateManager.shared.translator = Translator.translator(options: options)
     }
     
-    func identityLanguage(text: String, completion: @escaping (String?) -> Void) {
-        let languageId = LanguageIdentification.languageIdentification()
+    func dp_identityLanguage(text: String, completion: @escaping (String?) -> Void) {
+        let text2 = text.removingCharacters(inCharacterSet: CharacterSet.punctuationCharacters)
+        let option = LanguageIdentificationOptions(confidenceThreshold: 0.7)
+        let languageId = LanguageIdentification.languageIdentification(options: option)
 
-        languageId.identifyPossibleLanguages(for: text) { (identifiedLanguages, error) in
+        languageId.identifyPossibleLanguages(for: text2) { (identifiedLanguages, error) in
           if let error = error {
             print("Failed with error: \(error)")
             return
@@ -67,14 +69,17 @@ final class DP_TranslateManager: NSObject {
         }
     }
     
-    func getText(_ text: String, completion: @escaping (TranslateLangEvents) -> Void) {
-        identityLanguage(text: text) { [weak self] rez in
-            guard let self = self,
-                  let tegLanguage = rez,
+    func getText(_ text: String, originalLanguage: TranslateLanguage = .english, completion: @escaping (TranslateLangEvents) -> Void) {
+        
+        let text2 = text.removingCharacters(inCharacterSet: CharacterSet.punctuationCharacters)
+        
+//        identityLanguage(text: text2) { [weak self] rez in
+            guard //let self = self,
+            //      let tegLanguage = rez,
                   let currentLang = self.currentLanguages else { return }
      
     
-            let inputLanguage = TranslateLanguage(rawValue: tegLanguage)
+            let inputLanguage = originalLanguage //TranslateLanguage(rawValue: tegLanguage)
             
             guard self.isLanguageDownloaded(currentLang) else { return }
             
@@ -85,16 +90,15 @@ final class DP_TranslateManager: NSObject {
                 
                 self.setOptionTranslate(inputLang: inputLanguage, outputLang: currentLang)
               
-                self.translate(inputText: text) { rezText in
+                self.translate(inputText: text2) { rezText in
                     completion(.success(rezText))
                 }
             
-        }
+     //   }
     }
     
-    func dp_translateTag(completion: @escaping (String) -> Void) {
-        guard let curLang = currentLanguages,
-    
+    func dp_translateTag(lang: TranslateLanguage?, completion: @escaping (String) -> Void) {
+        guard let curLang = lang,
               let textTag = Locale.current.localizedString(forLanguageCode: curLang.rawValue) else { return }
          
         
@@ -142,4 +146,21 @@ final class DP_TranslateManager: NSObject {
          }
        }
      }
+}
+
+extension String {
+  func removingCharacters(inCharacterSet forbiddenCharacters:CharacterSet) -> String
+{
+    var filteredString = self
+    while true {
+      if let forbiddenCharRange = filteredString.rangeOfCharacter(from: forbiddenCharacters)  {
+        filteredString.removeSubrange(forbiddenCharRange)
+      }
+      else {
+        break
+      }
+    }
+
+    return filteredString
+  }
 }

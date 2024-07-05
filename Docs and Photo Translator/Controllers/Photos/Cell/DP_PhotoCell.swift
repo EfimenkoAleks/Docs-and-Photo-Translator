@@ -25,7 +25,8 @@ class DP_PhotoCell: UITableViewCell, ReusableCell {
             photoImage.image = UIImage(named: "defaultPhoto")
         }
   
-        DP_TranslateManager.shared.dp_translateTag { [weak self] rezText in
+        let lang = DP_TranslateManager.shared.currentLanguages
+        DP_TranslateManager.shared.dp_translateTag(lang: lang) { [weak self] rezText in
             self?.nameLabel.text = "to \(rezText)"
         }
     }

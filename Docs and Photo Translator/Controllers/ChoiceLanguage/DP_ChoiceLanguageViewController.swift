@@ -87,7 +87,7 @@ private extension DP_ChoiceLanguageViewControllerExtension {
     
     func dp_checkDefaultLanguage() {
         dp_addLoader()
-        nameLabel.text = "Loading..."
+        nameLabel.text = "Loading language ..."
         handleDownloadDelete()
         
         helper.dp_setStartLang(DP_TranslateManager.shared.currentLanguages?.rawValue ?? "")
