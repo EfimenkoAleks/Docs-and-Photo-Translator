@@ -6,6 +6,8 @@
 //
 
 import UIKit
+import Vision
+import MLKitTranslate
 
 final class DP_PhotoHelper: NSObject {
     
@@ -119,7 +121,7 @@ final class DP_PhotoHelper: NSObject {
         let arrInt = preferens.dp_getPhotoNumber()
         
        let paths = arrInt.compactMap({DP_FileManager.shared.dp_getFileUrlFromPath("\($0)")})
-        let models: [DP_PhotoModel] = paths.map { url -> DP_PhotoModel in
+        var models: [DP_PhotoModel] = paths.map { url -> DP_PhotoModel in
           var dateCreated = ""
             if let attributes = try? FileManager.default.attributesOfItem(atPath: url.path) as [FileAttributeKey: Any],
                 let creationDate = attributes[FileAttributeKey.creationDate] as? Date {
@@ -128,6 +130,7 @@ final class DP_PhotoHelper: NSObject {
            return DP_PhotoModel(name: "", date: dateCreated, path: url)
         }
         
+        models = models.sorted(by: {$0.date > $1.date})
         return models
     }
     
@@ -135,7 +138,7 @@ final class DP_PhotoHelper: NSObject {
         let arrInt = preferens.dp_getPinedPhotoNumber()
         
        let paths = arrInt.compactMap({DP_FileManager.shared.dp_getFileUrlFromPath("\($0)")})
-        let models: [DP_PhotoModel] = paths.map { url -> DP_PhotoModel in
+        var models: [DP_PhotoModel] = paths.map { url -> DP_PhotoModel in
           var dateCreated = ""
             if let attributes = try? FileManager.default.attributesOfItem(atPath: url.path) as [FileAttributeKey: Any],
                 let creationDate = attributes[FileAttributeKey.creationDate] as? Date {
@@ -144,6 +147,7 @@ final class DP_PhotoHelper: NSObject {
            return DP_PhotoModel(name: "", date: dateCreated, path: url)
         }
         
+        models = models.sorted(by: {$0.date > $1.date})
         return models
     }
     
@@ -232,35 +236,7 @@ final class DP_PhotoHelper: NSObject {
             context.draw(cgImage, in: CGRect(x: 0, y: 0, width: width, height: height))
         }
     }
-    
-    func dp_blurEffect(in rect: CGRect, from image: UIImage, context: CIContext) -> UIImage? {
-        guard let cgImage = image.cgImage else { return nil }
 
-
-
-//        CGImageRef imageRef = CGImageCreateWithImageInRect([imageToCrop CGImage], rect);
-//           UIImage *cropped = [UIImage imageWithCGImage:imageRef];
-//           CGImageRelease(imageRef);
-        
-        guard let img = cgImage.cropping(to: rect) else { return nil }
-        let image = UIImage(cgImage: img, scale: image.scale, orientation: image.imageOrientation)
-
-
-            let currentFilter = CIFilter(name: "CIGaussianBlur")
-            let beginImage = CIImage(cgImage: img)
-            currentFilter!.setValue(beginImage, forKey: kCIInputImageKey)
-            currentFilter!.setValue(30, forKey: kCIInputRadiusKey)
-
-            let cropFilter = CIFilter(name: "CICrop")
-            cropFilter!.setValue(currentFilter!.outputImage, forKey: kCIInputImageKey)
-            cropFilter!.setValue(CIVector(cgRect: beginImage.extent), forKey: "inputRectangle")
-
-            let output = cropFilter!.outputImage
-            let cgimg = context.createCGImage(output!, from: output!.extent)
-            let processedImage = UIImage(cgImage: cgimg!)
-            return processedImage
-        }
-    
     /// Convert Vision coordinates to pixel coordinates within image.
     ///
     /// Adapted from `boundingBox` method from
@@ -291,4 +267,81 @@ final class DP_PhotoHelper: NSObject {
 
         return rect
     }
+ 
+    func dp_createViewImage(rect: CGRect, bounds: CGRect, viewFrame: CGRect, text: String, inputImage: UIImage) -> UIView {
+    
+        let newRect = CGRect(x: rect.minX, y: rect.minY, width: rect.width, height: rect.height / 7 * 5)
+        
+        guard var croppedImage = cropImage(image: inputImage, toRect: newRect),
+              let cgImage = croppedImage.cgImage else { return UIView()}
+           
+        let beginImage = CIImage(cgImage: cgImage)
+        croppedImage = applyBlurFilter(aCIImage: beginImage, val: 20)
+        
+        let filter = CIFilter(name: "CIGaussianBlur")
+        filter?.setValue(inputImage, forKey: kCIInputImageKey)
+        filter?.setValue((70.0), forKey: kCIInputRadiusKey)
+
+        let rectLb = newRect
+        let screen = viewFrame
+        let width = screen.width / bounds.width
+        let height = screen.height / bounds.height
+
+        let lbX = rectLb.minX.rounded() * width
+        let lbY = rectLb.minY.rounded() * height
+
+        let lbHeight = rectLb.height * height
+        let lbWidth = rectLb.width * width
+
+        let view = UIImageView(frame: CGRect(x: lbX, y: lbY, width: lbWidth, height: lbHeight))
+        view.image = croppedImage
+
+        let lb = UILabel(frame: CGRect(x: 0, y: 0, width: lbWidth, height: lbHeight))
+        lb.textColor = .black
+        lb.textAlignment = .center
+        lb.text = text
+        lb.font = lb.font.withSize(lb.frame.height / 5 * 3)
+
+        view.addSubview(lb)
+
+        return view
+    }
+    
+    func applyBlurFilter(aCIImage: CIImage, val: CGFloat) -> UIImage {
+            let clampFilter = CIFilter(name: "CIAffineClamp")
+            clampFilter?.setDefaults()
+            clampFilter?.setValue(aCIImage, forKey: kCIInputImageKey)
+
+            let blurFilter = CIFilter(name: "CIGaussianBlur")
+            blurFilter?.setValue(clampFilter?.outputImage, forKey: kCIInputImageKey)
+            blurFilter?.setValue(val, forKey: kCIInputRadiusKey)
+
+            let rect = aCIImage.extent
+            if let output = blurFilter?.outputImage {
+                let context = CIContext(options: nil)
+                if let cgimg = context.createCGImage(output, from: rect) {
+                    let processedImage = UIImage(cgImage: cgimg)
+                    return processedImage
+                }
+            }
+            fatalError()
+        }
+ 
+    func cropImage(image: UIImage, toRect rect: CGRect) -> UIImage? {
+        // Ensure the rectangle is within the bounds of the image
+        guard let cgImage = image.cgImage?.cropping(to: rect) else {
+            return nil
+        }
+        
+        // Create a new UIImage from the cropped CGImage
+        let croppedImage = UIImage(cgImage: cgImage)
+        
+        return croppedImage
+    }
+}
+
+struct DP_ResponseTranslateModel {
+    var rects: [CGRect]
+    var imageBounds: CGRect
+    var texts: [String]
 }

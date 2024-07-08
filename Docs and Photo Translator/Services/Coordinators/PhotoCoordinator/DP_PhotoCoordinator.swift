@@ -52,7 +52,7 @@ extension DP_PhotoCoordinator {
             
         case .choiceLanguage:
             guard let controller = controller else { return }
-            let child = DP_ChoiceLanguageViewController()
+            let child = DP_ChoiceLanguageViewController(isSetCurrent: true)
             child.modalPresentationStyle = .fullScreen
             child.isModalInPresentation = true
             child.preferredContentSize = controller.view.frame.size

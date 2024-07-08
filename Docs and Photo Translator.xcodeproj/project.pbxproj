@@ -29,6 +29,7 @@
 		CE465A562C34737E0055885A /* DP_ChoiceLangHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE465A552C34737E0055885A /* DP_ChoiceLangHelper.swift */; };
 		CE465A5B2C357F540055885A /* DP_PolicyViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE465A592C357F540055885A /* DP_PolicyViewController.swift */; };
 		CE465A5C2C357F540055885A /* DP_PolicyViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = CE465A5A2C357F540055885A /* DP_PolicyViewController.xib */; };
+		CE465A5F2C37F8310055885A /* DP_TextRecognizedManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE465A5E2C37F8310055885A /* DP_TextRecognizedManager.swift */; };
 		CEBEF38C2C2C00C1008D0FAC /* DP_TranslateManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEBEF38B2C2C00C1008D0FAC /* DP_TranslateManager.swift */; };
 		CEBEF3902C2D7B85008D0FAC /* DP_PhotoDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEBEF38E2C2D7B85008D0FAC /* DP_PhotoDetailViewController.swift */; };
 		CEBEF3912C2D7B85008D0FAC /* DP_PhotoDetailViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = CEBEF38F2C2D7B85008D0FAC /* DP_PhotoDetailViewController.xib */; };
@@ -93,6 +94,7 @@
 		CE465A552C34737E0055885A /* DP_ChoiceLangHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DP_ChoiceLangHelper.swift; sourceTree = "<group>"; };
 		CE465A592C357F540055885A /* DP_PolicyViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DP_PolicyViewController.swift; sourceTree = "<group>"; };
 		CE465A5A2C357F540055885A /* DP_PolicyViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = DP_PolicyViewController.xib; sourceTree = "<group>"; };
+		CE465A5E2C37F8310055885A /* DP_TextRecognizedManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DP_TextRecognizedManager.swift; sourceTree = "<group>"; };
 		CEBEF38B2C2C00C1008D0FAC /* DP_TranslateManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DP_TranslateManager.swift; sourceTree = "<group>"; };
 		CEBEF38E2C2D7B85008D0FAC /* DP_PhotoDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DP_PhotoDetailViewController.swift; sourceTree = "<group>"; };
 		CEBEF38F2C2D7B85008D0FAC /* DP_PhotoDetailViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = DP_PhotoDetailViewController.xib; sourceTree = "<group>"; };
@@ -217,6 +219,14 @@
 				CE465A5A2C357F540055885A /* DP_PolicyViewController.xib */,
 			);
 			path = PrivaciPolici;
+			sourceTree = "<group>";
+		};
+		CE465A5D2C37F7FE0055885A /* TextRecognized */ = {
+			isa = PBXGroup;
+			children = (
+				CE465A5E2C37F8310055885A /* DP_TextRecognizedManager.swift */,
+			);
+			path = TextRecognized;
 			sourceTree = "<group>";
 		};
 		CEBEF38A2C2C0098008D0FAC /* TranslateManager */ = {
@@ -429,6 +439,7 @@
 		CEE989482C25B53000870D32 /* Managers */ = {
 			isa = PBXGroup;
 			children = (
+				CE465A5D2C37F7FE0055885A /* TextRecognized */,
 				CEBEF38A2C2C0098008D0FAC /* TranslateManager */,
 				CEE989522C26D57700870D32 /* FileManager */,
 				CEE989492C25B54000870D32 /* VideoCaptureManager */,
@@ -633,6 +644,7 @@
 				CEE9892E2C2315A100870D32 /* DP_BaseLoader.swift in Sources */,
 				CEE9893E2C242E4D00870D32 /* DP_TextViewController.swift in Sources */,
 				CEE989222C230F6A00870D32 /* DP_TabBarController.swift in Sources */,
+				CE465A5F2C37F8310055885A /* DP_TextRecognizedManager.swift in Sources */,
 				CEE9893A2C242DD900870D32 /* DP_TextCoordinator.swift in Sources */,
 				CEE989202C230DD300870D32 /* UIColor+Extensions.swift in Sources */,
 				CE07718C2C2979D4002A95A3 /* DP_PhotoModel.swift in Sources */,
@@ -785,10 +797,10 @@
 				DEVELOPMENT_TEAM = 364PACBHLP;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "Docs and Photo Translator/Info.plist";
+				INFOPLIST_KEY_NSCameraUsageDescription = "The application needs the camera permission in order to take pictures";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
 				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -817,10 +829,10 @@
 				DEVELOPMENT_TEAM = 364PACBHLP;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "Docs and Photo Translator/Info.plist";
+				INFOPLIST_KEY_NSCameraUsageDescription = "The application needs the camera permission in order to take pictures";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
 				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",

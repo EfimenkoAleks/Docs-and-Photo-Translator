@@ -71,6 +71,8 @@ class DP_BaseViewController: UIViewController {
     
     @objc func dp_didTapAirPlayButton() {}
     
+    func dp_actionHandler(alert: UIAlertAction){}
+    
     func dp_setBackground() {
         self.view.backgroundColor = DP_Colors.base.color
     }
@@ -161,6 +163,13 @@ class DP_BaseViewController: UIViewController {
     func dp_presentAlert(title: String = "", message: String = "") {
         let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
         alert.addAction(UIAlertAction(title: "OK", style: .cancel))
+        self.present(alert, animated: true)
+    }
+    
+    func dp_presentAlertWithTwoButtons(title: String = "", message: String = "") {
+        let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: "Cancel", style: .cancel))
+        alert.addAction(UIAlertAction(title: "Ok", style: .default, handler: dp_actionHandler))
         self.present(alert, animated: true)
     }
     

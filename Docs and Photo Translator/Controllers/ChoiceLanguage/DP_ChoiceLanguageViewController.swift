@@ -18,6 +18,16 @@ class DP_ChoiceLanguageViewController: DP_BaseViewController {
     var eventHandlerBack: Block<()>?
     private var manager: DP_ChoiceLangManager?
     private var helper: DP_ChoiceLangHelper = DP_ChoiceLangHelper()
+    private var isSetCurrent: Bool
+    
+    init(isSetCurrent: Bool) {
+        self.isSetCurrent = isSetCurrent
+        super.init()
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -88,30 +98,45 @@ private extension DP_ChoiceLanguageViewControllerExtension {
     func dp_checkDefaultLanguage() {
         dp_addLoader()
         nameLabel.text = "Loading language ..."
-        handleDownloadDelete()
-        
-        helper.dp_setStartLang(DP_TranslateManager.shared.currentLanguages?.rawValue ?? "")
+      
+        isSetCurrent == true ? dp_DownloadCurrentModel() : dp_downloadModel()
     }
     
-    func handleDownloadDelete() {
+    func dp_DownloadCurrentModel() {
         let language = DP_TranslateManager.shared.allLanguages[languagePicker.selectedRow(inComponent: 0)]
-      if language == .english {
-          DP_TranslateManager.shared.currentLanguages = .english
-        return
+      if language == .english || language == DP_TranslateManager.shared.currentLanguages {
+          DP_TranslateManager.shared.currentLanguages = language
+          dp_dismissWithLang()
+          return
       }
-        if language == DP_TranslateManager.shared.currentLanguages {
-            dp_dismissWithLang()
-            return
-        }
+     
         DP_TranslateManager.shared.currentLanguages = language
  
       let model = DP_TranslateManager.shared.model(forLanguage: language)
       let modelManager = ModelManager.modelManager()
-      let languageName = Locale.current.localizedString(forLanguageCode: language.rawValue)!
+//      let languageName = Locale.current.localizedString(forLanguageCode: language.rawValue)!
       if modelManager.isModelDownloaded(model) {
-        modelManager.deleteDownloadedModel(model) { error in
-          self.dp_isDownloadLanguage()
-        }
+          dp_dismissWithLang()
+//        modelManager.deleteDownloadedModel(model) { error in
+//          self.dp_isDownloadLanguage()
+//        }
+      } else {
+        let conditions = ModelDownloadConditions(
+          allowsCellularAccess: true,
+          allowsBackgroundDownloading: true
+        )
+        modelManager.download(model, conditions: conditions)
+      }
+        helper.dp_setStartLang(DP_TranslateManager.shared.currentLanguages?.rawValue ?? "")
+    }
+    
+    func dp_downloadModel() {
+        let language = DP_TranslateManager.shared.allLanguages[languagePicker.selectedRow(inComponent: 0)]
+ 
+      let model = DP_TranslateManager.shared.model(forLanguage: language)
+      let modelManager = ModelManager.modelManager()
+      if modelManager.isModelDownloaded(model) {
+          dp_dismissWithLang()
       } else {
         let conditions = ModelDownloadConditions(
           allowsCellularAccess: true,

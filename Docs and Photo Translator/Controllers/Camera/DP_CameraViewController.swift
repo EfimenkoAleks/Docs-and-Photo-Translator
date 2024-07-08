@@ -26,6 +26,7 @@ class DP_CameraViewController: DP_BaseViewController {
     private let helper: DP_CameraHelper = DP_CameraHelper()
     private let photoHelper: DP_PhotoHelper = DP_PhotoHelper()
     private var urlPhoto: URL?
+    var context = CIContext(options: nil)
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -63,6 +64,10 @@ class DP_CameraViewController: DP_BaseViewController {
             self?.dp_removeLoader()
             self?.dp_addNavButtons()
         }
+    }
+    
+    override func dp_actionHandler(alert: UIAlertAction){
+        coordinator?.dp_eventOccurred(with: .choise)
     }
 }
 
@@ -140,100 +145,43 @@ private extension DP_CameraViewControllerExtension {
     }
     
     func dp_recognizeText(in image: UIImage, completion: @escaping () -> Void) {
-        guard let cgImage = image.cgImage else { return }
-        let imageRequestHandler = VNImageRequestHandler(cgImage: cgImage, orientation: .up)
-        
-        let size = CGSize(width: cgImage.width, height: cgImage.height) // note, in pixels from `cgImage`; this assumes you have already rotate, too
-        let bounds = CGRect(origin: .zero, size: size)
-        // Create a new request to recognize text.
-        
-        
-        let request = VNRecognizeTextRequest { [self] request, error in
-            guard
-                let results = request.results as? [VNRecognizedTextObservation],
-                error == nil
-            else { return }
-            
-            let rects = results.map {
-                photoHelper.dp_convert(boundingBox: $0.boundingBox, to: CGRect(origin: .zero, size: size))
-            }
-            
-            let modelText = results.compactMap {
-                $0.topCandidates(1).first?.string
-            }.joined(separator: "\n")
-            
-            let strings = results.compactMap({$0.topCandidates(1).first?.string})
-            
+        DP_TextRecognizedManager.shared.dp_textRecognized(in: image) { [weak self] model in
+            guard let self = self else { return }
             let format = UIGraphicsImageRendererFormat()
             format.scale = 1
-            let final = UIGraphicsImageRenderer(bounds: bounds, format: format).image { _ in
-                image.draw(in: bounds)
-                UIColor.white.withAlphaComponent(0.95).setFill()
-                for rect in rects {
-                    let path = UIBezierPath(rect: rect)
-                    path.fill()
-                }
-            }
-            photoHelper.dp_getTextForScaningLang(arrLangs: strings) { lang in
+
+            self.photoHelper.dp_getTextForScaningLang(arrLangs: model.texts) { [weak self] lang in
+                guard let self = self else { return }
                 let originalLanguage = TranslateLanguage(rawValue: lang)
                 let currentLang = DP_TranslateManager.shared.currentLanguages
-                if originalLanguage != currentLang {
+                if !DP_TranslateManager.shared.isLanguageDownloaded(originalLanguage) {
                     DP_TranslateManager.shared.dp_translateTag(lang: originalLanguage) { [weak self] rezOrigin in
                         guard let self = self else { return }
-                        DP_TranslateManager.shared.dp_translateTag(lang: currentLang) { [weak self] rezCurrent in
-                            guard let self = self else { return }
-                            self.dp_presentAlert(title: "The text uses - \(rezOrigin) language, your current language - \(rezCurrent)")
-                        }
+                        self.dp_presentAlertWithTwoButtons(title: "The text uses - \(rezOrigin) language, to translate you need to download the \(rezOrigin) language")
                     }
-                }
-                
-                DispatchQueue.main.async { [weak self] in
-                    
-                    guard let self = self else { return }
-                    self.cameraImage.image = final
-                    print(modelText)
-                    
-                    for (i, model) in strings.enumerated() {
+                } else {
+                    DispatchQueue.main.async { [weak self] in
                         
-                        //                    let img = self.blurEffect(in: rects[i], from: final)
-                        //                    self.photoImage.image = img
-                        
-                        DP_TranslateManager.shared.getText(model, originalLanguage: originalLanguage) { rezText in
-                            switch rezText {
-                            case .success(let rezText):
-                                let rectLb = rects[i]
-                                let screen = self.cameraImage.frame
-                                let width = screen.width / bounds.width
-                                let height = screen.height / bounds.height
+                        guard let self = self else { return }
+         
+                        for (i, str) in model.texts.enumerated() {
+                       
+                            DP_TranslateManager.shared.getText(str, originalLanguage: originalLanguage) { [weak self] rezText in
+                                guard let self = self else { return }
+                                switch rezText {
+                                case .success(let rezText):
                                 
-                                let lbX = rectLb.minX.rounded() * width
-                                let lbY = rectLb.minY.rounded() * height
-                                
-                                let lbHeight = rectLb.height * height
-                                let lbWidth = rectLb.width * width
-                                
-                                let lb = UILabel(frame: CGRect(x: lbX, y: lbY, width: lbWidth, height: lbHeight))
-                                lb.textColor = .black
-                                lb.textAlignment = .center
-                                lb.text = rezText
-                                lb.font = lb.font.withSize(lb.frame.height / 2)
-                                
-                                self.cameraImage.addSubview(lb)
-                            case .noLanguage:
-                                break
+                                    let lb = self.photoHelper.dp_createViewImage(rect: model.rects[i], bounds: model.imageBounds, viewFrame: self.cameraImage.frame, text: rezText, inputImage: image)
+
+                                    self.cameraImage.addSubview(lb)
+                                case .noLanguage:
+                                    self.dp_presentAlert(title: "Can't recognize language")
+                                }
                             }
                         }
+                        completion()
                     }
-                    completion()
                 }
-            }
-        }
-        DispatchQueue.global(qos: .userInitiated).async {
-            do {
-                try imageRequestHandler.perform([request])
-            } catch {
-                print("Failed to perform image request: \(error)")
-                return
             }
         }
     }
