@@ -16,9 +16,11 @@ class DP_BaseViewController: UIViewController {
     lazy var menuHandler: UIActionHandler = { [weak self] action in
         guard let self = self else { return }
         switch action.title {
-        case "Select language":
+        case DP_MenuEvents.choiceLang.title:
             self.dp_choiseLang()
-        case "Privacy Policy":
+        case DP_MenuEvents.fromLibrary.title:
+            self.dp_fromLibrary()
+        case DP_MenuEvents.privaciPolicy.title:
             self.dp_privacyPolicy()
         default:
             break
@@ -49,6 +51,7 @@ class DP_BaseViewController: UIViewController {
     }
     
     func dp_choiseLang() {}
+    func dp_fromLibrary() {}
     func dp_privacyPolicy() {}
     
     func dp_getTextField(textField: String) {}
@@ -81,12 +84,24 @@ class DP_BaseViewController: UIViewController {
         navigationItem.titleView = DP_TitleLabel(title: title)
     }
     
-    func dp_createMenu() {
-        let barButtonMenu = UIMenu(title: "", children: [
-            UIAction(title: NSLocalizedString("Select language", comment: ""), image: UIImage(systemName: "list.bullet.rectangle.portrait"), handler: menuHandler),
-            UIAction(title: NSLocalizedString("Privacy Policy", comment: ""), image: UIImage(systemName: "lock.shield"), handler: menuHandler),
-        ])
-        let navButton = UIBarButtonItem(title: "Menu", style: .plain, target: self, action: nil)
+    func dp_createMenu(_ menu: DP_MenuCreateEvents) {
+        var barButtonMenu: UIMenu?
+        
+        switch menu {
+        case .text:
+            barButtonMenu = UIMenu(title: "", children: [
+                UIAction(title: NSLocalizedString(DP_MenuEvents.choiceLang.title, comment: ""), image: UIImage(systemName: DP_MenuEvents.choiceLang.image), handler: menuHandler),
+                UIAction(title: NSLocalizedString(DP_MenuEvents.privaciPolicy.title, comment: ""), image: UIImage(systemName: DP_MenuEvents.privaciPolicy.image), handler: menuHandler),
+            ])
+        case .photo:
+            barButtonMenu = UIMenu(title: "", children: [
+                UIAction(title: NSLocalizedString(DP_MenuEvents.choiceLang.title, comment: ""), image: UIImage(systemName: DP_MenuEvents.choiceLang.image), handler: menuHandler),
+                UIAction(title: NSLocalizedString(DP_MenuEvents.fromLibrary.title, comment: ""), image: UIImage(systemName: DP_MenuEvents.fromLibrary.image), handler: menuHandler),
+                UIAction(title: NSLocalizedString(DP_MenuEvents.privaciPolicy.title, comment: ""), image: UIImage(systemName: DP_MenuEvents.privaciPolicy.image), handler: menuHandler),
+            ])
+        }
+        
+        let navButton = UIBarButtonItem(title: DP_MenuEvents.menu.title, style: .plain, target: self, action: nil)
         navButton.tintColor = .white
         
         navigationItem.rightBarButtonItem = navButton

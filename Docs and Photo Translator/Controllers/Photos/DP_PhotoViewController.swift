@@ -16,7 +16,9 @@ class DP_PhotoViewController: DP_BaseViewController {
     var coordinator: DP_PhotoCoordinatorProtocol?
     private var photoManager: DP_PhotoTableManager?
     private var helper: DP_PhotoHelper = DP_PhotoHelper()
+    private let cameraHelper: DP_CameraHelper = DP_CameraHelper()
     private var segment: UISegmentedControl?
+    private var imagePicker = UIImagePickerController()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -37,6 +39,16 @@ class DP_PhotoViewController: DP_BaseViewController {
         }
     }
     
+    override func dp_fromLibrary() {
+        if UIImagePickerController.isSourceTypeAvailable(.photoLibrary){
+            imagePicker.delegate = self
+            imagePicker.sourceType = .photoLibrary
+            imagePicker.allowsEditing = false
+
+            present(imagePicker, animated: true, completion: nil)
+        }
+    }
+    
     override func dp_privacyPolicy() {
         guard let url = URL(string: "https://www.freeprivacypolicy.com/live/e86d37e0-acc5-43f9-af98-81d91a81e17d") else { return }
         coordinator?.dp_eventOccurred(with: .polisity(DP_PolisityModel(title: "Privacy Policy", url: url)))
@@ -54,7 +66,7 @@ private extension DP_PhotoViewControllerExtension {
                 self.dp_choiseLang()
             }
         }
-        dp_createMenu()
+        dp_createMenu(.photo)
         dp_createSegment()
     }
     
@@ -89,5 +101,18 @@ private extension DP_PhotoViewControllerExtension {
         photoManager?.eventHandler = { [weak self] url in
             self?.coordinator?.dp_eventOccurred(with: .detail(url))
         }
+    }
+}
+
+extension DP_PhotoViewControllerExtension: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
+    
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
+        picker.dismiss(animated: true, completion: nil)
+        
+        guard let image = info[UIImagePickerController.InfoKey.originalImage] as? UIImage,
+              let data = image.jpegData(compressionQuality: 0.8) else { return }
+        
+        _ = cameraHelper.dp_saveNewPhoto(data: data)
+        photoManager?.dp_reloadTableWithData(.recent)
     }
 }

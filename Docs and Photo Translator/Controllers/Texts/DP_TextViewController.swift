@@ -71,7 +71,7 @@ private extension DP_TextViewControllerExtension {
     func dp_configUI() {
         initStartComponent()
         dp_hideKeyboardWhenTappedAround()
-        dp_createMenu()
+        dp_createMenu(.text)
     }
     
     func initStartComponent() {

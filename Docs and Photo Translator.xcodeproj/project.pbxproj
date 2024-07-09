@@ -31,6 +31,8 @@
 		CE465A5C2C357F540055885A /* DP_PolicyViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = CE465A5A2C357F540055885A /* DP_PolicyViewController.xib */; };
 		CE465A5F2C37F8310055885A /* DP_TextRecognizedManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE465A5E2C37F8310055885A /* DP_TextRecognizedManager.swift */; };
 		CEA27A4F2C3D3578001D26E5 /* DP_TranslateLangError.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEA27A4E2C3D3578001D26E5 /* DP_TranslateLangError.swift */; };
+		CEA27A512C3D71C3001D26E5 /* DP_MenuEvents.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEA27A502C3D71C3001D26E5 /* DP_MenuEvents.swift */; };
+		CEA27A532C3D80EE001D26E5 /* DP_MenuCreateEvents.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEA27A522C3D80EE001D26E5 /* DP_MenuCreateEvents.swift */; };
 		CEBEF38C2C2C00C1008D0FAC /* DP_TranslateManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEBEF38B2C2C00C1008D0FAC /* DP_TranslateManager.swift */; };
 		CEBEF3902C2D7B85008D0FAC /* DP_PhotoDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEBEF38E2C2D7B85008D0FAC /* DP_PhotoDetailViewController.swift */; };
 		CEBEF3912C2D7B85008D0FAC /* DP_PhotoDetailViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = CEBEF38F2C2D7B85008D0FAC /* DP_PhotoDetailViewController.xib */; };
@@ -97,6 +99,8 @@
 		CE465A5A2C357F540055885A /* DP_PolicyViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = DP_PolicyViewController.xib; sourceTree = "<group>"; };
 		CE465A5E2C37F8310055885A /* DP_TextRecognizedManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DP_TextRecognizedManager.swift; sourceTree = "<group>"; };
 		CEA27A4E2C3D3578001D26E5 /* DP_TranslateLangError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DP_TranslateLangError.swift; sourceTree = "<group>"; };
+		CEA27A502C3D71C3001D26E5 /* DP_MenuEvents.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DP_MenuEvents.swift; sourceTree = "<group>"; };
+		CEA27A522C3D80EE001D26E5 /* DP_MenuCreateEvents.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DP_MenuCreateEvents.swift; sourceTree = "<group>"; };
 		CEBEF38B2C2C00C1008D0FAC /* DP_TranslateManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DP_TranslateManager.swift; sourceTree = "<group>"; };
 		CEBEF38E2C2D7B85008D0FAC /* DP_PhotoDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DP_PhotoDetailViewController.swift; sourceTree = "<group>"; };
 		CEBEF38F2C2D7B85008D0FAC /* DP_PhotoDetailViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = DP_PhotoDetailViewController.xib; sourceTree = "<group>"; };
@@ -374,6 +378,8 @@
 				CEE989552C26D5D500870D32 /* DP_DownLoad.swift */,
 				CE07718B2C2979D4002A95A3 /* DP_PhotoModel.swift */,
 				CEA27A4E2C3D3578001D26E5 /* DP_TranslateLangError.swift */,
+				CEA27A502C3D71C3001D26E5 /* DP_MenuEvents.swift */,
+				CEA27A522C3D80EE001D26E5 /* DP_MenuCreateEvents.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -618,6 +624,7 @@
 				CEE9891B2C230D0B00870D32 /* Block.swift in Sources */,
 				CEE989462C242FBD00870D32 /* DP_CameraViewController.swift in Sources */,
 				CE07717B2C295AAC002A95A3 /* DP_PreferencesProtocol.swift in Sources */,
+				CEA27A512C3D71C3001D26E5 /* DP_MenuEvents.swift in Sources */,
 				CEBEF3932C2D9B9C008D0FAC /* DP_PhotoDetailCoordinator.swift in Sources */,
 				CEE989302C23160100870D32 /* DP_TitleLabel.swift in Sources */,
 				CE07718E2C297A22002A95A3 /* DP_ConstantId.swift in Sources */,
@@ -629,6 +636,7 @@
 				CEE989332C23187400870D32 /* DP_PhotoCoordinator.swift in Sources */,
 				CE0771812C295D5A002A95A3 /* DP_CameraHelper.swift in Sources */,
 				CEE989282C2311EA00870D32 /* DP_TabbarModels.swift in Sources */,
+				CEA27A532C3D80EE001D26E5 /* DP_MenuCreateEvents.swift in Sources */,
 				CEBEF38C2C2C00C1008D0FAC /* DP_TranslateManager.swift in Sources */,
 				CEE989182C230CBD00870D32 /* DP_CustomTabBar.swift in Sources */,
 				CE0771922C299C09002A95A3 /* Date+Extension.swift in Sources */,
