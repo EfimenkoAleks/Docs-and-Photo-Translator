@@ -26,7 +26,8 @@ class DP_CameraViewController: DP_BaseViewController {
     private let helper: DP_CameraHelper = DP_CameraHelper()
     private let photoHelper: DP_PhotoHelper = DP_PhotoHelper()
     private var urlPhoto: URL?
-    var context = CIContext(options: nil)
+    private var currentImage: UIImage?
+    private var context = CIContext(options: nil)
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -59,15 +60,18 @@ class DP_CameraViewController: DP_BaseViewController {
         urlPhoto = helper.dp_saveNewPhoto(data: data)
         
         dp_stopSessino()
-        let normImg = photoHelper.dp_scaleAndOrient(image: image)
-        dp_recognizeText(in: normImg) { [weak self] in
-            self?.dp_removeLoader()
-            self?.dp_addNavButtons()
-        }
+        currentImage = photoHelper.dp_scaleAndOrient(image: image)
+        guard let currentImage = currentImage else { return }
+        dp_startRecognizedText(image: currentImage)
     }
     
-    override func dp_actionHandler(alert: UIAlertAction){
+    override func dp_actionHandler(alert: UIAlertAction) {
         coordinator?.dp_eventOccurred(with: .choise)
+        coordinator?.eventHandler = { [weak self] _ in
+            guard let self = self,
+                  let currentImage = self.currentImage else { return }
+            self.dp_startRecognizedText(image: currentImage)
+        }
     }
 }
 
@@ -84,6 +88,13 @@ private extension DP_CameraViewControllerExtension {
     func sm_getBuferForView(bufer: CMSampleBuffer) {
         DispatchQueue.main.async { [weak self] in
             self?.layer.enqueue(bufer)
+        }
+    }
+    
+    func dp_startRecognizedText(image: UIImage) {
+        dp_recognizeText(in: image) { [weak self] in
+            self?.dp_removeLoader()
+            self?.dp_addNavButtons()
         }
     }
     
@@ -152,6 +163,11 @@ private extension DP_CameraViewControllerExtension {
 
             self.photoHelper.dp_getTextForScaningLang(arrLangs: model.texts) { [weak self] lang in
                 guard let self = self else { return }
+                if lang == DP_TranslateLangError.translateError.events {
+                    self.dp_presentAlert(title: DP_TranslateLangError.cantRecognizeLang.events)
+                    completion()
+                }
+                
                 let originalLanguage = TranslateLanguage(rawValue: lang)
                 let currentLang = DP_TranslateManager.shared.currentLanguages
                 if !DP_TranslateManager.shared.isLanguageDownloaded(originalLanguage) {
@@ -159,6 +175,7 @@ private extension DP_CameraViewControllerExtension {
                         guard let self = self else { return }
                         self.dp_presentAlertWithTwoButtons(title: "The text uses - \(rezOrigin) language, to translate you need to download the \(rezOrigin) language")
                     }
+                    completion()
                 } else {
                     DispatchQueue.main.async { [weak self] in
                         
@@ -175,7 +192,7 @@ private extension DP_CameraViewControllerExtension {
 
                                     self.cameraImage.addSubview(lb)
                                 case .noLanguage:
-                                    self.dp_presentAlert(title: "Can't recognize language")
+                                    self.dp_presentAlert(title: DP_TranslateLangError.cantRecognizeLang.events)
                                 }
                             }
                         }

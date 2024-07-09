@@ -8,11 +8,13 @@
 import UIKit
 
 enum DP_PhotoDetailCoordinatorEvent {
-    case detail
     case back
+    case choise
+    case removeChild
 }
 
 protocol DP_PhotoDetailCoordinatorProtocol: DP_Coordinator {
+    var eventHandler: Block<()>? { get set }
     var handlerBback: (() -> Void)? { get set }
     func dp_start(model: URL)
     func dp_eventOccurred(with type: DP_PhotoDetailCoordinatorEvent)
@@ -20,6 +22,7 @@ protocol DP_PhotoDetailCoordinatorProtocol: DP_Coordinator {
 
 class DP_PhotoDetailCoordinator: DP_PhotoDetailCoordinatorProtocol {
     var cildren: [DP_Coordinator] = []
+    var eventHandler: Block<()>?
     
     var navigationController: UINavigationController?
     var handlerBback: (() -> Void)?
@@ -37,14 +40,24 @@ class DP_PhotoDetailCoordinator: DP_PhotoDetailCoordinatorProtocol {
 extension DP_PhotoDetailCoordinator {
     func dp_eventOccurred(with type: DP_PhotoDetailCoordinatorEvent) {
         switch type {
-        case .detail:
-           break
+        case .choise:
+            guard let controller = controller else { return }
+            let child = DP_ChoiceLanguageViewController(isSetCurrent: false)
+            child.modalPresentationStyle = .fullScreen
+            child.isModalInPresentation = true
+            child.preferredContentSize = controller.view.frame.size
+            controller.present(child, animated: true)
+            child.eventHandlerBack = { [weak self] _ in
+                self?.dp_eventOccurred(with: .removeChild)
+                self?.eventHandler?(())
+            }
             
+        case .removeChild:
+            guard let controller = controller else { return }
+            controller.removeChild()
+       
         case .back:
-            break
-//            guard let controller = controller else { return }
-//            navigationController?.popToViewController(controller, animated: true)
-//            cildren.removeLast()
+            DP_StartCoordinator.shared.dp_strart()
         }
     }
 }

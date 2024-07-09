@@ -60,9 +60,9 @@ final class DP_PhotoHelper: NSObject {
             }
         }
         let fff = dict.sorted(by: {$0.value > $1.value})
-        print(fff.first!.key)
+     //   print(fff.first!.key)
         guard let lang = fff.first else {
-            complletion("en")
+            complletion(DP_TranslateLangError.translateError.events)
             return
         }
         complletion(lang.key)
@@ -72,7 +72,13 @@ final class DP_PhotoHelper: NSObject {
         
         dp_determineTheNumberOfLanguages(arrLangs) { [weak self] rez in
             self?.dp_determineTheMajority(arrLangs: rez, complletion: { lang in
-                complletion(lang)
+
+                let arrLang = DP_TranslateManager.shared.allLanguages.map({$0.rawValue})
+                if arrLang.contains(lang) {
+                    complletion(lang)
+                } else {
+                    complletion(DP_TranslateLangError.translateError.events)
+                }
             })
         }
     }

@@ -84,7 +84,13 @@ private extension DP_TabBarControllerExtension {
    
     private func dp_selectDevice() {
         
-        DP_StartCoordinator.shared.dp_startFlov(controller: DP_CameraViewController())
+        var firstCoordinator: DP_CameraCoordinatorProtocol = DP_CameraCoordinator()
+        let navController = UINavigationController()
+        firstCoordinator.navigationTabController = navController
+        firstCoordinator.navigationController = self.coordinator?.navigationController
+        firstCoordinator.dp_start()
+        
+    //    DP_StartCoordinator.shared.dp_startFlov(controller: DP_CameraViewController())
         
         dp_updateSelectedViewController()
     }

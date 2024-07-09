@@ -11,15 +11,12 @@ import MLKitTranslate
 
 class DP_PhotoDetailViewController: DP_BaseViewController {
 
-    @IBOutlet weak var photoImage: UIImageView!
+    @IBOutlet private weak var photoImage: UIImageView!
     var coordinator: DP_PhotoDetailCoordinatorProtocol?
     private var path: URL
-    var image: UIImage?
-    var originalCiImage: CIImage?
-    var completion: ((Result<UIImage,Error>) -> Void)?
-    var context = CIContext(options: nil)
-    @objc dynamic var inputImage : CIImage?
+    private var context = CIContext(options: nil)
     private var helper: DP_PhotoHelper = DP_PhotoHelper()
+    private var currentImage: UIImage?
 
     init(model: URL) {
         path = model
@@ -39,6 +36,15 @@ class DP_PhotoDetailViewController: DP_BaseViewController {
     override func dp_backButtonAction() {
         coordinator?.handlerBback?()
     }
+    
+    override func dp_actionHandler(alert: UIAlertAction) {
+        coordinator?.dp_eventOccurred(with: .choise)
+        coordinator?.eventHandler = { [weak self] _ in
+            guard let self = self,
+                  let currentImage = self.currentImage else { return }
+            self.dp_startRecognizedText(image: currentImage)
+        }
+    }
 }
 
 extension DP_PhotoDetailViewController {
@@ -49,14 +55,20 @@ extension DP_PhotoDetailViewController {
             let data = try Data(contentsOf: path)
             guard let img = UIImage(data: data) else { return }
             
-            let normImg = helper.dp_scaleAndOrient(image: img)
-            photoImage.image = normImg
-            dp_recognizeText(in: normImg) { [weak self] in
-                self?.dp_removeLoader()
-                self?.dp_addNavButtons()
-            }
+            currentImage = helper.dp_scaleAndOrient(image: img)
+            photoImage.image = currentImage
+            guard let currentImage = currentImage else { return }
+            
+            dp_startRecognizedText(image: currentImage)
         } catch {
             photoImage.image = UIImage(named: "defaultPhoto")
+        }
+    }
+    
+    func dp_startRecognizedText(image: UIImage) {
+        dp_recognizeText(in: image) { [weak self] in
+            self?.dp_removeLoader()
+            self?.dp_addNavButtons()
         }
     }
     
@@ -96,6 +108,11 @@ extension DP_PhotoDetailViewController {
 
             self.helper.dp_getTextForScaningLang(arrLangs: model.texts) { [weak self] lang in
                 guard let self = self else { return }
+                if lang == DP_TranslateLangError.translateError.events {
+                    self.dp_presentAlert(title: DP_TranslateLangError.cantRecognizeLang.events)
+                    completion()
+                }
+                
                 let originalLanguage = TranslateLanguage(rawValue: lang)
                 let currentLang = DP_TranslateManager.shared.currentLanguages
                 if !DP_TranslateManager.shared.isLanguageDownloaded(originalLanguage) {
@@ -103,6 +120,7 @@ extension DP_PhotoDetailViewController {
                         guard let self = self else { return }
                         self.dp_presentAlertWithTwoButtons(title: "The text uses - \(rezOrigin) language, to translate you need to download the \(rezOrigin) language")
                     }
+                    completion()
                 } else {
                     DispatchQueue.main.async { [weak self] in
                         
@@ -114,12 +132,12 @@ extension DP_PhotoDetailViewController {
                                 guard let self = self else { return }
                                 switch rezText {
                                 case .success(let rezText):
-                               
+                                
                                     let lb = self.helper.dp_createViewImage(rect: model.rects[i], bounds: model.imageBounds, viewFrame: self.photoImage.frame, text: rezText, inputImage: image)
 
                                     self.photoImage.addSubview(lb)
                                 case .noLanguage:
-                                    self.dp_presentAlert(title: "Can't recognize language")
+                                    self.dp_presentAlert(title: DP_TranslateLangError.cantRecognizeLang.events)
                                 }
                             }
                         }
