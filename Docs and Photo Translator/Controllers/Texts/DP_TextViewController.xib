@@ -11,6 +11,7 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="DP_TextViewController" customModule="Docs_and_Photo_Translator" customModuleProvider="target">
             <connections>
+                <outlet property="bottomConstant" destination="3aB-wh-BzE" id="Gy9-lx-XPP"/>
                 <outlet property="inputPicker" destination="nxW-PO-ryD" id="bY3-al-aXl"/>
                 <outlet property="inputTextView" destination="Nmy-IA-Ql2" id="X9U-iO-0ni"/>
                 <outlet property="outputPicker" destination="SHw-3y-kFj" id="M6U-Fx-uQL"/>
@@ -18,6 +19,7 @@
                 <outlet property="sourceDownloadDeleteButton" destination="F0u-kB-rgT" id="2yy-rZ-e1J"/>
                 <outlet property="statusTextView" destination="dbS-vS-JrK" id="Q20-gy-qAo"/>
                 <outlet property="targetDownloadDeleteButton" destination="V6A-gw-mo2" id="iHt-oQ-7nj"/>
+                <outlet property="topConstant" destination="eEh-9h-snx" id="x2Y-Hp-pYe"/>
                 <outlet property="translateButton" destination="s1F-46-jKB" id="5TE-KP-YNL"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
             </connections>

@@ -93,11 +93,8 @@ extension DP_PhotoDetailViewController {
     }
     
     @objc func dp_didTapShare() {
-        guard let image = photoImage.image else { return }
-            let imageShare = [ image ]
-            let activityViewController = UIActivityViewController(activityItems: imageShare , applicationActivities: nil)
-            activityViewController.popoverPresentationController?.sourceView = self.view
-            self.present(activityViewController, animated: true, completion: nil)
+        guard let image = helper.dp_saveImageLayer(imageView: photoImage) else { return }
+        coordinator?.dp_eventOccurred(with: .share(image))
     }
  
     func dp_recognizeText(in image: UIImage, completion: @escaping () -> Void) {
@@ -114,7 +111,7 @@ extension DP_PhotoDetailViewController {
                 }
                 
                 let originalLanguage = TranslateLanguage(rawValue: lang)
-                let currentLang = DP_TranslateManager.shared.currentLanguages
+               
                 if !DP_TranslateManager.shared.isLanguageDownloaded(originalLanguage) {
                     DP_TranslateManager.shared.dp_translateTag(lang: originalLanguage) { [weak self] rezOrigin in
                         guard let self = self else { return }

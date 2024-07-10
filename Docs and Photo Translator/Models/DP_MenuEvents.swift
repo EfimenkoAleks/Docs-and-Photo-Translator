@@ -12,6 +12,7 @@ enum DP_MenuEvents {
     case choiceLang
     case fromLibrary
     case privaciPolicy
+    case share
 }
 
 extension DP_MenuEvents {
@@ -19,6 +20,7 @@ extension DP_MenuEvents {
     var title: String {
         switch self {
 
+        case .share: return "Share text"
         case .menu: return "Menu"
         case .choiceLang: return "Select language"
         case .fromLibrary: return "From gallery"
@@ -29,6 +31,7 @@ extension DP_MenuEvents {
     var image: String {
         switch self {
 
+        case .share: return "square.and.arrow.up"
         case .menu: return "menu"
         case .choiceLang: return "list.bullet.rectangle.portrait"
         case .fromLibrary: return "photo.on.rectangle.angled"

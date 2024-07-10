@@ -21,6 +21,9 @@ class DP_TextViewController: DP_BaseViewController {
      @IBOutlet private var targetDownloadDeleteButton: UIButton!
     @IBOutlet private weak var translateButton: UIButton!
     
+    @IBOutlet private weak var topConstant: NSLayoutConstraint!
+    @IBOutlet private weak var bottomConstant: NSLayoutConstraint!
+    
     var coordinator: DP_TextCoordinatorProtocol?
 
     override func viewDidLoad() {
@@ -64,6 +67,10 @@ class DP_TextViewController: DP_BaseViewController {
     override func dp_choiseLang() {
         coordinator?.dp_eventOccurred(with: .choiceLanguage)
     }
+    
+    override func dp_didTapShareFromMenu() {
+        coordinator?.dp_eventOccurred(with: .share(outputTextView.text))
+    }
 }
 
 private extension DP_TextViewControllerExtension {
@@ -80,10 +87,11 @@ private extension DP_TextViewControllerExtension {
        inputPicker.selectRow(
         DP_TranslateManager.shared.allLanguages.firstIndex(of: TranslateLanguage.english) ?? 0, inComponent: 0, animated: false)
        outputPicker.selectRow(
-        DP_TranslateManager.shared.allLanguages.firstIndex(of: TranslateLanguage.spanish) ?? 0, inComponent: 0, animated: false)
+        DP_TranslateManager.shared.allLanguages.firstIndex(of: DP_TranslateManager.shared.currentLanguages ?? TranslateLanguage.english) ?? 0, inComponent: 0, animated: false)
        inputPicker.delegate = self
        outputPicker.delegate = self
        inputTextView.delegate = self
+        outputTextView.delegate = self
        inputTextView.accessibilityIdentifier = "inputTextView"
        inputTextView.returnKeyType = .done
        pickerView(inputPicker, didSelectRow: 0, inComponent: 0)
@@ -232,5 +240,17 @@ extension DP_TextViewControllerExtension: UITextViewDelegate, UIPickerViewDataSo
     func textViewDidBeginEditing(_ textView: UITextView) {
       textView.selectedTextRange = textView.textRange(
         from: textView.beginningOfDocument, to: textView.endOfDocument)
+        
+        if textView == outputTextView {
+            topConstant.constant -= 200
+            bottomConstant.constant += 200
+        }
+    }
+    
+    func textViewDidEndEditing(_ textView: UITextView) {
+        if textView == outputTextView {
+            topConstant.constant += 200
+            bottomConstant.constant -= 200
+        }
     }
 }

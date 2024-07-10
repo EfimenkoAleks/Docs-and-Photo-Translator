@@ -16,6 +16,8 @@ class DP_BaseViewController: UIViewController {
     lazy var menuHandler: UIActionHandler = { [weak self] action in
         guard let self = self else { return }
         switch action.title {
+        case DP_MenuEvents.share.title:
+            self.dp_didTapShareFromMenu()
         case DP_MenuEvents.choiceLang.title:
             self.dp_choiseLang()
         case DP_MenuEvents.fromLibrary.title:
@@ -50,6 +52,7 @@ class DP_BaseViewController: UIViewController {
         dp_setSmallBackButton()
     }
     
+    func dp_didTapShareFromMenu() {}
     func dp_choiseLang() {}
     func dp_fromLibrary() {}
     func dp_privacyPolicy() {}
@@ -90,6 +93,7 @@ class DP_BaseViewController: UIViewController {
         switch menu {
         case .text:
             barButtonMenu = UIMenu(title: "", children: [
+                UIAction(title: NSLocalizedString(DP_MenuEvents.share.title, comment: ""), image: UIImage(systemName: DP_MenuEvents.share.image), handler: menuHandler),
                 UIAction(title: NSLocalizedString(DP_MenuEvents.choiceLang.title, comment: ""), image: UIImage(systemName: DP_MenuEvents.choiceLang.image), handler: menuHandler),
                 UIAction(title: NSLocalizedString(DP_MenuEvents.privaciPolicy.title, comment: ""), image: UIImage(systemName: DP_MenuEvents.privaciPolicy.image), handler: menuHandler),
             ])

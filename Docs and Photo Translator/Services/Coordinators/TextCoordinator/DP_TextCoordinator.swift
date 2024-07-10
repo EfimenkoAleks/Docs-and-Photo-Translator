@@ -9,7 +9,7 @@ import UIKit
 
 enum DP_TextCoordinatorEvent {
     case back
-    case detail
+    case share(String?)
     case choiceLanguage
     case removeChild
 }
@@ -39,16 +39,14 @@ class DP_TextCoordinator: DP_TextCoordinatorProtocol {
 extension DP_TextCoordinator {
     func dp_eventOccurred(with type: DP_TextCoordinatorEvent) {
         switch type {
-        case .detail:
-//            var detailCoordinator: SM_MusikLibraryCoordinatorProtocol = SM_MusikLibraryCoordinator()
-//            detailCoordinator.navigationController = navigationController
-//            cildren.append(detailCoordinator)
-//            detailCoordinator.sm_start()
-//            detailCoordinator.handlerBback = { [unowned self] in
-//                self.sm_eventOccurred(with: .back)
-//            }
-            break
-            
+        case .share(let str):
+            guard let text = str, text != "",
+            let controller = controller else { return }
+                let textShare = [ text ]
+                let activityViewController = UIActivityViewController(activityItems: textShare , applicationActivities: nil)
+                activityViewController.popoverPresentationController?.sourceView = controller.view
+            controller.present(activityViewController, animated: true, completion: nil)
+
         case .choiceLanguage:
             guard let controller = controller else { return }
             let child = DP_ChoiceLanguageViewController(isSetCurrent: true)

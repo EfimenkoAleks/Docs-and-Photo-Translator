@@ -11,6 +11,7 @@ enum DP_PhotoDetailCoordinatorEvent {
     case back
     case choise
     case removeChild
+    case share(UIImage?)
 }
 
 protocol DP_PhotoDetailCoordinatorProtocol: DP_Coordinator {
@@ -40,6 +41,15 @@ class DP_PhotoDetailCoordinator: DP_PhotoDetailCoordinatorProtocol {
 extension DP_PhotoDetailCoordinator {
     func dp_eventOccurred(with type: DP_PhotoDetailCoordinatorEvent) {
         switch type {
+        case .share(let image):
+            guard let image = image,
+            let controller = controller else { return }
+            
+                let imageShare = [ image ]
+                let activityViewController = UIActivityViewController(activityItems: imageShare , applicationActivities: nil)
+                activityViewController.popoverPresentationController?.sourceView = controller.view
+            controller.present(activityViewController, animated: true, completion: nil)
+            
         case .choise:
             guard let controller = controller else { return }
             let child = DP_ChoiceLanguageViewController(isSetCurrent: false)

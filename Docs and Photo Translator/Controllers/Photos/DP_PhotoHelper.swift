@@ -19,6 +19,17 @@ final class DP_PhotoHelper: NSObject {
         super.init()
     }
     
+    func dp_saveImageLayer(imageView: UIImageView) -> UIImage? {
+        UIGraphicsBeginImageContext(imageView.bounds.size)
+
+            // The code below may solve your problem
+            imageView.layer.render(in: UIGraphicsGetCurrentContext()!)
+
+            let image = UIGraphicsGetImageFromCurrentImageContext()
+            UIGraphicsEndImageContext()
+        return image
+    }
+    
     func dp_determineTheNumberOfLanguages(_ strings: [String], complletion: @escaping ([String]) -> Void) {
       
         let serialQueue = DispatchQueue(label: "queuename")
