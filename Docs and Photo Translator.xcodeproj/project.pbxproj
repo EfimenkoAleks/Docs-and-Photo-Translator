@@ -33,6 +33,8 @@
 		CEA27A4F2C3D3578001D26E5 /* DP_TranslateLangError.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEA27A4E2C3D3578001D26E5 /* DP_TranslateLangError.swift */; };
 		CEA27A512C3D71C3001D26E5 /* DP_MenuEvents.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEA27A502C3D71C3001D26E5 /* DP_MenuEvents.swift */; };
 		CEA27A532C3D80EE001D26E5 /* DP_MenuCreateEvents.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEA27A522C3D80EE001D26E5 /* DP_MenuCreateEvents.swift */; };
+		CEA27A552C3FE09E001D26E5 /* DP_TextPicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEA27A542C3FE09E001D26E5 /* DP_TextPicker.swift */; };
+		CEA27A572C401DFE001D26E5 /* String+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEA27A562C401DFE001D26E5 /* String+Extension.swift */; };
 		CEBEF38C2C2C00C1008D0FAC /* DP_TranslateManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEBEF38B2C2C00C1008D0FAC /* DP_TranslateManager.swift */; };
 		CEBEF3902C2D7B85008D0FAC /* DP_PhotoDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEBEF38E2C2D7B85008D0FAC /* DP_PhotoDetailViewController.swift */; };
 		CEBEF3912C2D7B85008D0FAC /* DP_PhotoDetailViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = CEBEF38F2C2D7B85008D0FAC /* DP_PhotoDetailViewController.xib */; };
@@ -101,6 +103,8 @@
 		CEA27A4E2C3D3578001D26E5 /* DP_TranslateLangError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DP_TranslateLangError.swift; sourceTree = "<group>"; };
 		CEA27A502C3D71C3001D26E5 /* DP_MenuEvents.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DP_MenuEvents.swift; sourceTree = "<group>"; };
 		CEA27A522C3D80EE001D26E5 /* DP_MenuCreateEvents.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DP_MenuCreateEvents.swift; sourceTree = "<group>"; };
+		CEA27A542C3FE09E001D26E5 /* DP_TextPicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DP_TextPicker.swift; sourceTree = "<group>"; };
+		CEA27A562C401DFE001D26E5 /* String+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+Extension.swift"; sourceTree = "<group>"; };
 		CEBEF38B2C2C00C1008D0FAC /* DP_TranslateManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DP_TranslateManager.swift; sourceTree = "<group>"; };
 		CEBEF38E2C2D7B85008D0FAC /* DP_PhotoDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DP_PhotoDetailViewController.swift; sourceTree = "<group>"; };
 		CEBEF38F2C2D7B85008D0FAC /* DP_PhotoDetailViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = DP_PhotoDetailViewController.xib; sourceTree = "<group>"; };
@@ -342,6 +346,7 @@
 			children = (
 				CEE9893C2C242E4D00870D32 /* DP_TextViewController.swift */,
 				CEE9893D2C242E4D00870D32 /* DP_TextViewController.xib */,
+				CEA27A542C3FE09E001D26E5 /* DP_TextPicker.swift */,
 			);
 			path = Texts;
 			sourceTree = "<group>";
@@ -367,6 +372,7 @@
 				CE0771892C29798E002A95A3 /* DP_ReusableCell.swift */,
 				CE0771912C299C09002A95A3 /* Date+Extension.swift */,
 				CE465A512C341A0E0055885A /* ViewController+Extension.swift */,
+				CEA27A562C401DFE001D26E5 /* String+Extension.swift */,
 			);
 			path = Extension;
 			sourceTree = "<group>";
@@ -615,6 +621,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				CEA27A552C3FE09E001D26E5 /* DP_TextPicker.swift in Sources */,
 				CEA27A4F2C3D3578001D26E5 /* DP_TranslateLangError.swift in Sources */,
 				CEE989162C230C6300870D32 /* DP_TabBarItem.swift in Sources */,
 				CEE989512C26CFC300870D32 /* DP_BroadCastLiveManager.swift in Sources */,
@@ -637,6 +644,7 @@
 				CE0771812C295D5A002A95A3 /* DP_CameraHelper.swift in Sources */,
 				CEE989282C2311EA00870D32 /* DP_TabbarModels.swift in Sources */,
 				CEA27A532C3D80EE001D26E5 /* DP_MenuCreateEvents.swift in Sources */,
+				CEA27A572C401DFE001D26E5 /* String+Extension.swift in Sources */,
 				CEBEF38C2C2C00C1008D0FAC /* DP_TranslateManager.swift in Sources */,
 				CEE989182C230CBD00870D32 /* DP_CustomTabBar.swift in Sources */,
 				CE0771922C299C09002A95A3 /* Date+Extension.swift in Sources */,

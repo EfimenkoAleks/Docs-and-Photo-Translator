@@ -25,6 +25,9 @@ class DP_TextViewController: DP_BaseViewController {
     @IBOutlet private weak var bottomConstant: NSLayoutConstraint!
     
     var coordinator: DP_TextCoordinatorProtocol?
+    private var pickerManager: DP_TextPicker?
+    private var inputLang: TranslateLanguage = TranslateLanguage.english
+    private var outputLang: TranslateLanguage = DP_TranslateManager.shared.currentLanguages ?? TranslateLanguage.english
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -42,8 +45,8 @@ class DP_TextViewController: DP_BaseViewController {
       inputPicker.selectRow(outputPicker.selectedRow(inComponent: 0), inComponent: 0, animated: false)
       outputPicker.selectRow(inputSelectedRow, inComponent: 0, animated: false)
       inputTextView.text = outputTextView.text
-      pickerView(inputPicker, didSelectRow: 0, inComponent: 0)
-      self.setDownloadDeleteButtonLabels()
+        pickerManager?.dp_reset()
+        self.setDownloadDeleteButtonLabels(inputLanguage: inputLang, outputLanguage: outputLang)
     }
     
     @IBAction func didTapDownloadDeleteSourceLanguage() {
@@ -76,26 +79,28 @@ class DP_TextViewController: DP_BaseViewController {
 private extension DP_TextViewControllerExtension {
     
     func dp_configUI() {
-        initStartComponent()
+        dp_createPickerManager()
+        dp_initStartComponent()
         dp_hideKeyboardWhenTappedAround()
         dp_createMenu(.text)
     }
     
-    func initStartComponent() {
-       inputPicker.dataSource = self
-       outputPicker.dataSource = self
-       inputPicker.selectRow(
-        DP_TranslateManager.shared.allLanguages.firstIndex(of: TranslateLanguage.english) ?? 0, inComponent: 0, animated: false)
-       outputPicker.selectRow(
-        DP_TranslateManager.shared.allLanguages.firstIndex(of: DP_TranslateManager.shared.currentLanguages ?? TranslateLanguage.english) ?? 0, inComponent: 0, animated: false)
-       inputPicker.delegate = self
-       outputPicker.delegate = self
+    func dp_createPickerManager() {
+        pickerManager = DP_TextPicker(inputPicker: inputPicker, outputPicker: outputPicker)
+        
+        pickerManager?.eventHandler = { [weak self] langs in
+            self?.inputLang = langs.0
+            self?.outputLang = langs.1
+            self?.dp_translate()
+        }
+    }
+    
+    func dp_initStartComponent() {
        inputTextView.delegate = self
         outputTextView.delegate = self
        inputTextView.accessibilityIdentifier = "inputTextView"
        inputTextView.returnKeyType = .done
-       pickerView(inputPicker, didSelectRow: 0, inComponent: 0)
-       setDownloadDeleteButtonLabels()
+        setDownloadDeleteButtonLabels(inputLanguage: inputLang, outputLanguage: outputLang)
 
        outputTextView.accessibilityIdentifier = "outputTextView"
        sourceDownloadDeleteButton.accessibilityIdentifier = "InputModelButton"
@@ -112,8 +117,20 @@ private extension DP_TextViewControllerExtension {
          name: .mlkitModelDownloadDidFail, object: nil)
      }
     
-    @objc
-    func remoteModelDownloadDidComplete(notification: NSNotification) {
+    func dp_translate() {
+        self.setDownloadDeleteButtonLabels(inputLanguage: inputLang, outputLanguage: outputLang)
+          DP_TranslateManager.shared.setOptionTranslate(inputLang: inputLang, outputLang: outputLang)
+        self.setDownloadDeleteButtonLabels(inputLanguage: inputLang, outputLanguage: outputLang)
+          DP_TranslateManager.shared.translate(inputText: inputTextView.text) { [weak self] zerText in
+              self?.outputTextView.text = zerText
+          }
+    }
+    
+    @objc func remoteModelDownloadDidComplete(notification: NSNotification) {
+        DispatchQueue.main.async { [weak self] in
+            guard let self = self else { return }
+            self.dp_removeLoader()
+        }
       let userInfo = notification.userInfo!
       guard
         let remoteModel =
@@ -136,13 +153,11 @@ private extension DP_TextViewControllerExtension {
           strongSelf.statusTextView.text =
             "Download failed for \(languageName)"
         }
-        strongSelf.setDownloadDeleteButtonLabels()
+          strongSelf.setDownloadDeleteButtonLabels(inputLanguage: strongSelf.inputLang, outputLanguage: strongSelf.outputLang)
       }
     }
     
-    func setDownloadDeleteButtonLabels() {
-        let inputLanguage = DP_TranslateManager.shared.allLanguages[inputPicker.selectedRow(inComponent: 0)]
-        let outputLanguage = DP_TranslateManager.shared.allLanguages[outputPicker.selectedRow(inComponent: 0)]
+    func setDownloadDeleteButtonLabels(inputLanguage: TranslateLanguage, outputLanguage: TranslateLanguage) {
       if DP_TranslateManager.shared.isLanguageDownloaded(inputLanguage) {
         self.sourceDownloadDeleteButton.setTitle("Delete Model", for: .normal)
           sourceDownloadDeleteButton.titleLabel?.font = UIFont.systemFont(ofSize: 12)
@@ -151,6 +166,7 @@ private extension DP_TextViewControllerExtension {
           sourceDownloadDeleteButton.titleLabel?.font = UIFont.systemFont(ofSize: 12)
       }
       self.sourceDownloadDeleteButton.isHidden = inputLanguage == .english
+        
       if DP_TranslateManager.shared.isLanguageDownloaded(outputLanguage) {
         self.targetDownloadDeleteButton.setTitle("Delete Model", for: .normal)
           targetDownloadDeleteButton.titleLabel?.font = UIFont.systemFont(ofSize: 12)
@@ -160,67 +176,35 @@ private extension DP_TextViewControllerExtension {
       }
       self.targetDownloadDeleteButton.isHidden = outputLanguage == .english
     }
-    
+
     func handleDownloadDelete(picker: UIPickerView, button: UIButton) {
+        dp_addLoader()
         let language = DP_TranslateManager.shared.allLanguages[picker.selectedRow(inComponent: 0)]
-      if language == .english {
-        return
-      }
-      button.setTitle("working...", for: .normal)
-      let model = DP_TranslateManager.shared.model(forLanguage: language)
-      let modelManager = ModelManager.modelManager()
-      let languageName = Locale.current.localizedString(forLanguageCode: language.rawValue)!
-      if modelManager.isModelDownloaded(model) {
-        self.statusTextView.text = "Deleting \(languageName)"
-        modelManager.deleteDownloadedModel(model) { error in
-          self.statusTextView.text = "Deleted \(languageName)"
-          self.setDownloadDeleteButtonLabels()
+        guard let languageName = Locale.current.localizedString(forLanguageCode: language.rawValue) else { return }
+        if DP_TranslateManager.shared.isLanguageDownloaded(language) {
+            self.statusTextView.text = "Deleting \(languageName)"
+            DP_TranslateManager.shared.dp_downloadModel(language: language) { [weak self] in
+                guard let self = self else { return }
+                DispatchQueue.main.async { [weak self] in
+                    guard let self = self else { return }
+                    self.dp_removeLoader()
+                    self.statusTextView.text = "Deleted \(languageName)"
+                    self.setDownloadDeleteButtonLabels(inputLanguage: self.inputLang, outputLanguage: self.outputLang)
+                }
+            }
+        } else {
+            self.statusTextView.text = "Downloading \(languageName)"
+            DP_TranslateManager.shared.dp_deletedModel(language: language)
         }
-      } else {
-        self.statusTextView.text = "Downloading \(languageName)"
-        let conditions = ModelDownloadConditions(
-          allowsCellularAccess: true,
-          allowsBackgroundDownloading: true
-        )
-        modelManager.download(model, conditions: conditions)
-      }
     }
 }
 
-extension DP_TextViewControllerExtension: UITextViewDelegate, UIPickerViewDataSource,
-                               UIPickerViewDelegate {
-    
-    func numberOfComponents(in pickerView: UIPickerView) -> Int {
-      return 1
-    }
-
-    func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int)
-      -> String?
-    {
-        return Locale.current.localizedString(forLanguageCode: DP_TranslateManager.shared.allLanguages[row].rawValue)
-    }
-
-    func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
-        return DP_TranslateManager.shared.allLanguages.count
-    }
-    
-    func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
-        let inputLanguage = DP_TranslateManager.shared.allLanguages[inputPicker.selectedRow(inComponent: 0)]
-        let outputLanguage = DP_TranslateManager.shared.allLanguages[outputPicker.selectedRow(inComponent: 0)]
-      self.setDownloadDeleteButtonLabels()
-        DP_TranslateManager.shared.setOptionTranslate(inputLang: inputLanguage, outputLang: outputLanguage)
-        self.setDownloadDeleteButtonLabels()
-        DP_TranslateManager.shared.translate(inputText: inputTextView.text) { [weak self] zerText in
-            self?.outputTextView.text = zerText
-        }
-    }
+extension DP_TextViewControllerExtension: UITextViewDelegate {
 
     func textView(
       _ textView: UITextView, shouldChangeTextIn range: NSRange,
       replacementText text: String
     ) -> Bool {
-      // Hide the keyboard when "Done" is pressed.
-      // See: https://stackoverflow.com/questions/26600359/dismiss-keyboard-with-a-uitextview
       if text == "\n" {
         textView.resignFirstResponder()
         return false
@@ -229,7 +213,7 @@ extension DP_TextViewControllerExtension: UITextViewDelegate, UIPickerViewDataSo
     }
 
     func textViewDidChange(_ textView: UITextView) {
-        self.setDownloadDeleteButtonLabels()
+        self.setDownloadDeleteButtonLabels(inputLanguage: inputLang, outputLanguage: outputLang)
         DP_TranslateManager.shared.translate(inputText: textView.text) { [weak self] zerText in
             self?.outputTextView.text = zerText
         }
