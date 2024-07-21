@@ -15,6 +15,8 @@ enum DP_Colors {
     case tabNoSelected
     case tabBar
     case blue
+    case gradientTop
+    case gradientBottom
 }
 
 extension DP_Colors {
@@ -22,7 +24,9 @@ extension DP_Colors {
     var color: UIColor {
         switch self {
 
-        case .base: return UIColor(hexString: "#272c49")
+        case .gradientTop: return UIColor(hexString: "#FCFCFE")
+        case .gradientBottom: return UIColor(hexString: "#A3BFF3")
+        case .base: return UIColor(hexString: "#F2F2F7")
         case .border: return UIColor(hexString: "#700000")
         case .white: return UIColor(hexString: "#FFFFFF")
         case .tabSelected: return UIColor(hexString: "#efeef9")
