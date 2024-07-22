@@ -67,14 +67,6 @@ class DP_TextViewController: DP_BaseViewController {
         .joined(separator: ", ")
       self.statusTextView.text = msg
     }
-
-    override func dp_choiseLang() {
-        coordinator?.dp_eventOccurred(with: .choiceLanguage)
-    }
-    
-    override func dp_didTapShareFromMenu() {
-        coordinator?.dp_eventOccurred(with: .share(outputTextView.text))
-    }
 }
 
 private extension DP_TextViewControllerExtension {
@@ -83,7 +75,16 @@ private extension DP_TextViewControllerExtension {
         dp_createPickerManager()
         dp_initStartComponent()
         dp_hideKeyboardWhenTappedAround()
-//        dp_createMenu(.text)
+        dp_addNavButtons()
+    }
+    
+    func dp_addNavButtons() {
+        self.navigationItem.rightBarButtonItems = []
+        dp_createRightNavBarItems(image: "square.and.arrow.up", action: #selector(dp_didTapShare))
+    }
+    
+    @objc func dp_didTapShare() {
+        coordinator?.dp_eventOccurred(with: .share(outputTextView.text))
     }
     
     func dp_createPickerManager() {
