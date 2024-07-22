@@ -85,7 +85,7 @@ class DP_BaseViewController: UIViewController {
     func dp_actionHandler(alert: UIAlertAction){}
     
     func dp_setBackground() {
-        view.backgroundColor = DP_Colors.black.color
+        view.backgroundColor = DP_Colors.base.color
   //      dp_setGradient()
     }
     

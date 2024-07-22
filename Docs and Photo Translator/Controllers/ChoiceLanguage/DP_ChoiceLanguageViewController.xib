@@ -24,12 +24,13 @@
                     <rect key="frame" x="0.0" y="59" width="393" height="759"/>
                     <subviews>
                         <pickerView contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="BdD-iZ-m2y">
-                            <rect key="frame" x="36" y="272" width="320" height="216"/>
+                            <rect key="frame" x="36.666666666666657" y="271.66666666666669" width="320" height="216"/>
+                            <color key="tintColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         </pickerView>
                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="VZm-XW-axl">
                             <rect key="frame" x="20" y="70" width="353" height="24"/>
                             <fontDescription key="fontDescription" type="system" pointSize="20"/>
-                            <color key="textColor" red="0.98039215690000003" green="0.98823529409999999" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                            <color key="textColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             <nil key="highlightedColor"/>
                         </label>
                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="zRc-E1-1iA">
@@ -38,8 +39,11 @@
                                 <constraint firstAttribute="width" constant="44" id="Act-sf-56p"/>
                                 <constraint firstAttribute="height" constant="44" id="RPj-va-xoU"/>
                             </constraints>
+                            <color key="tintColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             <state key="normal" title="Button"/>
-                            <buttonConfiguration key="configuration" style="plain" image="cross"/>
+                            <buttonConfiguration key="configuration" style="plain" image="cross">
+                                <color key="baseForegroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            </buttonConfiguration>
                             <connections>
                                 <action selector="sm_didTapBackButton:" destination="-1" eventType="touchUpInside" id="HLX-MO-C8O"/>
                             </connections>

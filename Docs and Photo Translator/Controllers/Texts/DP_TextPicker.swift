@@ -23,6 +23,8 @@ class DP_TextPicker: NSObject {
         super.init()
 
         dp_choice()
+        inputPicker.setValue(DP_Colors.black.color, forKeyPath: "textColor")
+        outputPicker.setValue(DP_Colors.black.color, forKeyPath: "textColor")
     }
 }
 

@@ -24,6 +24,7 @@ class DP_ChoiceLangManager: NSObject {
         picker.delegate = self
 
         dp_choice()
+        picker.setValue(DP_Colors.black.color, forKeyPath: "textColor")
     }
 }
 

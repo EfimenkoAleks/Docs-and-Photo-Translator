@@ -35,6 +35,12 @@ class DP_ChoiceLanguageViewController: DP_BaseViewController {
         dp_configureUI()
         dp_createManager()
     }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        isSmallBackButtonEnabled = false
+        dp_setGradient()
+      super.viewWillAppear(animated)
+    }
 
     @IBAction func sm_didTapBackButton(_ sender: UIButton) {
         dp_checkDefaultLanguage()
