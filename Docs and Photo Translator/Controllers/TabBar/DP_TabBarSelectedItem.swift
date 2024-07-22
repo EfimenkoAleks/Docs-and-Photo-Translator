@@ -10,7 +10,7 @@ import Foundation
 typealias DP_TabBarSelectedItemExtension = DP_TabBarSelectedItem
 
 enum DP_TabBarSelectedItem {
-    case photo, text
+    case photo, camera, text
 }
 
 extension DP_TabBarSelectedItemExtension {
@@ -18,7 +18,8 @@ extension DP_TabBarSelectedItemExtension {
     var selected: Int {
         switch self {
         case .photo: return 0
-        case .text: return 1
+        case .camera: return 1
+        case .text: return 2
         }
     }
 }

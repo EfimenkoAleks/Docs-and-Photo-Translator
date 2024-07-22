@@ -21,7 +21,7 @@ class DP_BaseCell: UIView {
     }
     
     func addBehavior(radius: CGFloat? = nil, corners: CACornerMask? = nil) {
-        backgroundColor = DP_Colors.white.color.withAlphaComponent(0.1)
+        backgroundColor = DP_Colors.white.color
       
         if let radius = radius {
             layer.cornerRadius = radius

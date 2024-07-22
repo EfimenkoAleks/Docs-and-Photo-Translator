@@ -109,7 +109,7 @@ private extension DP_TabBarControllerExtension {
             navController.tabBarItem = itemForVC.item
             return navController
         case .camera:
-            var firstCoordinator: DP_PhotoCoordinatorProtocol = DP_PhotoCoordinator()
+            var firstCoordinator: DP_CameraCoordinatorProtocol = DP_CameraCoordinator()
             let navController = UINavigationController()
             firstCoordinator.navigationTabController = navController
             firstCoordinator.navigationController = self.coordinator?.navigationController
@@ -162,14 +162,16 @@ extension DP_TabBarControllerExtension: UITabBarDelegate {
     
     func tabBar(_ tabBar: UITabBar, didSelect item: UITabBarItem) {
        
-        if item.title != DP_TabBarItemType.camera.item.title {
+//        if item.title != DP_TabBarItemType.camera.item.title {
             dp_updateSelectedViewController()
-        }
+//        }
         
         switch item.tag {
                      case 0:
             DP_StartCoordinator.shared.selectedTab = DP_TabBarSelectedItem.photo
                      case 1:
+            DP_StartCoordinator.shared.selectedTab = DP_TabBarSelectedItem.camera
+                     case 2:
             DP_StartCoordinator.shared.selectedTab = DP_TabBarSelectedItem.text
         default:
             break

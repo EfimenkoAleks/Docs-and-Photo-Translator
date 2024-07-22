@@ -37,6 +37,7 @@ class DP_TextViewController: DP_BaseViewController {
 
     override func viewWillAppear(_ animated: Bool) {
         isSmallBackButtonEnabled = false
+        dp_setGradient()
       super.viewWillAppear(animated)
     }
     
@@ -82,7 +83,7 @@ private extension DP_TextViewControllerExtension {
         dp_createPickerManager()
         dp_initStartComponent()
         dp_hideKeyboardWhenTappedAround()
-        dp_createMenu(.text)
+//        dp_createMenu(.text)
     }
     
     func dp_createPickerManager() {

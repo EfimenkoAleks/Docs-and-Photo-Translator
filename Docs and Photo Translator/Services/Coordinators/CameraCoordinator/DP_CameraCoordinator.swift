@@ -33,9 +33,7 @@ class DP_CameraCoordinator: DP_CameraCoordinatorProtocol {
         let vc = DP_CameraViewController()
         vc.coordinator = self
         controller = vc
- //       navigationTabController?.pushViewController(vc, animated: true)
-        
-        DP_StartCoordinator.shared.dp_startFlov(controller: vc)
+        navigationTabController?.pushViewController(vc, animated: true)
     }
 }
 

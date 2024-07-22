@@ -18,16 +18,16 @@ enum DP_TabbarModels: CaseIterable {
 extension DP_TabbarModelsExtension {
     var image: String {
         switch self {
-        case .photo: return "photo"
+        case .photo: return "home"
         case .text: return "text"
-        case .camera: return ""
+        case .camera: return "camera"
         }
     }
 
     var title: String {
         switch self {
-        case .photo: return "Photo"
-        case .text: return "Text"
+        case .photo: return ""
+        case .text: return ""
         case .camera: return ""
         }
     }

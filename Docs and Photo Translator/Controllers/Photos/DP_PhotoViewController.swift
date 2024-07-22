@@ -28,6 +28,7 @@ class DP_PhotoViewController: DP_BaseViewController {
 
     override func viewWillAppear(_ animated: Bool) {
         isSmallBackButtonEnabled = false
+        dp_setGradient()
       super.viewWillAppear(animated)
     }
     

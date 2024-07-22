@@ -35,6 +35,13 @@ class DP_CameraViewController: DP_BaseViewController {
         dp_configUI()
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        isSmallBackButtonEnabled = false
+        dp_setGradient()
+      super.viewWillAppear(animated)
+        sm_addVideo()
+    }
+    
     override func viewDidDisappear(_ animated: Bool) {
         super.viewDidDisappear(animated)
    
@@ -78,7 +85,7 @@ class DP_CameraViewController: DP_BaseViewController {
 private extension DP_CameraViewControllerExtension {
     
     func dp_configUI() {
-        sm_addVideo()
+    //    sm_addVideo()
         
         cameraButton.layer.cornerRadius = 12
         cameraButton.layer.masksToBounds = true

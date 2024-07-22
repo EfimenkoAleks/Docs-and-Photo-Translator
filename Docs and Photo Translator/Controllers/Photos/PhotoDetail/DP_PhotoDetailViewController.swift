@@ -32,6 +32,11 @@ class DP_PhotoDetailViewController: DP_BaseViewController {
 
         dp_configure()
     }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        dp_setGradient()
+      super.viewWillAppear(animated)
+    }
 
     override func dp_backButtonAction() {
         coordinator?.handlerBback?()

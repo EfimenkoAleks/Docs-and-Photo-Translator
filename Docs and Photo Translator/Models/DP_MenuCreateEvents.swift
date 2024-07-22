@@ -9,5 +9,4 @@ import Foundation
 
 enum DP_MenuCreateEvents {
     case photo
-    case text
 }

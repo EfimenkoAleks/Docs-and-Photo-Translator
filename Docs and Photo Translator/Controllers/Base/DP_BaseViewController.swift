@@ -50,6 +50,11 @@ class DP_BaseViewController: UIViewController {
         super.viewWillAppear(animated)
         
         dp_setSmallBackButton()
+        setNeedsStatusBarAppearanceUpdate()
+    }
+    
+    override var preferredStatusBarStyle: UIStatusBarStyle {
+        .darkContent
     }
     
     func dp_didTapShareFromMenu() {}
@@ -80,8 +85,8 @@ class DP_BaseViewController: UIViewController {
     func dp_actionHandler(alert: UIAlertAction){}
     
     func dp_setBackground() {
-        //       self.view.backgroundColor = DP_Colors.base.color
-        dp_setGradient()
+        view.backgroundColor = DP_Colors.black.color
+  //      dp_setGradient()
     }
     
     func dp_setGradient() {
@@ -106,12 +111,6 @@ class DP_BaseViewController: UIViewController {
         var barButtonMenu: UIMenu?
         
         switch menu {
-        case .text:
-            barButtonMenu = UIMenu(title: "", children: [
-                UIAction(title: NSLocalizedString(DP_MenuEvents.share.title, comment: ""), image: UIImage(systemName: DP_MenuEvents.share.image), handler: menuHandler),
-                UIAction(title: NSLocalizedString(DP_MenuEvents.choiceLang.title, comment: ""), image: UIImage(systemName: DP_MenuEvents.choiceLang.image), handler: menuHandler),
-                UIAction(title: NSLocalizedString(DP_MenuEvents.privaciPolicy.title, comment: ""), image: UIImage(systemName: DP_MenuEvents.privaciPolicy.image), handler: menuHandler),
-            ])
         case .photo:
             barButtonMenu = UIMenu(title: "", children: [
                 UIAction(title: NSLocalizedString(DP_MenuEvents.choiceLang.title, comment: ""), image: UIImage(systemName: DP_MenuEvents.choiceLang.image), handler: menuHandler),
@@ -119,8 +118,8 @@ class DP_BaseViewController: UIViewController {
                 UIAction(title: NSLocalizedString(DP_MenuEvents.privaciPolicy.title, comment: ""), image: UIImage(systemName: DP_MenuEvents.privaciPolicy.image), handler: menuHandler),
             ])
         }
-        
-        let navButton = UIBarButtonItem(title: DP_MenuEvents.menu.title, style: .plain, target: self, action: nil)
+   
+        let navButton = UIBarButtonItem(image: UIImage(named: "settings"), style: .plain, target: self, action: nil)
         navButton.tintColor = .white
         
         navigationItem.rightBarButtonItem = navButton
@@ -137,6 +136,7 @@ class DP_BaseViewController: UIViewController {
                 button.widthAnchor.constraint(equalToConstant: 30).isActive = true
                 button.heightAnchor.constraint(equalToConstant: 30).isActive = true
                 button.setImage(image.image, for: .normal)
+                button.tintColor = DP_Colors.blueColor.color
                 button.addTarget(self, action: #selector(dp_backButtonAction), for: .touchUpInside)
                 return button
             }
@@ -150,7 +150,7 @@ class DP_BaseViewController: UIViewController {
         guard let buttonImage = UIImage(systemName: image)?.withRenderingMode(.alwaysTemplate) else { return }
         
         let navButton = UIBarButtonItem(image: buttonImage, style: .plain, target: self, action: action)
-        navButton.tintColor = .white
+        navButton.tintColor = DP_Colors.blueColor.color
         
         if self.navigationItem.rightBarButtonItems == nil {
             self.navigationItem.setRightBarButtonItems([navButton], animated: true)
