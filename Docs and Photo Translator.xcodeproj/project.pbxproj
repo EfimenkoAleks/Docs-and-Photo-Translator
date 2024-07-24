@@ -22,6 +22,11 @@
 		CE0771922C299C09002A95A3 /* Date+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE0771912C299C09002A95A3 /* Date+Extension.swift */; };
 		CE0771942C29A10E002A95A3 /* DP_BaseCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE0771932C29A10E002A95A3 /* DP_BaseCell.swift */; };
 		CE430A932C4D15BD0096DC3D /* UIImage+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE430A922C4D15BD0096DC3D /* UIImage+Extension.swift */; };
+		CE430A952C4FCBA10096DC3D /* DP_PopUpLangView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE430A942C4FCBA10096DC3D /* DP_PopUpLangView.swift */; };
+		CE430A972C4FCD9C0096DC3D /* UIView+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE430A962C4FCD9C0096DC3D /* UIView+Extension.swift */; };
+		CE430A992C50F1BA0096DC3D /* DP_ViewVithGradient.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE430A982C50F1BA0096DC3D /* DP_ViewVithGradient.swift */; };
+		CE430A9C2C5128140096DC3D /* DP_BilderElements.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE430A9B2C5128140096DC3D /* DP_BilderElements.swift */; };
+		CE430A9E2C515FA60096DC3D /* DP_BaseGradientView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE430A9D2C515FA60096DC3D /* DP_BaseGradientView.swift */; };
 		CE465A492C32DCA80055885A /* CoreML.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CE465A482C32DCA80055885A /* CoreML.framework */; };
 		CE465A4D2C3411120055885A /* DP_ChoiceLanguageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE465A4B2C3411120055885A /* DP_ChoiceLanguageViewController.swift */; };
 		CE465A4E2C3411120055885A /* DP_ChoiceLanguageViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = CE465A4C2C3411120055885A /* DP_ChoiceLanguageViewController.xib */; };
@@ -92,6 +97,11 @@
 		CE0771912C299C09002A95A3 /* Date+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Date+Extension.swift"; sourceTree = "<group>"; };
 		CE0771932C29A10E002A95A3 /* DP_BaseCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DP_BaseCell.swift; sourceTree = "<group>"; };
 		CE430A922C4D15BD0096DC3D /* UIImage+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImage+Extension.swift"; sourceTree = "<group>"; };
+		CE430A942C4FCBA10096DC3D /* DP_PopUpLangView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DP_PopUpLangView.swift; sourceTree = "<group>"; };
+		CE430A962C4FCD9C0096DC3D /* UIView+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+Extension.swift"; sourceTree = "<group>"; };
+		CE430A982C50F1BA0096DC3D /* DP_ViewVithGradient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DP_ViewVithGradient.swift; sourceTree = "<group>"; };
+		CE430A9B2C5128140096DC3D /* DP_BilderElements.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DP_BilderElements.swift; sourceTree = "<group>"; };
+		CE430A9D2C515FA60096DC3D /* DP_BaseGradientView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DP_BaseGradientView.swift; sourceTree = "<group>"; };
 		CE465A442C32D9F70055885A /* Docs and Photo Translator-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Docs and Photo Translator-Bridging-Header.h"; sourceTree = "<group>"; };
 		CE465A482C32DCA80055885A /* CoreML.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreML.framework; path = System/Library/Frameworks/CoreML.framework; sourceTree = SDKROOT; };
 		CE465A4B2C3411120055885A /* DP_ChoiceLanguageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DP_ChoiceLanguageViewController.swift; sourceTree = "<group>"; };
@@ -204,6 +214,14 @@
 				CE0771862C296B88002A95A3 /* DP_PhotoCell.xib */,
 			);
 			path = Cell;
+			sourceTree = "<group>";
+		};
+		CE430A9A2C5127CF0096DC3D /* Bilder */ = {
+			isa = PBXGroup;
+			children = (
+				CE430A9B2C5128140096DC3D /* DP_BilderElements.swift */,
+			);
+			path = Bilder;
 			sourceTree = "<group>";
 		};
 		CE465A4A2C3410950055885A /* ChoiceLanguage */ = {
@@ -376,6 +394,7 @@
 				CE465A512C341A0E0055885A /* ViewController+Extension.swift */,
 				CEA27A562C401DFE001D26E5 /* String+Extension.swift */,
 				CE430A922C4D15BD0096DC3D /* UIImage+Extension.swift */,
+				CE430A962C4FCD9C0096DC3D /* UIView+Extension.swift */,
 			);
 			path = Extension;
 			sourceTree = "<group>";
@@ -407,6 +426,9 @@
 				CEE9892D2C2315A100870D32 /* DP_BaseLoader.swift */,
 				CEE9892F2C23160100870D32 /* DP_TitleLabel.swift */,
 				CE0771932C29A10E002A95A3 /* DP_BaseCell.swift */,
+				CE430A942C4FCBA10096DC3D /* DP_PopUpLangView.swift */,
+				CE430A982C50F1BA0096DC3D /* DP_ViewVithGradient.swift */,
+				CE430A9D2C515FA60096DC3D /* DP_BaseGradientView.swift */,
 			);
 			path = CastomElements;
 			sourceTree = "<group>";
@@ -457,6 +479,7 @@
 		CEE989482C25B53000870D32 /* Managers */ = {
 			isa = PBXGroup;
 			children = (
+				CE430A9A2C5127CF0096DC3D /* Bilder */,
 				CE465A5D2C37F7FE0055885A /* TextRecognized */,
 				CEBEF38A2C2C0098008D0FAC /* TranslateManager */,
 				CEE989522C26D57700870D32 /* FileManager */,
@@ -653,11 +676,14 @@
 				CEE989182C230CBD00870D32 /* DP_CustomTabBar.swift in Sources */,
 				CE0771922C299C09002A95A3 /* Date+Extension.swift in Sources */,
 				CEE988F42C21B5EB00870D32 /* AppDelegate.swift in Sources */,
+				CE430A9E2C515FA60096DC3D /* DP_BaseGradientView.swift in Sources */,
 				CE465A522C341A0E0055885A /* ViewController+Extension.swift in Sources */,
 				CEE9894B2C25B57000870D32 /* DP_VideoCaptureManager.swift in Sources */,
 				CE465A502C3414260055885A /* DP_ChoiceLangManager.swift in Sources */,
 				CE0771942C29A10E002A95A3 /* DP_BaseCell.swift in Sources */,
+				CE430A992C50F1BA0096DC3D /* DP_ViewVithGradient.swift in Sources */,
 				CEE989562C26D5D500870D32 /* DP_DownLoad.swift in Sources */,
+				CE430A952C4FCBA10096DC3D /* DP_PopUpLangView.swift in Sources */,
 				CE07717D2C295ACE002A95A3 /* DP_Preferences.swift in Sources */,
 				CEE9890A2C22DB5500870D32 /* CoordinatorProtocol.swift in Sources */,
 				CE465A562C34737E0055885A /* DP_ChoiceLangHelper.swift in Sources */,
@@ -672,7 +698,9 @@
 				CEE9893A2C242DD900870D32 /* DP_TextCoordinator.swift in Sources */,
 				CEE989202C230DD300870D32 /* UIColor+Extensions.swift in Sources */,
 				CE07718C2C2979D4002A95A3 /* DP_PhotoModel.swift in Sources */,
+				CE430A9C2C5128140096DC3D /* DP_BilderElements.swift in Sources */,
 				CEE989372C231BAF00870D32 /* DP_StartCoordinator.swift in Sources */,
+				CE430A972C4FCD9C0096DC3D /* UIView+Extension.swift in Sources */,
 				CEE9894F2C26CA8B00870D32 /* DP_VideoManager.swift in Sources */,
 				CE465A5B2C357F540055885A /* DP_PolicyViewController.swift in Sources */,
 				CEE989262C23116500870D32 /* DP_TabBarItemType.swift in Sources */,

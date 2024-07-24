@@ -11,9 +11,12 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="DP_CameraViewController" customModule="Docs_and_Photo_Translator" customModuleProvider="target">
             <connections>
-                <outlet property="cameraButton" destination="kU2-8e-Bi2" id="jcV-i0-my1"/>
                 <outlet property="cameraImage" destination="zoH-t8-1ZJ" id="aMR-5L-5qL"/>
                 <outlet property="cameraView" destination="csT-bm-vyg" id="oXN-gD-Gxg"/>
+                <outlet property="containerPhoto" destination="xeG-Kf-rET" id="9xH-og-So3"/>
+                <outlet property="containerReset" destination="JEp-6P-pt7" id="0vj-5D-Fv7"/>
+                <outlet property="containerView" destination="ftL-UB-Xq6" id="Gbz-E9-AMU"/>
+                <outlet property="previewView" destination="Ysz-No-hbL" id="tmm-EA-DSl"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
             </connections>
         </placeholder>
@@ -28,30 +31,54 @@
                         <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="zoH-t8-1ZJ">
                             <rect key="frame" x="0.0" y="0.0" width="393" height="759"/>
                         </imageView>
-                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="kU2-8e-Bi2">
-                            <rect key="frame" x="171.66666666666666" y="609" width="50" height="50"/>
-                            <color key="backgroundColor" systemColor="systemGray4Color"/>
+                        <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="Ysz-No-hbL">
+                            <rect key="frame" x="30" y="669" width="48" height="48"/>
                             <constraints>
-                                <constraint firstAttribute="height" constant="50" id="ZRz-7u-hBT"/>
-                                <constraint firstAttribute="width" constant="50" id="woJ-N0-d6g"/>
+                                <constraint firstAttribute="width" constant="48" id="EX0-hx-h8i"/>
+                                <constraint firstAttribute="height" constant="48" id="ML6-hn-lJq"/>
                             </constraints>
-                            <state key="normal" title="Button"/>
-                            <buttonConfiguration key="configuration" style="plain" image="camera" catalog="system">
-                                <color key="baseForegroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                            </buttonConfiguration>
-                            <connections>
-                                <action selector="didTapCameraButton:" destination="-1" eventType="touchUpInside" id="wSh-a5-7cf"/>
-                            </connections>
-                        </button>
+                        </imageView>
+                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="JEp-6P-pt7" customClass="DP_ViewVithGradient" customModule="Docs_and_Photo_Translator" customModuleProvider="target">
+                            <rect key="frame" x="315" y="669" width="48" height="48"/>
+                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            <constraints>
+                                <constraint firstAttribute="width" constant="48" id="53A-xb-99d"/>
+                                <constraint firstAttribute="height" constant="48" id="kHm-29-oi3"/>
+                            </constraints>
+                        </view>
+                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ftL-UB-Xq6">
+                            <rect key="frame" x="160.66666666666666" y="657" width="72" height="72"/>
+                            <subviews>
+                                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="xeG-Kf-rET" customClass="DP_ViewVithGradient" customModule="Docs_and_Photo_Translator" customModuleProvider="target">
+                                    <rect key="frame" x="7" y="7" width="58" height="58"/>
+                                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                    <constraints>
+                                        <constraint firstAttribute="height" constant="58" id="H17-97-hrr"/>
+                                        <constraint firstAttribute="width" constant="58" id="tI0-CL-vv9"/>
+                                    </constraints>
+                                </view>
+                            </subviews>
+                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            <constraints>
+                                <constraint firstAttribute="height" constant="72" id="Vce-5Q-gY3"/>
+                                <constraint firstItem="xeG-Kf-rET" firstAttribute="centerY" secondItem="ftL-UB-Xq6" secondAttribute="centerY" id="aSF-3V-EsD"/>
+                                <constraint firstItem="xeG-Kf-rET" firstAttribute="centerX" secondItem="ftL-UB-Xq6" secondAttribute="centerX" id="efq-CP-jwY"/>
+                                <constraint firstAttribute="width" constant="72" id="ld8-fp-bF5"/>
+                            </constraints>
+                        </view>
                     </subviews>
                     <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                     <constraints>
                         <constraint firstItem="zoH-t8-1ZJ" firstAttribute="top" secondItem="csT-bm-vyg" secondAttribute="top" id="0oX-2u-uE0"/>
-                        <constraint firstItem="kU2-8e-Bi2" firstAttribute="centerX" secondItem="csT-bm-vyg" secondAttribute="centerX" id="Crb-bJ-jFZ"/>
+                        <constraint firstItem="ftL-UB-Xq6" firstAttribute="centerX" secondItem="csT-bm-vyg" secondAttribute="centerX" id="D7t-uH-ozx"/>
+                        <constraint firstAttribute="bottom" secondItem="ftL-UB-Xq6" secondAttribute="bottom" constant="30" id="V4J-An-1ac"/>
                         <constraint firstItem="zoH-t8-1ZJ" firstAttribute="leading" secondItem="csT-bm-vyg" secondAttribute="leading" id="Zz3-Im-DkN"/>
+                        <constraint firstItem="Ysz-No-hbL" firstAttribute="leading" secondItem="csT-bm-vyg" secondAttribute="leading" constant="30" id="cL4-dZ-AaM"/>
                         <constraint firstAttribute="trailing" secondItem="zoH-t8-1ZJ" secondAttribute="trailing" id="ctL-8S-pE9"/>
+                        <constraint firstItem="Ysz-No-hbL" firstAttribute="centerY" secondItem="ftL-UB-Xq6" secondAttribute="centerY" id="dhR-ga-ErN"/>
                         <constraint firstAttribute="bottom" secondItem="zoH-t8-1ZJ" secondAttribute="bottom" id="sHn-Pq-ggp"/>
-                        <constraint firstAttribute="bottom" secondItem="kU2-8e-Bi2" secondAttribute="bottom" constant="100" id="yb7-Z2-W6s"/>
+                        <constraint firstAttribute="trailing" secondItem="JEp-6P-pt7" secondAttribute="trailing" constant="30" id="wOA-fK-HfF"/>
+                        <constraint firstItem="JEp-6P-pt7" firstAttribute="centerY" secondItem="ftL-UB-Xq6" secondAttribute="centerY" id="wsf-MN-IbA"/>
                     </constraints>
                 </view>
             </subviews>
@@ -67,12 +94,8 @@
         </view>
     </objects>
     <resources>
-        <image name="camera" catalog="system" width="128" height="93"/>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-        </systemColor>
-        <systemColor name="systemGray4Color">
-            <color red="0.81960784313725488" green="0.81960784313725488" blue="0.83921568627450982" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>
     </resources>
 </document>

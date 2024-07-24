@@ -16,8 +16,11 @@ class DP_CameraViewController: DP_BaseViewController {
     
     @IBOutlet weak var cameraView: UIView!
     @IBOutlet weak var cameraImage: UIImageView!
-    @IBOutlet weak var cameraButton: UIButton!
-    
+    @IBOutlet weak var previewView: UIImageView!
+    @IBOutlet weak var containerReset: DP_ViewVithGradient!
+    @IBOutlet weak var containerView: UIView!
+    @IBOutlet weak var containerPhoto: DP_ViewVithGradient!
+   
     var coordinator: DP_CameraCoordinatorProtocol?
     private let photoOutput = AVCapturePhotoOutput()
     private let layer = AVSampleBufferDisplayLayer()
@@ -28,6 +31,11 @@ class DP_CameraViewController: DP_BaseViewController {
     private var urlPhoto: URL?
     private var currentImage: UIImage?
     private var context = CIContext(options: nil)
+    private var popapMenuView: DP_PopUpLangView?
+    private var resetButton: UIButton?
+    private var photoButton: UIButton?
+    private var rotateNavButton: CGFloat = CGFloat.pi * 2
+    private var isSessionStart: Bool = false
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -39,7 +47,7 @@ class DP_CameraViewController: DP_BaseViewController {
         isSmallBackButtonEnabled = false
         dp_setGradient()
       super.viewWillAppear(animated)
-        sm_addVideo()
+        dp_addVideo()
     }
     
     override func viewDidDisappear(_ animated: Bool) {
@@ -49,27 +57,7 @@ class DP_CameraViewController: DP_BaseViewController {
     }
 
     override func dp_backButtonAction() {
-        handleDismiss()
-    }
-    
-    @IBAction func didTapCameraButton(_ sender: UIButton) {
-        
-        if #available(iOS 9.0, *) {
-                AudioServicesPlaySystemSoundWithCompletion(SystemSoundID(1108), nil)
-            } else {
-                AudioServicesPlaySystemSound(1108)
-            }
- 
-        dp_addLoader()
-        guard let image = cameraImage.image,
-              let data = image.jpegData(compressionQuality: 0.7) else { return }
-        
-        urlPhoto = helper.dp_saveNewPhoto(data: data)
-        
-        dp_stopSessino()
-        currentImage = photoHelper.dp_scaleAndOrient(image: image)
-        guard let currentImage = currentImage else { return }
-        dp_startRecognizedText(image: currentImage)
+        dp_handleDismiss()
     }
     
     override func dp_actionHandler(alert: UIAlertAction) {
@@ -85,14 +73,47 @@ class DP_CameraViewController: DP_BaseViewController {
 private extension DP_CameraViewControllerExtension {
     
     func dp_configUI() {
-    //    sm_addVideo()
-        
-        cameraButton.layer.cornerRadius = 12
-        cameraButton.layer.masksToBounds = true
-        cameraButton.backgroundColor = UIColor.black.withAlphaComponent(0.7)
+        dp_createNavTitle(rotate: rotateNavButton)
+        dp_addNavButtons()
+        dp_addTapView()
+        dp_configureUI()
     }
     
-    func sm_getBuferForView(bufer: CMSampleBuffer) {
+    func dp_configureUI() {
+        resetButton = DP_BilderElements.shared.dp_buttonWithImage("reset")
+        dp_addButton(button: resetButton, conteiner: containerReset)
+        resetButton?.addTarget(self, action: #selector(dp_resetCamera), for: .touchUpInside)
+        photoButton = DP_BilderElements.shared.dp_buttonWithImage("cameraIcon")
+        dp_addButton(button: photoButton, conteiner: containerPhoto)
+        photoButton?.addTarget(self, action: #selector(dp_didTapCameraButton), for: .touchUpInside)
+        containerView.gradientBorder(colors: [UIColor(hexString: "#0B4EFF"), UIColor(hexString: "#3E73FF")])
+    }
+    
+    func dp_addTapView() {
+        let tap = UITapGestureRecognizer(target: self, action: #selector(dp_didTapPreview))
+        previewView.addGestureRecognizer(tap)
+    }
+    
+    func dp_createNavTitle(rotate: CGFloat) {
+       var navImage = UIImage(named: "More")
+        navImage = navImage?.rotate(radians: rotate)
+        let button = UIButton(frame: CGRect(x: 0, y: 0, width: 44, height: 44))
+        button.setImage(navImage, for: .normal)
+            button.addTarget(self, action: #selector(dp_didTapTitle), for: .touchUpInside)
+            self.navigationItem.titleView = button
+    }
+    
+    @objc func dp_didTapTitle() {
+        popapMenuView == nil ? dp_createPopapMenuView() : dp_removePopapMenuView()
+        rotateNavButton = rotateNavButton == CGFloat.pi ? CGFloat.pi * 2 : CGFloat.pi
+        dp_createNavTitle(rotate: rotateNavButton)
+    }
+    
+    @objc func dp_didTapPreview() {
+        
+    }
+    
+    func dp_getBuferForView(bufer: CMSampleBuffer) {
         DispatchQueue.main.async { [weak self] in
             self?.layer.enqueue(bufer)
         }
@@ -100,65 +121,56 @@ private extension DP_CameraViewControllerExtension {
     
     func dp_startRecognizedText(image: UIImage) {
         dp_recognizeText(in: image) { [weak self] in
-            self?.dp_removeLoader()
-            self?.dp_addNavButtons()
+            guard let self = self else { return }
+            DispatchQueue.main.async { [weak self] in
+                guard let self = self else { return }
+                self.dp_removeLoader()
+                self.dp_createPopapMenuView()
+            }
         }
     }
     
-    func sm_addVideo() {
-        do {
-            try  client.startSendingVideoToServer()
-        } catch {
-        }
+    func dp_addVideo() {
+            do {
+                try  client.startSendingVideoToServer()
+      //          isSessionStart = true
+            } catch {
+            }
        
         client.handlerBufer = { [weak self] bufer in
             guard let self = self else { return }
             
-            self.sm_getBuferForView(bufer: bufer)
+            self.dp_getBuferForView(bufer: bufer)
             guard let image = self.liveManager.sm_getBuferForWrite(bufer: bufer) else { return }
-            
-            DispatchQueue.main.async { [weak self] in
-                guard let self = self else { return }
-                self.cameraImage.image = image
+           
+    //        if self.isSessionStart {
+                DispatchQueue.main.async { [weak self] in
+                    guard let self = self else { return }
+                    self.cameraImage.image = image
+    //            }
             }
         }
     }
     
     func dp_addNavButtons() {
-        guard let path = urlPhoto else { return }
-        self.navigationItem.rightBarButtonItems = []
-        dp_createRightNavBarItems(image: "square.and.arrow.up", action: #selector(dp_didTapShare))
-        var pinStr = "pin"
-        if photoHelper.dp_ifContainsPinedPhoto(url: path) {
-            pinStr = "pin.fill"
-        }
-        dp_createRightNavBarItems(image: pinStr, action: #selector(dp_didTapPin))
+        self.navigationItem.leftBarButtonItems = []
+       dp_createLeftNavBarItems(image: "light", action: #selector(dp_didTapLIgth))
+        dp_createLeftNavBarItems(image: "monoHrome", action: #selector(dp_didTapMonoHrome))
+    }
+    
+    @objc func dp_didTapLIgth() {
+     
+    }
+    
+    @objc func dp_didTapMonoHrome() {
+     
     }
 
-    @objc func dp_didTapPin() {
-        guard let path = urlPhoto else { return }
-        if photoHelper.dp_ifContainsPinedPhoto(url: path) {
-            photoHelper.dp_deletePinedPhoto(url: path)
-            dp_addNavButtons()
-        } else {
-            photoHelper.dp_savePinedPhoto(url: path)
-            dp_addNavButtons()
-        }
-    }
-    
-    @objc func dp_didTapShare() {
-        guard let image = cameraImage.image else { return }
-            let imageShare = [ image ]
-            let activityViewController = UIActivityViewController(activityItems: imageShare , applicationActivities: nil)
-            activityViewController.popoverPresentationController?.sourceView = self.view
-            self.present(activityViewController, animated: true, completion: nil)
-    }
-    
     func dp_stopSessino() {
         client.stopSession()
     }
 
-    func handleDismiss() {
+    func dp_handleDismiss() {
         DP_StartCoordinator.shared.dp_strart()
     }
     
@@ -176,7 +188,7 @@ private extension DP_CameraViewControllerExtension {
                 }
                 
                 let originalLanguage = TranslateLanguage(rawValue: lang)
-                let currentLang = DP_TranslateManager.shared.currentLanguages
+                DP_TranslateManager.shared.originalLanguages = originalLanguage
                 if !DP_TranslateManager.shared.isLanguageDownloaded(originalLanguage) {
                     DP_TranslateManager.shared.dp_translateTag(lang: originalLanguage) { [weak self] rezOrigin in
                         guard let self = self else { return }
@@ -208,5 +220,84 @@ private extension DP_CameraViewControllerExtension {
                 }
             }
         }
+    }
+    
+    func dp_addButton(button: UIButton?, conteiner: UIView) {
+        guard let button = button else { return }
+        conteiner.addSubview(button)
+        
+        NSLayoutConstraint.activate([
+            button.centerYAnchor.constraint(equalTo: conteiner.centerYAnchor),
+            button.centerXAnchor.constraint(equalTo: conteiner.centerXAnchor),
+            button.heightAnchor.constraint(equalToConstant: 44),
+            button.widthAnchor.constraint(equalToConstant: 44)
+        ])
+    }
+    
+    //MARK: - Create popap menu
+    func dp_createPopapMenuView() {
+        if popapMenuView == nil {
+            let currentLang = DP_TranslateManager.shared.currentLanguages ?? TranslateLanguage.english
+            let originalLang = DP_TranslateManager.shared.originalLanguages ?? TranslateLanguage.english
+            let currentNameLang = DP_TranslateManager.shared.dp_getNameLang(lang: currentLang) ?? "non"
+            let originalNameLang = DP_TranslateManager.shared.dp_getNameLang(lang: originalLang) ?? "non"
+            
+            popapMenuView = DP_PopUpLangView(frame: CGRect(x: 20, y: view.safeAreaInsets.top + 20, width: view.bounds.width - 40, height: 42),
+                                             firstText: originalNameLang,
+                                             secondText: currentNameLang)
+            guard let popapMenuView = popapMenuView else { return }
+            view.addSubview(popapMenuView)
+           
+            popapMenuView.changeButton?.addTarget(self, action: #selector(dp_changeLang), for: .touchUpInside)
+            
+            UIView.animate(withDuration: 0.5, delay: 0) { [weak self] in
+                guard let self = self,
+                let popapMenuView = self.popapMenuView else { return }
+                popapMenuView.alpha = 1.0
+            }
+        }
+    }
+    
+    func dp_removePopapMenuView() {
+        UIView.animate(withDuration: 0.5, delay: 0) { [weak self] in
+            guard let self = self else { return }
+            self.popapMenuView?.alpha = 0.0
+        } completion: { [weak self] completion in
+            if completion {
+                self?.popapMenuView?.removeFromSuperview()
+                self?.popapMenuView = nil
+            }
+        }
+    }
+    
+    @objc func dp_didTapCameraButton() {
+        
+        if #available(iOS 9.0, *) {
+                AudioServicesPlaySystemSoundWithCompletion(SystemSoundID(1108), nil)
+            } else {
+                AudioServicesPlaySystemSound(1108)
+            }
+ 
+        dp_addLoader()
+        guard let image = cameraImage.image,
+              let data = image.jpegData(compressionQuality: 0.7) else { return }
+        
+        urlPhoto = helper.dp_saveNewPhoto(data: data)
+        
+        dp_stopSessino()
+  //      isSessionStart = false
+        currentImage = photoHelper.dp_scaleAndOrient(image: image)
+        guard let currentImage = currentImage else { return }
+        dp_startRecognizedText(image: currentImage)
+    }
+    
+    @objc func dp_changeLang() {
+        print("dp_changeLang")
+    }
+    
+    @objc func dp_resetCamera() {
+    //    isSessionStart = true
+      //  cameraImage.layer.sublayers?.removeAll()
+      //  dp_addVideo()
     }
 }

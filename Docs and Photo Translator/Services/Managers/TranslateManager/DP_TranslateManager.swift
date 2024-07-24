@@ -20,6 +20,7 @@ final class DP_TranslateManager: NSObject {
     
     var languages: [TranslateLanguage] = []
     var currentLanguages: TranslateLanguage?
+    var originalLanguages: TranslateLanguage?
     private var preferens: DP_PreferencesProtocol = DP_Preferences()
     
      var translator: Translator!
@@ -95,6 +96,13 @@ final class DP_TranslateManager: NSObject {
                 }
             
      //   }
+    }
+    
+    func dp_getNameLang(lang: TranslateLanguage?) -> String? {
+        guard let curLang = lang,
+              let textTag = Locale.current.localizedString(forLanguageCode: curLang.rawValue) else { return nil }
+        
+        return textTag
     }
     
     func dp_translateTag(lang: TranslateLanguage?, completion: @escaping (String) -> Void) {

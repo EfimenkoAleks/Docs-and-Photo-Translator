@@ -86,21 +86,12 @@ class DP_BaseViewController: UIViewController {
     
     func dp_setBackground() {
         view.backgroundColor = DP_Colors.base.color
-  //      dp_setGradient()
     }
     
     func dp_setGradient() {
-        let colorTop =  DP_Colors.gradientTop.color.cgColor
-        let colorBottom = DP_Colors.gradientBottom.color.cgColor
-        
-        let gradientLayer = CAGradientLayer()
-        gradientLayer.colors = [colorTop, colorBottom]
-        gradientLayer.startPoint = CGPoint(x: 0.0, y: 0.0)
-        gradientLayer.endPoint = CGPoint(x: 0.0, y: 0.5)
         let screen = UIScreen.main.bounds
-        gradientLayer.frame = screen
-        
-        self.view.layer.insertSublayer(gradientLayer, at:0)
+        view.setGradient(colorTop: DP_Colors.gradientTop.color,
+                         colorBottom: DP_Colors.gradientBottom.color, frame: screen)
     }
     
     func dp_createTitle(_ title: String) {
@@ -156,6 +147,20 @@ class DP_BaseViewController: UIViewController {
             self.navigationItem.setRightBarButtonItems([navButton], animated: true)
         } else {
             self.navigationItem.rightBarButtonItems?.append(navButton)
+        }
+    }
+    
+    func dp_createLeftNavBarItems(image: String, action: Selector) {
+        
+        guard let buttonImage = UIImage(named: image)?.withRenderingMode(.alwaysTemplate) else { return }
+        
+        let navButton = UIBarButtonItem(image: buttonImage, style: .plain, target: self, action: action)
+        navButton.tintColor = DP_Colors.blueColor.color
+        
+        if self.navigationItem.leftBarButtonItems == nil {
+            self.navigationItem.setLeftBarButtonItems([navButton], animated: true)
+        } else {
+            self.navigationItem.leftBarButtonItems?.append(navButton)
         }
     }
     
