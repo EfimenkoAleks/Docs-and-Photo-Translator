@@ -4,5 +4,7 @@
 <dict>
 	<key>NSCameraUsageDescription</key>
 	<string>The app needs a camera for text recognition</string>
+    <key>NSPhotoLibraryUsageDescription</key>
+    <string>The app nead take photo from library</string>
 </dict>
 </plist>

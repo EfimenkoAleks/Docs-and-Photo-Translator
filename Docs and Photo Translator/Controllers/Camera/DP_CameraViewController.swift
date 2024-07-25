@@ -14,17 +14,16 @@ typealias DP_CameraViewControllerExtension = DP_CameraViewController
 
 class DP_CameraViewController: DP_BaseViewController {
     
-    @IBOutlet weak var cameraView: UIView!
-    var cameraImage: UIImageView?
-    @IBOutlet weak var previewView: UIImageView!
-    @IBOutlet weak var containerReset: DP_ViewVithGradient!
-    @IBOutlet weak var containerView: UIView!
-    @IBOutlet weak var containerPhoto: DP_ViewVithGradient!
+    @IBOutlet private weak var cameraView: UIView!
+    @IBOutlet private weak var previewView: UIImageView!
+    @IBOutlet private weak var containerReset: DP_ViewVithGradient!
+    @IBOutlet private weak var containerView: UIView!
+    @IBOutlet private weak var containerPhoto: DP_ViewVithGradient!
    
     var coordinator: DP_CameraCoordinatorProtocol?
+    private var cameraImage: UIImageView?
     private let photoOutput = AVCapturePhotoOutput()
     private let layer = AVSampleBufferDisplayLayer()
-    private var client: DP_VideoManager?
     private let liveManager: DP_BroadCastLiveManager = DP_BroadCastLiveManager()
     private let helper: DP_CameraHelper = DP_CameraHelper()
     private let photoHelper: DP_PhotoHelper = DP_PhotoHelper()
@@ -37,6 +36,14 @@ class DP_CameraViewController: DP_BaseViewController {
     private var rotateNavButton: CGFloat = CGFloat.pi * 2
     private var isSessionStart: Bool = false
     private var isOriginLang: Bool = true
+    private var ligth: AVCaptureDevice.FlashMode = .off
+    private var lightImage: UIImage?
+    private var monohromeImage: UIImage?
+    private var currentLang: TranslateLanguage?
+    private var originalLang: TranslateLanguage?
+    private var cameraPreviewLayer: AVCaptureVideoPreviewLayer?
+    private let manager: DP_PhotoManager = DP_PhotoManager()
+    private var imagePicker = UIImagePickerController()
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -49,6 +56,7 @@ class DP_CameraViewController: DP_BaseViewController {
         dp_setGradient()
       super.viewWillAppear(animated)
         dp_resetImage()
+        dp_setPreview()
     }
     
     override func viewDidDisappear(_ animated: Bool) {
@@ -75,10 +83,21 @@ private extension DP_CameraViewControllerExtension {
     
     func dp_configUI() {
         dp_createNavTitle(rotate: rotateNavButton)
-        dp_addNavButtons()
-    //    dp_createImageView()
+        dp_setLeftNavBarItems()
         dp_configureUI()
-        dp_addTapView()
+        dp_addLanguage()
+    }
+    
+    func dp_addVideo(captureSession: AVCaptureSession?) {
+        guard let captureSession = captureSession,
+        let cameraImage = cameraImage else { return }
+        
+        let cameraPreviewLayer = AVCaptureVideoPreviewLayer(session: captureSession)
+        cameraImage.layer.insertSublayer(cameraPreviewLayer, at: 0)
+        cameraPreviewLayer.videoGravity = AVLayerVideoGravity.resize
+        let screen = UIScreen.main.bounds
+        let height = screen.height - (view.safeAreaInsets.top + view.safeAreaInsets.bottom)
+        cameraPreviewLayer.frame = CGRect(x: 0, y: 0, width: screen.width, height: height)
     }
     
     func dp_configureUI() {
@@ -91,9 +110,28 @@ private extension DP_CameraViewControllerExtension {
         containerView.gradientBorder(colors: [UIColor(hexString: "#0B4EFF"), UIColor(hexString: "#3E73FF")])
     }
     
+    func dp_setPreview() {
+        helper.sm_getLastPhoto { [weak self] asset in
+            guard let self = self,
+                  let asset = asset,
+                  let imView = self.cameraImage else { return }
+            
+            DispatchQueue.main.async { [weak self] in
+                guard let self = self else { return }
+                self.previewView.fetchImage(asset: asset, contentMode: .aspectFill, targetSize: imView.frame.size)
+                self.dp_addTapView()
+            }
+        }
+    }
+    
     func dp_addTapView() {
         let tap = UITapGestureRecognizer(target: self, action: #selector(dp_didTapPreview))
         previewView.addGestureRecognizer(tap)
+    }
+    
+    func dp_addLanguage() {
+        currentLang = DP_TranslateManager.shared.currentLanguages ?? TranslateLanguage.english
+        originalLang = DP_TranslateManager.shared.originalLanguages
     }
     
     func dp_createNavTitle(rotate: CGFloat) {
@@ -112,7 +150,13 @@ private extension DP_CameraViewControllerExtension {
     }
     
     @objc func dp_didTapPreview() {
-        
+        if UIImagePickerController.isSourceTypeAvailable(.photoLibrary){
+            imagePicker.delegate = self
+            imagePicker.sourceType = .photoLibrary
+            imagePicker.allowsEditing = false
+
+            present(imagePicker, animated: true, completion: nil)
+        }
     }
     
     func dp_getBuferForView(bufer: CMSampleBuffer) {
@@ -131,48 +175,36 @@ private extension DP_CameraViewControllerExtension {
             }
         }
     }
-    
-    func dp_addVideo() {
-        client = DP_VideoManager()
-        guard let client = client else { return }
-            do {
-                try  client.startSendingVideoToServer()
-      //          isSessionStart = true
-            } catch {
-            }
-       
-        client.handlerBufer = { [weak self] bufer in
-            guard let self = self else { return }
-            
-            self.dp_getBuferForView(bufer: bufer)
-            guard let image = self.liveManager.sm_getBuferForWrite(bufer: bufer) else { return }
-           
-    //        if self.isSessionStart {
-                DispatchQueue.main.async { [weak self] in
-                    guard let self = self,
-                    let cameraImage = self.cameraImage else { return }
-                    cameraImage.image = image
-    //            }
-            }
-        }
+
+    func dp_stopSessino() {
+        manager.stopSesion()
     }
     
-    func dp_stopSessino() {
-        client?.stopSession()
-        client = nil
+    func dp_setLeftNavBarItems() {
+        lightImage = UIImage(named: "light")
+        monohromeImage = UIImage(named: "monoHrome")
+        dp_addNavButtons()
     }
     
     func dp_addNavButtons() {
         self.navigationItem.leftBarButtonItems = []
-       dp_createLeftNavBarItems(image: "light", action: #selector(dp_didTapLIgth))
-        dp_createLeftNavBarItems(image: "monoHrome", action: #selector(dp_didTapMonoHrome))
+       dp_createLeftNavBarItems(image: lightImage, action: #selector(dp_didTapLIgth))
+        dp_createLeftNavBarItems(image: monohromeImage, action: #selector(dp_didTapMonoHrome))
+        self.navigationItem.rightBarButtonItems = []
+        dp_createRightNavBarItems(image: "livephoto.slash", action: #selector(dp_didTapLiveCamera))
     }
     
     @objc func dp_didTapLIgth() {
-     
+        ligth = ligth == .off ? .on : .off
+        lightImage = ligth == .on ? UIImage(systemName: "bolt.fill") : UIImage(named: "light")
+        dp_addNavButtons()
     }
     
     @objc func dp_didTapMonoHrome() {
+     
+    }
+    
+    @objc func dp_didTapLiveCamera() {
      
     }
 
@@ -193,13 +225,20 @@ private extension DP_CameraViewControllerExtension {
                     completion()
                 }
                 
-                let originalLanguage = TranslateLanguage(rawValue: lang)
-                var currentLang: TranslateLanguage = originalLanguage
-                if !isOriginalLang, let lang = DP_TranslateManager.shared.currentLanguages {
+                let originalTextLang = TranslateLanguage(rawValue: lang)
+                var currentLang: TranslateLanguage = originalTextLang
+                if !isOriginalLang, let lang = self.currentLang {
                     currentLang = lang
+                    self.currentLang = self.originalLang
+                    self.originalLang = currentLang
+                } else if isOriginalLang, self.originalLang != nil, let lang = self.currentLang {
+                    currentLang = lang
+                    self.currentLang = self.originalLang
+                    self.originalLang = currentLang
+                } else {
+                    self.originalLang = currentLang
                 }
-                
-                DP_TranslateManager.shared.originalLanguages = currentLang
+               
                 if !DP_TranslateManager.shared.isLanguageDownloaded(currentLang) {
                     DP_TranslateManager.shared.dp_translateTag(lang: currentLang) { [weak self] rezOrigin in
                         guard let self = self else { return }
@@ -233,15 +272,12 @@ private extension DP_CameraViewControllerExtension {
             }
         }
     }
-    
-    func dp_gggg() {
-    
-    }
-    
+ 
     func dp_resetImage() {
         dp_removeImageView()
         dp_createImageView()
-        dp_addVideo()
+        manager.startSession()
+        dp_addVideo(captureSession: manager.captureSession)
     }
     
     func dp_createImageView() {
@@ -278,22 +314,12 @@ private extension DP_CameraViewControllerExtension {
     //MARK: - Create popap menu
     func dp_createPopapMenuView(isOriginalLang: Bool = true) {
         if popapMenuView == nil {
-            let currentLang = DP_TranslateManager.shared.currentLanguages ?? TranslateLanguage.english
-            let originalLang = DP_TranslateManager.shared.originalLanguages ?? TranslateLanguage.english
             let currentNameLang = DP_TranslateManager.shared.dp_getNameLang(lang: currentLang) ?? "non"
             let originalNameLang = DP_TranslateManager.shared.dp_getNameLang(lang: originalLang) ?? "non"
-            
-            var first: String = originalNameLang
-            var second: String = currentNameLang
-            
-            if !isOriginalLang {
-                first = currentNameLang
-                second = originalNameLang
-            }
-            
+  
             popapMenuView = DP_PopUpLangView(frame: CGRect(x: 20, y: view.safeAreaInsets.top + 20, width: view.bounds.width - 40, height: 42),
-                                             firstText: first,
-                                             secondText: second)
+                                             firstText: originalNameLang,
+                                             secondText: currentNameLang)
             guard let popapMenuView = popapMenuView else { return }
             view.addSubview(popapMenuView)
            
@@ -307,8 +333,8 @@ private extension DP_CameraViewControllerExtension {
         }
     }
     
-    func dp_removePopapMenuView() {
-        UIView.animate(withDuration: 0.5, delay: 0) { [weak self] in
+    func dp_removePopapMenuView(_ duration: CGFloat = 0.5) {
+        UIView.animate(withDuration: duration, delay: 0) { [weak self] in
             guard let self = self else { return }
             self.popapMenuView?.alpha = 0.0
         } completion: { [weak self] completion in
@@ -318,32 +344,28 @@ private extension DP_CameraViewControllerExtension {
             }
         }
     }
-    
+
     @objc func dp_didTapCameraButton() {
-        
-        if #available(iOS 9.0, *) {
-                AudioServicesPlaySystemSoundWithCompletion(SystemSoundID(1108), nil)
-            } else {
-                AudioServicesPlaySystemSound(1108)
-            }
- 
-        dp_addLoader()
-        guard let cameraImage = cameraImage,
-              let image = cameraImage.image,
-              let data = image.jpegData(compressionQuality: 0.7) else { return }
-        
-        urlPhoto = helper.dp_saveNewPhoto(data: data)
-        
-        dp_stopSessino()
-        currentImage = photoHelper.dp_scaleAndOrient(image: image)
-        guard let currentImage = currentImage else { return }
-        dp_startRecognizedText(image: currentImage, isOriginalLang: true)
+        manager.dp_createPhoto(withLight: ligth)
+        manager.imageHanddler = { [weak self] newImage in
+            guard let self = self else { return }
+
+            self.dp_addLoader()
+            guard let data = newImage.jpegData(compressionQuality: 0.7) else { return }
+
+            self.urlPhoto = self.helper.dp_saveNewPhoto(data: data)
+
+            self.dp_stopSessino()
+            self.currentImage = self.photoHelper.dp_scaleAndOrient(image: newImage)
+            guard let currentImage = self.currentImage else { return }
+            self.dp_startRecognizedText(image: currentImage, isOriginalLang: true)
+        }
     }
-    
+
     @objc func dp_changeLang() {
         dp_addLoader()
         isOriginLang.toggle()
-        dp_removePopapMenuView()
+        dp_removePopapMenuView(0.0)
       
         guard let currentImage = currentImage else { return }
         dp_startRecognizedText(image: currentImage, isOriginalLang: isOriginLang)
@@ -351,5 +373,23 @@ private extension DP_CameraViewControllerExtension {
     
     @objc func dp_resetCamera() {
         dp_resetImage()
+    }
+}
+
+extension DP_CameraViewControllerExtension: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
+    
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
+        picker.dismiss(animated: true, completion: nil)
+        
+        guard let image = info[UIImagePickerController.InfoKey.originalImage] as? UIImage else { return }
+        
+        self.dp_stopSessino()
+        
+        dp_removeImageView()
+        dp_createImageView()
+        guard let cameraImage = self.cameraImage else { return }
+        cameraImage.image = image
+        self.currentImage = self.photoHelper.dp_scaleAndOrient(image: image)
+        self.dp_startRecognizedText(image: image, isOriginalLang: true)
     }
 }

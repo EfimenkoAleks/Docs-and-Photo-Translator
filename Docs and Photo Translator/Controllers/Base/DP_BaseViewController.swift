@@ -150,9 +150,9 @@ class DP_BaseViewController: UIViewController {
         }
     }
     
-    func dp_createLeftNavBarItems(image: String, action: Selector) {
+    func dp_createLeftNavBarItems(image: UIImage?, action: Selector) {
         
-        guard let buttonImage = UIImage(named: image)?.withRenderingMode(.alwaysTemplate) else { return }
+        guard let buttonImage = image?.withRenderingMode(.alwaysTemplate) else { return }
         
         let navButton = UIBarButtonItem(image: buttonImage, style: .plain, target: self, action: action)
         navButton.tintColor = DP_Colors.blueColor.color

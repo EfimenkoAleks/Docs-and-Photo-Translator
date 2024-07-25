@@ -28,6 +28,7 @@
 		CE430A9C2C5128140096DC3D /* DP_BilderElements.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE430A9B2C5128140096DC3D /* DP_BilderElements.swift */; };
 		CE430A9E2C515FA60096DC3D /* DP_BaseGradientView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE430A9D2C515FA60096DC3D /* DP_BaseGradientView.swift */; };
 		CE430AA12C5224990096DC3D /* DP_PhotoManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE430AA02C5224990096DC3D /* DP_PhotoManager.swift */; };
+		CE430AA32C52F4780096DC3D /* UIImageView+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE430AA22C52F4780096DC3D /* UIImageView+Extension.swift */; };
 		CE465A492C32DCA80055885A /* CoreML.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CE465A482C32DCA80055885A /* CoreML.framework */; };
 		CE465A4D2C3411120055885A /* DP_ChoiceLanguageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE465A4B2C3411120055885A /* DP_ChoiceLanguageViewController.swift */; };
 		CE465A4E2C3411120055885A /* DP_ChoiceLanguageViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = CE465A4C2C3411120055885A /* DP_ChoiceLanguageViewController.xib */; };
@@ -104,6 +105,7 @@
 		CE430A9B2C5128140096DC3D /* DP_BilderElements.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DP_BilderElements.swift; sourceTree = "<group>"; };
 		CE430A9D2C515FA60096DC3D /* DP_BaseGradientView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DP_BaseGradientView.swift; sourceTree = "<group>"; };
 		CE430AA02C5224990096DC3D /* DP_PhotoManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DP_PhotoManager.swift; sourceTree = "<group>"; };
+		CE430AA22C52F4780096DC3D /* UIImageView+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImageView+Extension.swift"; sourceTree = "<group>"; };
 		CE465A442C32D9F70055885A /* Docs and Photo Translator-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Docs and Photo Translator-Bridging-Header.h"; sourceTree = "<group>"; };
 		CE465A482C32DCA80055885A /* CoreML.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreML.framework; path = System/Library/Frameworks/CoreML.framework; sourceTree = SDKROOT; };
 		CE465A4B2C3411120055885A /* DP_ChoiceLanguageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DP_ChoiceLanguageViewController.swift; sourceTree = "<group>"; };
@@ -405,6 +407,7 @@
 				CEA27A562C401DFE001D26E5 /* String+Extension.swift */,
 				CE430A922C4D15BD0096DC3D /* UIImage+Extension.swift */,
 				CE430A962C4FCD9C0096DC3D /* UIView+Extension.swift */,
+				CE430AA22C52F4780096DC3D /* UIImageView+Extension.swift */,
 			);
 			path = Extension;
 			sourceTree = "<group>";
@@ -662,6 +665,7 @@
 				CEA27A4F2C3D3578001D26E5 /* DP_TranslateLangError.swift in Sources */,
 				CEE989162C230C6300870D32 /* DP_TabBarItem.swift in Sources */,
 				CEE989512C26CFC300870D32 /* DP_BroadCastLiveManager.swift in Sources */,
+				CE430AA32C52F4780096DC3D /* UIImageView+Extension.swift in Sources */,
 				CE430AA12C5224990096DC3D /* DP_PhotoManager.swift in Sources */,
 				CEE989422C242F5E00870D32 /* DP_CameraCoordinator.swift in Sources */,
 				CEBEF3902C2D7B85008D0FAC /* DP_PhotoDetailViewController.swift in Sources */,
