@@ -30,6 +30,7 @@ class DP_PhotoViewController: DP_BaseViewController {
         isSmallBackButtonEnabled = false
         dp_setGradient()
       super.viewWillAppear(animated)
+        photoManager?.dp_reloadTableWithData(.recent)
     }
     
     override func dp_choiseLang() {

@@ -20,4 +20,12 @@ class DP_BilderElements {
         
         return button
     }
+    
+    func dp_imageView() -> UIImageView {
+        let view = UIImageView()
+        view.backgroundColor = UIColor.clear
+        view.translatesAutoresizingMaskIntoConstraints = false
+        
+        return view
+    }
 }

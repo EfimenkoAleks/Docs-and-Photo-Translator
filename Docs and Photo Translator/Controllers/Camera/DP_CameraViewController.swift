@@ -15,7 +15,7 @@ typealias DP_CameraViewControllerExtension = DP_CameraViewController
 class DP_CameraViewController: DP_BaseViewController {
     
     @IBOutlet weak var cameraView: UIView!
-    @IBOutlet weak var cameraImage: UIImageView!
+    var cameraImage: UIImageView?
     @IBOutlet weak var previewView: UIImageView!
     @IBOutlet weak var containerReset: DP_ViewVithGradient!
     @IBOutlet weak var containerView: UIView!
@@ -24,7 +24,7 @@ class DP_CameraViewController: DP_BaseViewController {
     var coordinator: DP_CameraCoordinatorProtocol?
     private let photoOutput = AVCapturePhotoOutput()
     private let layer = AVSampleBufferDisplayLayer()
-    private lazy var client = DP_VideoManager()
+    private var client: DP_VideoManager?
     private let liveManager: DP_BroadCastLiveManager = DP_BroadCastLiveManager()
     private let helper: DP_CameraHelper = DP_CameraHelper()
     private let photoHelper: DP_PhotoHelper = DP_PhotoHelper()
@@ -36,6 +36,7 @@ class DP_CameraViewController: DP_BaseViewController {
     private var photoButton: UIButton?
     private var rotateNavButton: CGFloat = CGFloat.pi * 2
     private var isSessionStart: Bool = false
+    private var isOriginLang: Bool = true
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -47,7 +48,7 @@ class DP_CameraViewController: DP_BaseViewController {
         isSmallBackButtonEnabled = false
         dp_setGradient()
       super.viewWillAppear(animated)
-        dp_addVideo()
+        dp_resetImage()
     }
     
     override func viewDidDisappear(_ animated: Bool) {
@@ -65,7 +66,7 @@ class DP_CameraViewController: DP_BaseViewController {
         coordinator?.eventHandler = { [weak self] _ in
             guard let self = self,
                   let currentImage = self.currentImage else { return }
-            self.dp_startRecognizedText(image: currentImage)
+            self.dp_startRecognizedText(image: currentImage, isOriginalLang: true)
         }
     }
 }
@@ -75,8 +76,9 @@ private extension DP_CameraViewControllerExtension {
     func dp_configUI() {
         dp_createNavTitle(rotate: rotateNavButton)
         dp_addNavButtons()
-        dp_addTapView()
+    //    dp_createImageView()
         dp_configureUI()
+        dp_addTapView()
     }
     
     func dp_configureUI() {
@@ -119,18 +121,20 @@ private extension DP_CameraViewControllerExtension {
         }
     }
     
-    func dp_startRecognizedText(image: UIImage) {
-        dp_recognizeText(in: image) { [weak self] in
+    func dp_startRecognizedText(image: UIImage, isOriginalLang: Bool) {
+        dp_recognizeText(in: image, isOriginalLang: isOriginalLang) { [weak self] in
             guard let self = self else { return }
             DispatchQueue.main.async { [weak self] in
                 guard let self = self else { return }
                 self.dp_removeLoader()
-                self.dp_createPopapMenuView()
+                self.dp_createPopapMenuView(isOriginalLang: isOriginalLang)
             }
         }
     }
     
     func dp_addVideo() {
+        client = DP_VideoManager()
+        guard let client = client else { return }
             do {
                 try  client.startSendingVideoToServer()
       //          isSessionStart = true
@@ -145,11 +149,17 @@ private extension DP_CameraViewControllerExtension {
            
     //        if self.isSessionStart {
                 DispatchQueue.main.async { [weak self] in
-                    guard let self = self else { return }
-                    self.cameraImage.image = image
+                    guard let self = self,
+                    let cameraImage = self.cameraImage else { return }
+                    cameraImage.image = image
     //            }
             }
         }
+    }
+    
+    func dp_stopSessino() {
+        client?.stopSession()
+        client = nil
     }
     
     func dp_addNavButtons() {
@@ -166,15 +176,11 @@ private extension DP_CameraViewControllerExtension {
      
     }
 
-    func dp_stopSessino() {
-        client.stopSession()
-    }
-
     func dp_handleDismiss() {
         DP_StartCoordinator.shared.dp_strart()
     }
     
-    func dp_recognizeText(in image: UIImage, completion: @escaping () -> Void) {
+    func dp_recognizeText(in image: UIImage, isOriginalLang: Bool, completion: @escaping () -> Void) {
         DP_TextRecognizedManager.shared.dp_textRecognized(in: image) { [weak self] model in
             guard let self = self else { return }
             let format = UIGraphicsImageRendererFormat()
@@ -188,28 +194,34 @@ private extension DP_CameraViewControllerExtension {
                 }
                 
                 let originalLanguage = TranslateLanguage(rawValue: lang)
-                DP_TranslateManager.shared.originalLanguages = originalLanguage
-                if !DP_TranslateManager.shared.isLanguageDownloaded(originalLanguage) {
-                    DP_TranslateManager.shared.dp_translateTag(lang: originalLanguage) { [weak self] rezOrigin in
+                var currentLang: TranslateLanguage = originalLanguage
+                if !isOriginalLang, let lang = DP_TranslateManager.shared.currentLanguages {
+                    currentLang = lang
+                }
+                
+                DP_TranslateManager.shared.originalLanguages = currentLang
+                if !DP_TranslateManager.shared.isLanguageDownloaded(currentLang) {
+                    DP_TranslateManager.shared.dp_translateTag(lang: currentLang) { [weak self] rezOrigin in
                         guard let self = self else { return }
                         self.dp_presentAlertWithTwoButtons(title: "The text uses - \(rezOrigin) language, to translate you need to download the \(rezOrigin) language")
                     }
                     completion()
                 } else {
                     DispatchQueue.main.async { [weak self] in
-                        
+
                         guard let self = self else { return }
-         
+
                         for (i, str) in model.texts.enumerated() {
-                       
-                            DP_TranslateManager.shared.getText(str, originalLanguage: originalLanguage) { [weak self] rezText in
-                                guard let self = self else { return }
+
+                            DP_TranslateManager.shared.getText(str, originalLanguage: currentLang) { [weak self] rezText in
+                                guard let self = self,
+                                      let cameraImage = self.cameraImage else { return }
                                 switch rezText {
                                 case .success(let rezText):
-                                
-                                    let lb = self.photoHelper.dp_createViewImage(rect: model.rects[i], bounds: model.imageBounds, viewFrame: self.cameraImage.frame, text: rezText, inputImage: image)
 
-                                    self.cameraImage.addSubview(lb)
+                                    let lb = self.photoHelper.dp_createViewImage(rect: model.rects[i], bounds: model.imageBounds, viewFrame: cameraImage.frame, text: rezText, inputImage: image)
+
+                                    cameraImage.addSubview(lb)
                                 case .noLanguage:
                                     self.dp_presentAlert(title: DP_TranslateLangError.cantRecognizeLang.events)
                                 }
@@ -220,6 +232,35 @@ private extension DP_CameraViewControllerExtension {
                 }
             }
         }
+    }
+    
+    func dp_gggg() {
+    
+    }
+    
+    func dp_resetImage() {
+        dp_removeImageView()
+        dp_createImageView()
+        dp_addVideo()
+    }
+    
+    func dp_createImageView() {
+        cameraImage = DP_BilderElements.shared.dp_imageView()
+        guard let cameraImage = cameraImage else { return }
+        
+        cameraView.insertSubview(cameraImage, at: 0)
+        
+        NSLayoutConstraint.activate([
+            cameraImage.topAnchor.constraint(equalTo: cameraView.topAnchor),
+            cameraImage.bottomAnchor.constraint(equalTo: cameraView.bottomAnchor),
+            cameraImage.leadingAnchor.constraint(equalTo: cameraView.leadingAnchor),
+            cameraImage.trailingAnchor.constraint(equalTo: cameraView.trailingAnchor)
+        ])
+    }
+    
+    func dp_removeImageView() {
+        cameraImage?.removeFromSuperview()
+        cameraImage = nil
     }
     
     func dp_addButton(button: UIButton?, conteiner: UIView) {
@@ -235,16 +276,24 @@ private extension DP_CameraViewControllerExtension {
     }
     
     //MARK: - Create popap menu
-    func dp_createPopapMenuView() {
+    func dp_createPopapMenuView(isOriginalLang: Bool = true) {
         if popapMenuView == nil {
             let currentLang = DP_TranslateManager.shared.currentLanguages ?? TranslateLanguage.english
             let originalLang = DP_TranslateManager.shared.originalLanguages ?? TranslateLanguage.english
             let currentNameLang = DP_TranslateManager.shared.dp_getNameLang(lang: currentLang) ?? "non"
             let originalNameLang = DP_TranslateManager.shared.dp_getNameLang(lang: originalLang) ?? "non"
             
+            var first: String = originalNameLang
+            var second: String = currentNameLang
+            
+            if !isOriginalLang {
+                first = currentNameLang
+                second = originalNameLang
+            }
+            
             popapMenuView = DP_PopUpLangView(frame: CGRect(x: 20, y: view.safeAreaInsets.top + 20, width: view.bounds.width - 40, height: 42),
-                                             firstText: originalNameLang,
-                                             secondText: currentNameLang)
+                                             firstText: first,
+                                             secondText: second)
             guard let popapMenuView = popapMenuView else { return }
             view.addSubview(popapMenuView)
            
@@ -279,25 +328,28 @@ private extension DP_CameraViewControllerExtension {
             }
  
         dp_addLoader()
-        guard let image = cameraImage.image,
+        guard let cameraImage = cameraImage,
+              let image = cameraImage.image,
               let data = image.jpegData(compressionQuality: 0.7) else { return }
         
         urlPhoto = helper.dp_saveNewPhoto(data: data)
         
         dp_stopSessino()
-  //      isSessionStart = false
         currentImage = photoHelper.dp_scaleAndOrient(image: image)
         guard let currentImage = currentImage else { return }
-        dp_startRecognizedText(image: currentImage)
+        dp_startRecognizedText(image: currentImage, isOriginalLang: true)
     }
     
     @objc func dp_changeLang() {
-        print("dp_changeLang")
+        dp_addLoader()
+        isOriginLang.toggle()
+        dp_removePopapMenuView()
+      
+        guard let currentImage = currentImage else { return }
+        dp_startRecognizedText(image: currentImage, isOriginalLang: isOriginLang)
     }
     
     @objc func dp_resetCamera() {
-    //    isSessionStart = true
-      //  cameraImage.layer.sublayers?.removeAll()
-      //  dp_addVideo()
+        dp_resetImage()
     }
 }
