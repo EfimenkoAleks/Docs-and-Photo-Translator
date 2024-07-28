@@ -23,6 +23,7 @@ class DP_BilderElements {
     
     func dp_imageView() -> UIImageView {
         let view = UIImageView()
+        view.contentMode = .scaleAspectFit
         view.backgroundColor = UIColor.clear
         view.translatesAutoresizingMaskIntoConstraints = false
         

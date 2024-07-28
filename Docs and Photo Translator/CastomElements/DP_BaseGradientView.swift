@@ -21,11 +21,11 @@ class DP_BaseGradientView: UIView {
     }
     
     private func createView() {
-        
-        setGradient(colorTop: UIColor(hexString: "#FCFCFE"), colorBottom: UIColor(hexString: "#A3BFF3"), frame: CGRect(x: 0, y: 0, width: frame.width, height: frame.height))
+
+        setGradient(colorTop: DP_Colors.gradientTop.color, colorBottom: DP_Colors.gradientBottom.color, frame: CGRect(x: 0, y: 0, width: frame.width, height: frame.height))
         
                 let popapView = UIView()
-        popapView.backgroundColor = .white.withAlphaComponent(0.6)
+        popapView.backgroundColor = .white.withAlphaComponent(0.4)
                 popapView.translatesAutoresizingMaskIntoConstraints = false
 
                 addSubview(popapView)

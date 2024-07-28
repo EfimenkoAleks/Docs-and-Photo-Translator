@@ -51,6 +51,7 @@ class DP_BaseViewController: UIViewController {
         
         dp_setSmallBackButton()
         setNeedsStatusBarAppearanceUpdate()
+   //     dp_setNavControllerBackground()
     }
     
     override var preferredStatusBarStyle: UIStatusBarStyle {
@@ -90,8 +91,10 @@ class DP_BaseViewController: UIViewController {
     
     func dp_setGradient() {
         let screen = UIScreen.main.bounds
-        view.setGradient(colorTop: DP_Colors.gradientTop.color,
-                         colorBottom: DP_Colors.gradientBottom.color, frame: screen)
+//        view.setGradient(colorTop: DP_Colors.gradientTop.color,
+//                         colorBottom: DP_Colors.gradientBottom.color, frame: screen)
+        let vi = DP_BaseGradientView(frame: CGRect(x: 0, y: 0, width: screen.width, height: screen.height))
+        view.insertSubview(vi, at: 0)
     }
     
     func dp_createTitle(_ title: String) {
@@ -232,5 +235,21 @@ class DP_BaseViewController: UIViewController {
         let tap: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(dp_dismissKeyboard))
         tap.cancelsTouchesInView = false
         view.addGestureRecognizer(tap)
+    }
+    
+    func dp_setNavControllerBackground() {
+        let screen = UIScreen.main.bounds
+        let view = UIView(frame: CGRect(x: 0, y: 0, width: screen.width, height: 100))
+        view.setGradient(colorTop: DP_Colors.gradientTop.color, colorBottom: UIColor(hexString: "#eff6fb"), frame: CGRect(x: 0, y: 0, width: view.frame.width, height: view.frame.height))
+        let image = UIImage(view: view)
+        
+        let appearance = UINavigationBarAppearance()
+        appearance.backgroundImage = UIImage(view: view)
+        navigationController?.navigationBar.standardAppearance = appearance
+        navigationController?.navigationBar.compactAppearance = appearance
+        navigationController?.navigationBar.scrollEdgeAppearance = appearance
+  //      navigationController?.navigationBar.setBackgroundImage(image, for: .default)
+        navigationController?.navigationBar.shadowImage = UIImage()
+        navigationController?.navigationBar.isTranslucent = true
     }
 }

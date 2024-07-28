@@ -17,7 +17,7 @@ class DP_PhotoViewController: DP_BaseViewController {
     private var photoManager: DP_PhotoTableManager?
     private var helper: DP_PhotoHelper = DP_PhotoHelper()
     private let cameraHelper: DP_CameraHelper = DP_CameraHelper()
-    private var segment: UISegmentedControl?
+    private var segment: DP_SegmentControl?
     private var imagePicker = UIImagePickerController()
     
     override func viewDidLoad() {
@@ -31,6 +31,7 @@ class DP_PhotoViewController: DP_BaseViewController {
         dp_setGradient()
       super.viewWillAppear(animated)
         photoManager?.dp_reloadTableWithData(.recent)
+        segment?.reloadSegment()
     }
     
     override func dp_choiseLang() {
@@ -73,22 +74,15 @@ private extension DP_PhotoViewControllerExtension {
     }
     
     func dp_createSegment() {
-        segment = UISegmentedControl(items: ["Recent", "Pinned"])
+        segment = DP_SegmentControl(frame: CGRect(x: 0, y: 0, width: 121, height: 28), items: ["Recent", "Pinned"])
         guard let segment = segment else { return }
-            segment.sizeToFit()
-            if #available(iOS 13.0, *) {
-                segment.selectedSegmentTintColor = DP_Colors.blue.color
-            } else {
-               segment.tintColor = DP_Colors.blue.color
-            }
-            segment.selectedSegmentIndex = 0
-        segment.setTitleTextAttributes([NSAttributedString.Key.font : UIFont.systemFont(ofSize: 14)], for: .normal)
+          //  segment.sizeToFit()
         segment.addTarget(self, action: #selector(segmentAction(_:)), for: .valueChanged)
             self.navigationItem.titleView = segment
     }
     
-    @objc func segmentAction(_ segmentedControl: UISegmentedControl) {
-            switch (segmentedControl.selectedSegmentIndex) {
+    @objc func segmentAction(_ segmentedControl: DP_SegmentControl) {
+            switch (segmentedControl.selectedIndex) {
             case 0:
                 photoManager?.dp_reloadTableWithData(.recent)
             case 1:

@@ -274,6 +274,7 @@ private extension DP_CameraViewControllerExtension {
     }
  
     func dp_resetImage() {
+        dp_removePopapMenuView()
         dp_removeImageView()
         dp_createImageView()
         manager.startSession()

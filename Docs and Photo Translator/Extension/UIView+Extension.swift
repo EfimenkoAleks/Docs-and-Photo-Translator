@@ -63,4 +63,11 @@ extension UIView {
         self.layer.addSublayer(gradient)
         gradient.zPosition = 0
     }
+    
+    func asImage() -> UIImage {
+            let renderer = UIGraphicsImageRenderer(bounds: bounds)
+            return renderer.image { rendererContext in
+                layer.render(in: rendererContext.cgContext)
+            }
+        }
 }

@@ -64,6 +64,17 @@ extension UIImage {
         UIGraphicsEndImageContext()
         return image
     }
+    
+    static func convertToImage(view: UIView) -> UIImage? {
+        UIGraphicsBeginImageContext(view.bounds.size)
+
+            // The code below may solve your problem
+        view.layer.render(in: UIGraphicsGetCurrentContext()!)
+
+            let image = UIGraphicsGetImageFromCurrentImageContext()
+            UIGraphicsEndImageContext()
+        return image
+    }
 }
 
 extension UIImage {
@@ -86,5 +97,15 @@ extension UIImage {
         }
 
         return self
+    }
+}
+
+extension UIImage {
+    convenience init(view: UIView) {
+        UIGraphicsBeginImageContext(view.frame.size)
+        view.layer.render(in:UIGraphicsGetCurrentContext()!)
+        let image = UIGraphicsGetImageFromCurrentImageContext()
+        UIGraphicsEndImageContext()
+        self.init(cgImage: image!.cgImage!)
     }
 }
