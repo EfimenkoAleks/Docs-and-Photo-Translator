@@ -85,7 +85,7 @@ private extension DP_CameraViewControllerExtension {
         dp_createNavTitle(rotate: rotateNavButton)
         dp_setLeftNavBarItems()
         dp_configureUI()
-        dp_addLanguage()
+        dp_resetLanguage()
     }
     
     func dp_addVideo(captureSession: AVCaptureSession?) {
@@ -129,9 +129,9 @@ private extension DP_CameraViewControllerExtension {
         previewView.addGestureRecognizer(tap)
     }
     
-    func dp_addLanguage() {
+    func dp_resetLanguage() {
         currentLang = DP_TranslateManager.shared.currentLanguages ?? TranslateLanguage.english
-        originalLang = DP_TranslateManager.shared.originalLanguages
+        originalLang = nil
     }
     
     func dp_createNavTitle(rotate: CGFloat) {
@@ -150,6 +150,7 @@ private extension DP_CameraViewControllerExtension {
     }
     
     @objc func dp_didTapPreview() {
+        dp_resetLanguage()
         if UIImagePickerController.isSourceTypeAvailable(.photoLibrary){
             imagePicker.delegate = self
             imagePicker.sourceType = .photoLibrary
@@ -274,6 +275,7 @@ private extension DP_CameraViewControllerExtension {
     }
  
     func dp_resetImage() {
+        dp_resetLanguage()
         dp_removePopapMenuView()
         dp_removeImageView()
         dp_createImageView()
@@ -282,7 +284,10 @@ private extension DP_CameraViewControllerExtension {
     }
     
     func dp_createImageView() {
-        cameraImage = DP_BilderElements.shared.dp_imageView()
+        cameraImage = UIImageView()
+        cameraImage?.contentMode = .scaleToFill
+        cameraImage?.backgroundColor = UIColor.clear
+        cameraImage?.translatesAutoresizingMaskIntoConstraints = false
         guard let cameraImage = cameraImage else { return }
         
         cameraView.insertSubview(cameraImage, at: 0)
@@ -345,8 +350,9 @@ private extension DP_CameraViewControllerExtension {
             }
         }
     }
-
-    @objc func dp_didTapCameraButton() {
+    
+    func dp_tapCamera() {
+        dp_resetLanguage()
         manager.dp_createPhoto(withLight: ligth)
         manager.imageHanddler = { [weak self] newImage in
             guard let self = self else { return }
@@ -361,6 +367,10 @@ private extension DP_CameraViewControllerExtension {
             guard let currentImage = self.currentImage else { return }
             self.dp_startRecognizedText(image: currentImage, isOriginalLang: true)
         }
+    }
+
+    @objc func dp_didTapCameraButton() {
+        popapMenuView == nil ? dp_tapCamera() : dp_resetImage()
     }
 
     @objc func dp_changeLang() {
