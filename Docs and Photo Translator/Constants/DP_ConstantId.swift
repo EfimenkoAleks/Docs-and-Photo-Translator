@@ -10,4 +10,5 @@ import Foundation
 final class DP_ConstantId: NSObject {
     
     static let photoCell = "idDP_PhotoCell"
+    static let pickerCell = "idDP_PickerCell"
 }

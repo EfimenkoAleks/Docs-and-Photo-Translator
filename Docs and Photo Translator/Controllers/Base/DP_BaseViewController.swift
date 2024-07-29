@@ -156,14 +156,19 @@ class DP_BaseViewController: UIViewController {
     func dp_createLeftNavBarItems(image: UIImage?, action: Selector) {
         
         guard let buttonImage = image?.withRenderingMode(.alwaysTemplate) else { return }
-        
-        let navButton = UIBarButtonItem(image: buttonImage, style: .plain, target: self, action: action)
-        navButton.tintColor = DP_Colors.blueColor.color
+
+        self.navigationController?.navigationBar.shadowImage = UIImage()
+
+        let addButton = UIButton(type: .custom)
+        addButton.setImage(buttonImage, for: .normal)
+        addButton.frame = CGRect(x: 0, y: 0, width: 25, height: 25)
+        addButton.tintColor = DP_Colors.blueColor.color
+        addButton.addTarget(self, action: action, for: .touchUpInside)
         
         if self.navigationItem.leftBarButtonItems == nil {
-            self.navigationItem.setLeftBarButtonItems([navButton], animated: true)
+            self.navigationItem.setLeftBarButtonItems([UIBarButtonItem(customView: addButton)], animated: true)
         } else {
-            self.navigationItem.leftBarButtonItems?.append(navButton)
+            self.navigationItem.leftBarButtonItems?.append(UIBarButtonItem(customView: addButton))
         }
     }
     

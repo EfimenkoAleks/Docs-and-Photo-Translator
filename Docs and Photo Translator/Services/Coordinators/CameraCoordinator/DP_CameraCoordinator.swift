@@ -14,7 +14,7 @@ enum DP_CameraCoordinatorEvent {
 }
 
 protocol DP_CameraCoordinatorProtocol: DP_Coordinator {
-    var eventHandler: Block<()>? { get set }
+    var eventHandler: Block<(UIImage?)>? { get set }
     var navigationController: UINavigationController? { get set }
     var navigationTabController: UINavigationController? { get set }
     func dp_start()
@@ -23,11 +23,12 @@ protocol DP_CameraCoordinatorProtocol: DP_Coordinator {
 
 class DP_CameraCoordinator: DP_CameraCoordinatorProtocol {
     var cildren: [DP_Coordinator] = []
-    var eventHandler: Block<()>?
+    var eventHandler: Block<(UIImage?)>?
     
     var navigationController: UINavigationController?
     var navigationTabController: UINavigationController?
     private var controller: UIViewController?
+    private var children: DP_PickerViewController?
     
     func dp_start() {
         let vc = DP_CameraViewController()
@@ -42,19 +43,21 @@ extension DP_CameraCoordinator {
         switch type {
         case .choise:
             guard let controller = controller else { return }
-            let child = DP_ChoiceLanguageViewController(isSetCurrent: false)
-            child.modalPresentationStyle = .fullScreen
-            child.isModalInPresentation = true
-            child.preferredContentSize = controller.view.frame.size
-            controller.present(child, animated: true)
-            child.eventHandlerBack = { [weak self] _ in
+            children = DP_PickerViewController()
+            guard let children = children else { return }
+//            child.modalPresentationStyle = .automatic
+//            child.isModalInPresentation = true
+         //   child.preferredContentSize = controller.view.frame.size
+            controller.present(children, animated: true)
+            children.eventHandlerBack = { [weak self] image in
+                self?.eventHandler?(image)
                 self?.dp_eventOccurred(with: .removeChild)
-                self?.eventHandler?(())
             }
             
         case .removeChild:
-            guard let controller = controller else { return }
-            controller.removeChild()
+            guard let children = children else { return }
+       //     controller.removeChild()
+            children.dismiss(animated: true)
        
         case .back:
             DP_StartCoordinator.shared.dp_strart()

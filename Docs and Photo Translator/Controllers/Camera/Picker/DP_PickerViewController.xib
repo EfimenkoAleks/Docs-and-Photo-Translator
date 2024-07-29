@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="21507" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina6_12" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="21505"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="DP_PickerViewController" customModule="Docs_and_Photo_Translator" customModuleProvider="target">
+            <connections>
+                <outlet property="collectionView" destination="7FC-TS-NbL" id="vFw-Kw-gwq"/>
+                <outlet property="crossButton" destination="gzW-zP-hb5" id="izc-D5-UAu"/>
+                <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
+            </connections>
+        </placeholder>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view clearsContextBeforeDrawing="NO" contentMode="scaleToFill" id="i5M-Pr-FkT">
+            <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="none" translatesAutoresizingMaskIntoConstraints="NO" id="7FC-TS-NbL">
+                    <rect key="frame" x="0.0" y="111" width="393" height="707"/>
+                    <color key="backgroundColor" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" id="Q84-Pq-ViK">
+                        <size key="itemSize" width="128" height="128"/>
+                        <size key="headerReferenceSize" width="0.0" height="0.0"/>
+                        <size key="footerReferenceSize" width="0.0" height="0.0"/>
+                        <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
+                    </collectionViewFlowLayout>
+                </collectionView>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="MoB-DW-pI4">
+                    <rect key="frame" x="0.0" y="59" width="393" height="44"/>
+                    <subviews>
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="gzW-zP-hb5">
+                            <rect key="frame" x="20" y="3" width="48" height="38"/>
+                            <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            <state key="normal" title="Button"/>
+                            <buttonConfiguration key="configuration" style="plain" image="cross"/>
+                            <connections>
+                                <action selector="dp_didTapCrossButton:" destination="-1" eventType="touchUpInside" id="EUs-67-xfN"/>
+                            </connections>
+                        </button>
+                    </subviews>
+                    <color key="backgroundColor" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    <constraints>
+                        <constraint firstItem="gzW-zP-hb5" firstAttribute="leading" secondItem="MoB-DW-pI4" secondAttribute="leading" constant="20" id="P3Q-6o-E57"/>
+                        <constraint firstAttribute="height" constant="44" id="P6l-de-FEO"/>
+                        <constraint firstItem="gzW-zP-hb5" firstAttribute="centerY" secondItem="MoB-DW-pI4" secondAttribute="centerY" id="n2X-Si-JBu"/>
+                    </constraints>
+                </view>
+            </subviews>
+            <viewLayoutGuide key="safeArea" id="fnl-2z-Ty3"/>
+            <color key="backgroundColor" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+            <constraints>
+                <constraint firstItem="7FC-TS-NbL" firstAttribute="top" secondItem="MoB-DW-pI4" secondAttribute="bottom" constant="8" id="5BD-9v-Ab9"/>
+                <constraint firstItem="MoB-DW-pI4" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" id="BMz-eA-ASY"/>
+                <constraint firstItem="7FC-TS-NbL" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" id="Dcd-sR-3GI"/>
+                <constraint firstItem="fnl-2z-Ty3" firstAttribute="trailing" secondItem="MoB-DW-pI4" secondAttribute="trailing" id="LjY-a2-U69"/>
+                <constraint firstItem="fnl-2z-Ty3" firstAttribute="bottom" secondItem="7FC-TS-NbL" secondAttribute="bottom" id="f6D-iw-nHr"/>
+                <constraint firstItem="MoB-DW-pI4" firstAttribute="top" secondItem="fnl-2z-Ty3" secondAttribute="top" id="gZT-jh-dYD"/>
+                <constraint firstItem="fnl-2z-Ty3" firstAttribute="trailing" secondItem="7FC-TS-NbL" secondAttribute="trailing" id="zIX-FR-YG2"/>
+            </constraints>
+            <point key="canvasLocation" x="118" y="20"/>
+        </view>
+    </objects>
+    <resources>
+        <image name="cross" width="24" height="24"/>
+    </resources>
+</document>

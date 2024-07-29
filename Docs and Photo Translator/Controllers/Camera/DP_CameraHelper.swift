@@ -18,6 +18,49 @@ final class DP_CameraHelper: NSObject {
         super.init()
     }
     
+    func dp_getImageFromUrl(path: URL) -> UIImage? {
+        do {
+            let data = try Data(contentsOf: path)
+             return UIImage(data: data)
+        } catch {
+            return nil
+        }
+    }
+    
+    func dp_getPhotos(completion: @escaping ([DP_Pickture]) -> Void) {
+        let arrInt = preferens.dp_getPhotoNumber()
+        
+       let paths = arrInt.compactMap({DP_FileManager.shared.dp_getFileUrlFromPath("\($0)")})
+        var models: [DP_Pickture] = paths.map { url -> DP_Pickture in
+          var dateCreated = ""
+            if let attributes = try? FileManager.default.attributesOfItem(atPath: url.path) as [FileAttributeKey: Any],
+                let creationDate = attributes[FileAttributeKey.creationDate] as? Date {
+                dateCreated = Date.sm_convertDateToString(date: creationDate, formatter: "dd.MM.yy HH:mm:ss")
+                }
+            return DP_Pickture(image: url, date: dateCreated, isSelected: false)
+        }
+        
+        models = models.sorted(by: {$0.date > $1.date})
+     completion(models)
+    }
+    
+    
+    func dp_section() -> UICollectionViewCompositionalLayout {
+        let width = UIScreen.main.bounds.width
+        let itemWidth = (width - 32) / 3
+        
+        let itemSize = NSCollectionLayoutSize(widthDimension: .absolute(itemWidth),heightDimension: .absolute(139))
+        let item = NSCollectionLayoutItem(layoutSize: itemSize)
+        item.contentInsets = .init(top: 5, leading: 5, bottom: 5, trailing: 5)
+        let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1),heightDimension: .absolute(139))
+        let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, subitems: [item])
+        group.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 16, bottom: 0, trailing: 16)
+        let section = NSCollectionLayoutSection(group: group)
+        section.contentInsets = .init(top: 10, leading: 0, bottom: 10, trailing: 0)
+        
+        return UICollectionViewCompositionalLayout(section: section)
+    }
+    
     func dp_saveNewPhoto(data: Data) -> URL? {
         var rezUrl: URL?
         let lastNumber = dp_getNumber()

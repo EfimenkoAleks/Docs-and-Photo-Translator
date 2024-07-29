@@ -43,8 +43,7 @@ class DP_CameraViewController: DP_BaseViewController {
     private var originalLang: TranslateLanguage?
     private var cameraPreviewLayer: AVCaptureVideoPreviewLayer?
     private let manager: DP_PhotoManager = DP_PhotoManager()
-    private var imagePicker = UIImagePickerController()
-
+ 
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -68,15 +67,6 @@ class DP_CameraViewController: DP_BaseViewController {
     override func dp_backButtonAction() {
         dp_handleDismiss()
     }
-    
-    override func dp_actionHandler(alert: UIAlertAction) {
-        coordinator?.dp_eventOccurred(with: .choise)
-        coordinator?.eventHandler = { [weak self] _ in
-            guard let self = self,
-                  let currentImage = self.currentImage else { return }
-            self.dp_startRecognizedText(image: currentImage, isOriginalLang: true)
-        }
-    }
 }
 
 private extension DP_CameraViewControllerExtension {
@@ -86,6 +76,7 @@ private extension DP_CameraViewControllerExtension {
         dp_setLeftNavBarItems()
         dp_configureUI()
         dp_resetLanguage()
+        dp_addTapView()
     }
     
     func dp_addVideo(captureSession: AVCaptureSession?) {
@@ -111,15 +102,16 @@ private extension DP_CameraViewControllerExtension {
     }
     
     func dp_setPreview() {
-        helper.sm_getLastPhoto { [weak self] asset in
+        helper.dp_getPhotos { [weak self] array in
             guard let self = self,
-                  let asset = asset,
-                  let imView = self.cameraImage else { return }
+                  let model = array.first,
+                  let url = model.image else { return }
             
-            DispatchQueue.main.async { [weak self] in
-                guard let self = self else { return }
-                self.previewView.fetchImage(asset: asset, contentMode: .aspectFill, targetSize: imView.frame.size)
-                self.dp_addTapView()
+            do {
+                let data = try Data(contentsOf: url)
+                self.previewView.image = UIImage(data: data)
+            } catch {
+                self.previewView.image = UIImage()
             }
         }
     }
@@ -127,6 +119,8 @@ private extension DP_CameraViewControllerExtension {
     func dp_addTapView() {
         let tap = UITapGestureRecognizer(target: self, action: #selector(dp_didTapPreview))
         previewView.addGestureRecognizer(tap)
+        previewView.layer.cornerRadius = 8
+        previewView.layer.masksToBounds = true
     }
     
     func dp_resetLanguage() {
@@ -150,13 +144,17 @@ private extension DP_CameraViewControllerExtension {
     }
     
     @objc func dp_didTapPreview() {
-        dp_resetLanguage()
-        if UIImagePickerController.isSourceTypeAvailable(.photoLibrary){
-            imagePicker.delegate = self
-            imagePicker.sourceType = .photoLibrary
-            imagePicker.allowsEditing = false
-
-            present(imagePicker, animated: true, completion: nil)
+     //   dp_resetLanguage()
+        
+        coordinator?.dp_eventOccurred(with: .choise)
+        coordinator?.eventHandler = { [weak self] image in
+            guard let self = self,
+            let newImage = image else { return }
+            self.currentImage = newImage
+         
+            self.dp_restartCondition()
+            self.cameraImage?.image = newImage
+            self.dp_setStartLoadImage(newImage: newImage)
         }
     }
     
@@ -182,7 +180,7 @@ private extension DP_CameraViewControllerExtension {
     }
     
     func dp_setLeftNavBarItems() {
-        lightImage = UIImage(named: "light")
+        lightImage = UIImage(systemName: "bolt.fill")
         monohromeImage = UIImage(named: "monoHrome")
         dp_addNavButtons()
     }
@@ -197,7 +195,7 @@ private extension DP_CameraViewControllerExtension {
     
     @objc func dp_didTapLIgth() {
         ligth = ligth == .off ? .on : .off
-        lightImage = ligth == .on ? UIImage(systemName: "bolt.fill") : UIImage(named: "light")
+        lightImage = ligth == .on ? UIImage(systemName: "bolt.fill") : UIImage(systemName: "bolt.slash.fill")
         dp_addNavButtons()
     }
     
@@ -273,12 +271,16 @@ private extension DP_CameraViewControllerExtension {
             }
         }
     }
- 
-    func dp_resetImage() {
+    
+    func dp_restartCondition() {
         dp_resetLanguage()
-        dp_removePopapMenuView()
+        dp_removePopapMenuView(0.0)
         dp_removeImageView()
         dp_createImageView()
+    }
+ 
+    func dp_resetImage() {
+        dp_restartCondition()
         manager.startSession()
         dp_addVideo(captureSession: manager.captureSession)
     }
@@ -362,10 +364,19 @@ private extension DP_CameraViewControllerExtension {
 
             self.urlPhoto = self.helper.dp_saveNewPhoto(data: data)
 
-            self.dp_stopSessino()
-            self.currentImage = self.photoHelper.dp_scaleAndOrient(image: newImage)
-            guard let currentImage = self.currentImage else { return }
-            self.dp_startRecognizedText(image: currentImage, isOriginalLang: true)
+            self.dp_setStartLoadImage(newImage: newImage)
+        }
+    }
+    
+    func dp_setStartLoadImage(newImage: UIImage) {
+        self.dp_stopSessino()
+        self.currentImage = self.photoHelper.dp_scaleAndOrient(image: newImage)
+        guard let currentImage = self.currentImage else { return }
+        self.dp_startRecognizedText(image: currentImage, isOriginalLang: true)
+        
+        DispatchQueue.main.async { [weak self] in
+            guard let self = self else { return }
+            self.dp_setPreview()
         }
     }
 
@@ -384,23 +395,5 @@ private extension DP_CameraViewControllerExtension {
     
     @objc func dp_resetCamera() {
         dp_resetImage()
-    }
-}
-
-extension DP_CameraViewControllerExtension: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
-    
-    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
-        picker.dismiss(animated: true, completion: nil)
-        
-        guard let image = info[UIImagePickerController.InfoKey.originalImage] as? UIImage else { return }
-        
-        self.dp_stopSessino()
-        
-        dp_removeImageView()
-        dp_createImageView()
-        guard let cameraImage = self.cameraImage else { return }
-        cameraImage.image = image
-        self.currentImage = self.photoHelper.dp_scaleAndOrient(image: image)
-        self.dp_startRecognizedText(image: image, isOriginalLang: true)
     }
 }
