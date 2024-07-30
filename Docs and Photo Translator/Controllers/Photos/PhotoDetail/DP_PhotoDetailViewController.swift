@@ -17,6 +17,10 @@ class DP_PhotoDetailViewController: DP_BaseViewController {
     private var context = CIContext(options: nil)
     private var helper: DP_PhotoHelper = DP_PhotoHelper()
     private var currentImage: UIImage?
+    private var langManager: DP_LanguagePopupManager?
+    private var currentLang: TranslateLanguage?
+    private var originalLang: TranslateLanguage?
+    private var isOriginLang: Bool = true
 
     init(model: URL) {
         path = model
@@ -52,7 +56,7 @@ class DP_PhotoDetailViewController: DP_BaseViewController {
         coordinator?.eventHandler = { [weak self] _ in
             guard let self = self,
                   let currentImage = self.currentImage else { return }
-            self.dp_startRecognizedText(image: currentImage)
+            self.dp_startRecognizedText(image: currentImage, isOriginalLang: true)
         }
     }
 }
@@ -61,6 +65,11 @@ extension DP_PhotoDetailViewController {
     
     func dp_configure() {
         dp_addLoader()
+        dp_createImage()
+        dp_resetLanguage()
+    }
+    
+    func dp_createImage() {
         do {
             let data = try Data(contentsOf: path)
             guard let img = UIImage(data: data) else { return }
@@ -69,16 +78,22 @@ extension DP_PhotoDetailViewController {
             photoImage.image = currentImage
             guard let currentImage = currentImage else { return }
             
-            dp_startRecognizedText(image: currentImage)
+            dp_startRecognizedText(image: currentImage, isOriginalLang: true)
         } catch {
             photoImage.image = UIImage(named: "defaultPhoto")
         }
     }
     
-    func dp_startRecognizedText(image: UIImage) {
-        dp_recognizeText(in: image) { [weak self] in
+    func dp_resetLanguage() {
+        currentLang = DP_TranslateManager.shared.currentLanguages ?? TranslateLanguage.english
+        originalLang = nil
+    }
+    
+    func dp_startRecognizedText(image: UIImage, isOriginalLang: Bool) {
+        dp_recognizeText(in: image, isOriginalLang: isOriginalLang) { [weak self] in
             self?.dp_removeLoader()
             self?.dp_addNavButtons()
+            self?.dp_createPopapView()
         }
     }
     
@@ -107,7 +122,7 @@ extension DP_PhotoDetailViewController {
         coordinator?.dp_eventOccurred(with: .share(image))
     }
  
-    func dp_recognizeText(in image: UIImage, completion: @escaping () -> Void) {
+    func dp_recognizeText(in image: UIImage, isOriginalLang: Bool, completion: @escaping () -> Void) {
         DP_TextRecognizedManager.shared.dp_textRecognized(in: image) { [weak self] model in
             guard let self = self else { return }
             let format = UIGraphicsImageRendererFormat()
@@ -120,10 +135,22 @@ extension DP_PhotoDetailViewController {
                     completion()
                 }
                 
-                let originalLanguage = TranslateLanguage(rawValue: lang)
+                let originalTextLang = TranslateLanguage(rawValue: lang)
+                var currentLang: TranslateLanguage = originalTextLang
+                if !isOriginalLang, let lang = self.currentLang {
+                    currentLang = lang
+                    self.currentLang = self.originalLang
+                    self.originalLang = currentLang
+                } else if isOriginalLang, self.originalLang != nil, let lang = self.currentLang {
+                    currentLang = lang
+                    self.currentLang = self.originalLang
+                    self.originalLang = currentLang
+                } else {
+                    self.originalLang = currentLang
+                }
                
-                if !DP_TranslateManager.shared.isLanguageDownloaded(originalLanguage) {
-                    DP_TranslateManager.shared.dp_translateTag(lang: originalLanguage) { [weak self] rezOrigin in
+                if !DP_TranslateManager.shared.isLanguageDownloaded(currentLang) {
+                    DP_TranslateManager.shared.dp_translateTag(lang: currentLang) { [weak self] rezOrigin in
                         guard let self = self else { return }
                         self.dp_presentAlertWithTwoButtons(title: "The text uses - \(rezOrigin) language, to translate you need to download the \(rezOrigin) language")
                     }
@@ -135,7 +162,7 @@ extension DP_PhotoDetailViewController {
          
                         for (i, str) in model.texts.enumerated() {
                        
-                            DP_TranslateManager.shared.getText(str, originalLanguage: originalLanguage) { [weak self] rezText in
+                            DP_TranslateManager.shared.getText(str, originalLanguage: currentLang) { [weak self] rezText in
                                 guard let self = self else { return }
                                 switch rezText {
                                 case .success(let rezText):
@@ -153,5 +180,29 @@ extension DP_PhotoDetailViewController {
                 }
             }
         }
+    }
+    
+    //MARK: - Create popap menu
+    func dp_createPopapView() {
+        if langManager == nil {
+            langManager = DP_LanguagePopupManager(view: self.view)
+            langManager?.eventHandler = { [weak self] _ in
+                self?.dp_changeLang()
+            }
+        }
+        langManager?.dp_createView(currentLang: currentLang, originalLang: originalLang)
+    }
+    
+    func dp_removePopapView(_ duration: CGFloat = 0.5) {
+        langManager?.dp_removePopapMenuView(duration)
+    }
+    
+    func dp_changeLang() {
+        dp_addLoader()
+        isOriginLang.toggle()
+        dp_removePopapView(0.0)
+      
+        guard let currentImage = currentImage else { return }
+        dp_startRecognizedText(image: currentImage, isOriginalLang: isOriginLang)
     }
 }

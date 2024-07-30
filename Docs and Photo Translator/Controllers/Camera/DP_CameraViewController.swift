@@ -30,7 +30,6 @@ class DP_CameraViewController: DP_BaseViewController {
     private var urlPhoto: URL?
     private var currentImage: UIImage?
     private var context = CIContext(options: nil)
-    private var popapMenuView: DP_PopUpLangView?
     private var resetButton: UIButton?
     private var photoButton: UIButton?
     private var rotateNavButton: CGFloat = CGFloat.pi * 2
@@ -43,6 +42,7 @@ class DP_CameraViewController: DP_BaseViewController {
     private var originalLang: TranslateLanguage?
     private var cameraPreviewLayer: AVCaptureVideoPreviewLayer?
     private let manager: DP_PhotoManager = DP_PhotoManager()
+    private var langManager: DP_LanguagePopupManager?
  
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -140,7 +140,7 @@ private extension DP_CameraViewControllerExtension {
     }
     
     @objc func dp_didTapTitle() {
-        popapMenuView == nil ? dp_createPopapMenuView() : dp_removePopapMenuView()
+        langManager?.isCreaded == false ? dp_createPopapView() : dp_removePopapView()
         rotateNavButton = rotateNavButton == CGFloat.pi ? CGFloat.pi * 2 : CGFloat.pi
         dp_createNavTitle(rotate: rotateNavButton)
     }
@@ -172,7 +172,7 @@ private extension DP_CameraViewControllerExtension {
             DispatchQueue.main.async { [weak self] in
                 guard let self = self else { return }
                 self.dp_removeLoader()
-                self.dp_createPopapMenuView(isOriginalLang: isOriginalLang)
+                self.dp_createPopapView()
             }
         }
     }
@@ -276,7 +276,7 @@ private extension DP_CameraViewControllerExtension {
     
     func dp_restartCondition() {
         dp_resetLanguage()
-        dp_removePopapMenuView(0.0)
+        dp_removePopapView(0.0)
         dp_removeImageView()
         dp_createImageView()
     }
@@ -322,37 +322,18 @@ private extension DP_CameraViewControllerExtension {
     }
     
     //MARK: - Create popap menu
-    func dp_createPopapMenuView(isOriginalLang: Bool = true) {
-        if popapMenuView == nil {
-            let currentNameLang = DP_TranslateManager.shared.dp_getNameLang(lang: currentLang) ?? "non"
-            let originalNameLang = DP_TranslateManager.shared.dp_getNameLang(lang: originalLang) ?? "non"
-  
-            popapMenuView = DP_PopUpLangView(frame: CGRect(x: 20, y: view.safeAreaInsets.top + 20, width: view.bounds.width - 40, height: 42),
-                                             firstText: originalNameLang,
-                                             secondText: currentNameLang)
-            guard let popapMenuView = popapMenuView else { return }
-            view.addSubview(popapMenuView)
-           
-            popapMenuView.changeButton?.addTarget(self, action: #selector(dp_changeLang), for: .touchUpInside)
-            
-            UIView.animate(withDuration: 0.5, delay: 0) { [weak self] in
-                guard let self = self,
-                let popapMenuView = self.popapMenuView else { return }
-                popapMenuView.alpha = 1.0
+    func dp_createPopapView() {
+        if langManager == nil {
+            langManager = DP_LanguagePopupManager(view: self.view)
+            langManager?.eventHandler = { [weak self] _ in
+                self?.dp_changeLang()
             }
         }
+        langManager?.dp_createView(currentLang: currentLang, originalLang: originalLang)
     }
     
-    func dp_removePopapMenuView(_ duration: CGFloat = 0.5) {
-        UIView.animate(withDuration: duration, delay: 0) { [weak self] in
-            guard let self = self else { return }
-            self.popapMenuView?.alpha = 0.0
-        } completion: { [weak self] completion in
-            if completion {
-                self?.popapMenuView?.removeFromSuperview()
-                self?.popapMenuView = nil
-            }
-        }
+    func dp_removePopapView(_ duration: CGFloat = 0.5) {
+        langManager?.dp_removePopapMenuView(duration)
     }
     
     func dp_tapCamera() {
@@ -383,13 +364,13 @@ private extension DP_CameraViewControllerExtension {
     }
 
     @objc func dp_didTapCameraButton() {
-        popapMenuView == nil ? dp_tapCamera() : dp_resetImage()
+        langManager?.isCreaded == false ? dp_tapCamera() : dp_resetImage()
     }
 
-    @objc func dp_changeLang() {
+    func dp_changeLang() {
         dp_addLoader()
         isOriginLang.toggle()
-        dp_removePopapMenuView(0.0)
+        dp_removePopapView(0.0)
       
         guard let currentImage = currentImage else { return }
         dp_startRecognizedText(image: currentImage, isOriginalLang: isOriginLang)
