@@ -56,30 +56,35 @@ class DP_TabBarController: DP_BaseViewController {
 
 private extension DP_TabBarControllerExtension {
     
-     func dp_initialSetup() {
+    func dp_initialSetup() {
         
         embedTabBar.delegate = self
-        embedTabBar.barTintColor = DP_Colors.tabBar.color
         availableTabBarItemTypes.forEach({embedViewControllers[$0] = dp_childViewControllers(itemForVC: $0)})
         embedTabBar.tabAppearance = { [weak self] _ in
             self?.dp_updateSelectedViewController()
         }
         embedTabBar.items = availableTabBarItemTypes.map { $0.item }
         embedTabBar.isTranslucent = false
+        embedTabBar.layer.cornerRadius = 20
+        embedTabBar.layer.maskedCorners = [.layerMinXMinYCorner, .layerMaxXMinYCorner]
+        
+        embedTabBar.layer.masksToBounds = true
+        
         view.backgroundColor = .white
         view.addSubview(embedTabBar)
         embedTabBar.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
-            self.view.leadingAnchor.constraint(equalTo: embedTabBar.leadingAnchor),
-            self.view.trailingAnchor.constraint(equalTo: embedTabBar.trailingAnchor),
-            self.view.safeAreaLayoutGuide.bottomAnchor.constraint(equalTo: embedTabBar.bottomAnchor)
+            embedTabBar.topAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.bottomAnchor, constant: -70),
+            embedTabBar.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            embedTabBar.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            embedTabBar.heightAnchor.constraint(equalToConstant: 70)
         ])
-         guard let selectedTab = selectedTab else { return }
-         embedTabBar.selectedItem = embedTabBar.items?[selectedTab.selected]
+        guard let selectedTab = selectedTab else { return }
+        embedTabBar.selectedItem = embedTabBar.items?[selectedTab.selected]
         dp_updateSelectedViewController()
         embedTabBar.didTapButton = { [unowned self] _ in
-                    self.dp_selectDevice()
-                }
+            self.dp_selectDevice()
+        }
     }
    
     private func dp_selectDevice() {

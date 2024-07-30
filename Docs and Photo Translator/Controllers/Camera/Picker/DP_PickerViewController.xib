@@ -22,7 +22,7 @@
             <subviews>
                 <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="none" translatesAutoresizingMaskIntoConstraints="NO" id="7FC-TS-NbL">
                     <rect key="frame" x="0.0" y="111" width="393" height="707"/>
-                    <color key="backgroundColor" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                     <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" id="Q84-Pq-ViK">
                         <size key="itemSize" width="128" height="128"/>
                         <size key="headerReferenceSize" width="0.0" height="0.0"/>
@@ -37,13 +37,15 @@
                             <rect key="frame" x="20" y="3" width="48" height="38"/>
                             <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             <state key="normal" title="Button"/>
-                            <buttonConfiguration key="configuration" style="plain" image="cross"/>
+                            <buttonConfiguration key="configuration" style="plain" image="cross">
+                                <color key="baseForegroundColor" red="0.043137254901960784" green="0.30588235294117649" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                            </buttonConfiguration>
                             <connections>
                                 <action selector="dp_didTapCrossButton:" destination="-1" eventType="touchUpInside" id="EUs-67-xfN"/>
                             </connections>
                         </button>
                     </subviews>
-                    <color key="backgroundColor" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                     <constraints>
                         <constraint firstItem="gzW-zP-hb5" firstAttribute="leading" secondItem="MoB-DW-pI4" secondAttribute="leading" constant="20" id="P3Q-6o-E57"/>
                         <constraint firstAttribute="height" constant="44" id="P6l-de-FEO"/>
@@ -52,7 +54,7 @@
                 </view>
             </subviews>
             <viewLayoutGuide key="safeArea" id="fnl-2z-Ty3"/>
-            <color key="backgroundColor" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
             <constraints>
                 <constraint firstItem="7FC-TS-NbL" firstAttribute="top" secondItem="MoB-DW-pI4" secondAttribute="bottom" constant="8" id="5BD-9v-Ab9"/>
                 <constraint firstItem="MoB-DW-pI4" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" id="BMz-eA-ASY"/>

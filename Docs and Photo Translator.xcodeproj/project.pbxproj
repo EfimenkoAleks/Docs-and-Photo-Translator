@@ -905,9 +905,11 @@
 				DEVELOPMENT_TEAM = 364PACBHLP;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "Docs and Photo Translator/Info.plist";
-				INFOPLIST_KEY_NSCameraUsageDescription = "The application needs the camera permission in order to take pictures";
+				INFOPLIST_KEY_NSCameraUsageDescription = "The app needs a camera for text recognition";
+				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "The app nead take photo from library";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
+				INFOPLIST_KEY_UIStatusBarStyle = UIStatusBarStyleDarkContent;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
 				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -937,9 +939,11 @@
 				DEVELOPMENT_TEAM = 364PACBHLP;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "Docs and Photo Translator/Info.plist";
-				INFOPLIST_KEY_NSCameraUsageDescription = "The application needs the camera permission in order to take pictures";
+				INFOPLIST_KEY_NSCameraUsageDescription = "The app needs a camera for text recognition";
+				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "The app nead take photo from library";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
+				INFOPLIST_KEY_UIStatusBarStyle = UIStatusBarStyleDarkContent;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
 				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				LD_RUNPATH_SEARCH_PATHS = (

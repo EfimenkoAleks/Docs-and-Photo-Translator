@@ -5,7 +5,6 @@
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="21505"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
-        <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
@@ -25,17 +24,17 @@
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="csT-bm-vyg">
-                    <rect key="frame" x="0.0" y="59" width="393" height="759"/>
+                    <rect key="frame" x="0.0" y="39" width="393" height="799"/>
                     <subviews>
                         <imageView clipsSubviews="YES" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="Ysz-No-hbL">
-                            <rect key="frame" x="30" y="669" width="48" height="48"/>
+                            <rect key="frame" x="30" y="709" width="48" height="48"/>
                             <constraints>
                                 <constraint firstAttribute="width" constant="48" id="EX0-hx-h8i"/>
                                 <constraint firstAttribute="height" constant="48" id="ML6-hn-lJq"/>
                             </constraints>
                         </imageView>
                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="JEp-6P-pt7" customClass="DP_ViewVithGradient" customModule="Docs_and_Photo_Translator" customModuleProvider="target">
-                            <rect key="frame" x="315" y="669" width="48" height="48"/>
+                            <rect key="frame" x="315" y="709" width="48" height="48"/>
                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             <constraints>
                                 <constraint firstAttribute="width" constant="48" id="53A-xb-99d"/>
@@ -43,7 +42,7 @@
                             </constraints>
                         </view>
                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ftL-UB-Xq6">
-                            <rect key="frame" x="160.66666666666666" y="657" width="72" height="72"/>
+                            <rect key="frame" x="160.66666666666666" y="697" width="72" height="72"/>
                             <subviews>
                                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="xeG-Kf-rET" customClass="DP_ViewVithGradient" customModule="Docs_and_Photo_Translator" customModuleProvider="target">
                                     <rect key="frame" x="7" y="7" width="58" height="58"/>
@@ -63,7 +62,7 @@
                             </constraints>
                         </view>
                     </subviews>
-                    <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                     <constraints>
                         <constraint firstItem="ftL-UB-Xq6" firstAttribute="centerX" secondItem="csT-bm-vyg" secondAttribute="centerX" id="D7t-uH-ozx"/>
                         <constraint firstAttribute="bottom" secondItem="ftL-UB-Xq6" secondAttribute="bottom" constant="30" id="V4J-An-1ac"/>
@@ -75,19 +74,14 @@
                 </view>
             </subviews>
             <viewLayoutGuide key="safeArea" id="fnl-2z-Ty3"/>
-            <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
             <constraints>
                 <constraint firstItem="csT-bm-vyg" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" id="W98-Tp-3gL"/>
                 <constraint firstItem="fnl-2z-Ty3" firstAttribute="trailing" secondItem="csT-bm-vyg" secondAttribute="trailing" id="etL-Qc-RuH"/>
-                <constraint firstItem="fnl-2z-Ty3" firstAttribute="bottom" secondItem="csT-bm-vyg" secondAttribute="bottom" id="fFB-T9-xev"/>
-                <constraint firstItem="csT-bm-vyg" firstAttribute="top" secondItem="fnl-2z-Ty3" secondAttribute="top" id="iR2-Jr-w2e"/>
+                <constraint firstItem="csT-bm-vyg" firstAttribute="bottom" secondItem="fnl-2z-Ty3" secondAttribute="bottom" constant="20" id="fFB-T9-xev"/>
+                <constraint firstItem="csT-bm-vyg" firstAttribute="top" secondItem="fnl-2z-Ty3" secondAttribute="top" constant="-20" id="iR2-Jr-w2e"/>
             </constraints>
             <point key="canvasLocation" x="120" y="20"/>
         </view>
     </objects>
-    <resources>
-        <systemColor name="systemBackgroundColor">
-            <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-        </systemColor>
-    </resources>
 </document>

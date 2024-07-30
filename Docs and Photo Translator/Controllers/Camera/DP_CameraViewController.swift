@@ -56,6 +56,7 @@ class DP_CameraViewController: DP_BaseViewController {
       super.viewWillAppear(animated)
         dp_resetImage()
         dp_setPreview()
+        dp_addRoundToNavBar()
     }
     
     override func viewDidDisappear(_ animated: Bool) {
@@ -87,8 +88,9 @@ private extension DP_CameraViewControllerExtension {
         cameraImage.layer.insertSublayer(cameraPreviewLayer, at: 0)
         cameraPreviewLayer.videoGravity = AVLayerVideoGravity.resize
         let screen = UIScreen.main.bounds
-        let height = screen.height - (view.safeAreaInsets.top + view.safeAreaInsets.bottom)
-        cameraPreviewLayer.frame = CGRect(x: 0, y: 0, width: screen.width, height: height)
+        let frame = CGRect(x: 0, y: -20, width: screen.width, height: screen.height - 140)
+       
+        cameraPreviewLayer.frame = frame
     }
     
     func dp_configureUI() {
@@ -180,7 +182,7 @@ private extension DP_CameraViewControllerExtension {
     }
     
     func dp_setLeftNavBarItems() {
-        lightImage = UIImage(systemName: "bolt.fill")
+        lightImage = UIImage(systemName: "bolt.slash.fill")
         monohromeImage = UIImage(named: "monoHrome")
         dp_addNavButtons()
     }

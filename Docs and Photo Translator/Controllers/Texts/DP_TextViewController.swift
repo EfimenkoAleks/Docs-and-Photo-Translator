@@ -39,6 +39,8 @@ class DP_TextViewController: DP_BaseViewController {
         isSmallBackButtonEnabled = false
         dp_setGradient()
       super.viewWillAppear(animated)
+        
+        dp_addRoundToNavBar()
     }
     
     @IBAction func didTapSwap() {

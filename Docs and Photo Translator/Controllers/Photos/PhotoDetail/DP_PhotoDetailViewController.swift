@@ -36,6 +36,11 @@ class DP_PhotoDetailViewController: DP_BaseViewController {
     override func viewWillAppear(_ animated: Bool) {
         dp_setGradient()
       super.viewWillAppear(animated)
+        
+        dp_addRoundToNavBar()
+        DispatchQueue.main.asyncAfter(wallDeadline: .now() + 1.0) { [weak self] in
+            self?.navigationController?.navigationBar.barStyle = .black
+        }
     }
 
     override func dp_backButtonAction() {

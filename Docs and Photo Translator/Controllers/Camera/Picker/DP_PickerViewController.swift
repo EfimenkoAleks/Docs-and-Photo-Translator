@@ -36,7 +36,7 @@ private extension DP_PickerViewControllerExtension {
     
     func dp_configure() {
         dp_createManager()
-        view.backgroundColor = .darkGray
+        view.backgroundColor = UIColor(hexString: "#373737")
     }
     
     func dp_createManager() {

@@ -42,7 +42,7 @@ class DP_BaseViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        dp_setupNavigationBar()
+   //     dp_setupNavigationBar()
         //      sm_hideKeyboardWhenTappedAround()
     }
     
@@ -50,14 +50,9 @@ class DP_BaseViewController: UIViewController {
         super.viewWillAppear(animated)
         
         dp_setSmallBackButton()
-        setNeedsStatusBarAppearanceUpdate()
-   //     dp_setNavControllerBackground()
+        dp_setNavControllerBackground()
     }
-    
-    override var preferredStatusBarStyle: UIStatusBarStyle {
-        .darkContent
-    }
-    
+ 
     func dp_didTapShareFromMenu() {}
     func dp_choiseLang() {}
     func dp_fromLibrary() {}
@@ -89,10 +84,14 @@ class DP_BaseViewController: UIViewController {
         view.backgroundColor = DP_Colors.base.color
     }
     
+    func dp_addRoundToNavBar() {
+        navigationController?.navigationBar.layer.cornerRadius = 20
+        navigationController?.navigationBar.clipsToBounds = true
+        navigationController?.navigationBar.layer.maskedCorners = [.layerMinXMaxYCorner,.layerMaxXMaxYCorner]
+    }
+    
     func dp_setGradient() {
         let screen = UIScreen.main.bounds
-//        view.setGradient(colorTop: DP_Colors.gradientTop.color,
-//                         colorBottom: DP_Colors.gradientBottom.color, frame: screen)
         let vi = DP_BaseGradientView(frame: CGRect(x: 0, y: 0, width: screen.width, height: screen.height))
         view.insertSubview(vi, at: 0)
     }
@@ -245,7 +244,7 @@ class DP_BaseViewController: UIViewController {
     func dp_setNavControllerBackground() {
         let screen = UIScreen.main.bounds
         let view = UIView(frame: CGRect(x: 0, y: 0, width: screen.width, height: 100))
-        view.setGradient(colorTop: DP_Colors.gradientTop.color, colorBottom: UIColor(hexString: "#eff6fb"), frame: CGRect(x: 0, y: 0, width: view.frame.width, height: view.frame.height))
+        view.setGradient(colorTop: DP_Colors.gradientTop.color, colorBottom: UIColor(hexString: "#f2f7f9"), frame: CGRect(x: 0, y: 0, width: view.frame.width, height: view.frame.height))
         let image = UIImage(view: view)
         
         let appearance = UINavigationBarAppearance()

@@ -32,6 +32,8 @@ class DP_PhotoViewController: DP_BaseViewController {
       super.viewWillAppear(animated)
         photoManager?.dp_reloadTableWithData(.recent)
         segment?.reloadSegment()
+        
+        dp_addRoundToNavBar()
     }
     
     override func dp_choiseLang() {

@@ -21,10 +21,10 @@
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="uID-md-IX3">
-                    <rect key="frame" x="0.0" y="59" width="393" height="759"/>
+                    <rect key="frame" x="0.0" y="39" width="393" height="813"/>
                     <subviews>
                         <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="VCP-QT-y6c">
-                            <rect key="frame" x="0.0" y="0.0" width="393" height="759"/>
+                            <rect key="frame" x="0.0" y="0.0" width="393" height="813"/>
                         </imageView>
                     </subviews>
                     <color key="backgroundColor" systemColor="systemBackgroundColor"/>
@@ -41,8 +41,8 @@
             <constraints>
                 <constraint firstItem="fnl-2z-Ty3" firstAttribute="trailing" secondItem="uID-md-IX3" secondAttribute="trailing" id="Vua-dy-ywb"/>
                 <constraint firstItem="uID-md-IX3" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" id="XOz-L0-IlL"/>
-                <constraint firstItem="fnl-2z-Ty3" firstAttribute="bottom" secondItem="uID-md-IX3" secondAttribute="bottom" id="aDt-wW-FPD"/>
-                <constraint firstItem="uID-md-IX3" firstAttribute="top" secondItem="fnl-2z-Ty3" secondAttribute="top" id="wOL-VJ-2Qa"/>
+                <constraint firstAttribute="bottom" secondItem="uID-md-IX3" secondAttribute="bottom" id="aDt-wW-FPD"/>
+                <constraint firstItem="uID-md-IX3" firstAttribute="top" secondItem="fnl-2z-Ty3" secondAttribute="top" constant="-20" id="wOL-VJ-2Qa"/>
             </constraints>
             <point key="canvasLocation" x="138" y="20"/>
         </view>
