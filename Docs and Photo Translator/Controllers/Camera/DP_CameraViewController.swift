@@ -78,6 +78,16 @@ private extension DP_CameraViewControllerExtension {
         dp_configureUI()
         dp_resetLanguage()
         dp_addTapView()
+        dp_createManager()
+    }
+    
+    func dp_createManager() {
+        if langManager == nil {
+            langManager = DP_LanguagePopupManager(view: self.view)
+            langManager?.eventHandler = { [weak self] _ in
+                self?.dp_changeLang()
+            }
+        }
     }
     
     func dp_addVideo(captureSession: AVCaptureSession?) {
@@ -173,6 +183,7 @@ private extension DP_CameraViewControllerExtension {
                 guard let self = self else { return }
                 self.dp_removeLoader()
                 self.dp_createPopapView()
+                self.isSessionStart = true
             }
         }
     }
@@ -282,6 +293,7 @@ private extension DP_CameraViewControllerExtension {
     }
  
     func dp_resetImage() {
+        isSessionStart = false
         dp_restartCondition()
         manager.startSession()
         dp_addVideo(captureSession: manager.captureSession)
@@ -323,12 +335,12 @@ private extension DP_CameraViewControllerExtension {
     
     //MARK: - Create popap menu
     func dp_createPopapView() {
-        if langManager == nil {
-            langManager = DP_LanguagePopupManager(view: self.view)
-            langManager?.eventHandler = { [weak self] _ in
-                self?.dp_changeLang()
-            }
-        }
+//        if langManager == nil {
+//            langManager = DP_LanguagePopupManager(view: self.view)
+//            langManager?.eventHandler = { [weak self] _ in
+//                self?.dp_changeLang()
+//            }
+//        }
         langManager?.dp_createView(currentLang: currentLang, originalLang: originalLang)
     }
     
@@ -337,6 +349,7 @@ private extension DP_CameraViewControllerExtension {
     }
     
     func dp_tapCamera() {
+        dp_removePopapView()
         dp_resetLanguage()
         manager.dp_createPhoto(withLight: ligth)
         manager.imageHanddler = { [weak self] newImage in
@@ -364,7 +377,7 @@ private extension DP_CameraViewControllerExtension {
     }
 
     @objc func dp_didTapCameraButton() {
-        langManager?.isCreaded == false ? dp_tapCamera() : dp_resetImage()
+        isSessionStart == false ? dp_tapCamera() : dp_resetImage()
     }
 
     func dp_changeLang() {
@@ -377,6 +390,8 @@ private extension DP_CameraViewControllerExtension {
     }
     
     @objc func dp_resetCamera() {
-        dp_resetImage()
+        if isSessionStart {
+            dp_resetImage()
+        }
     }
 }

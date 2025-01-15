@@ -127,7 +127,7 @@ extension DP_PickerManagerExtension: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         imageData[indexPath.item].isSelected = true
         dp_reloadDataSource(pictures: imageData, animatingDifferences: true)
-        DispatchQueue.main.asyncAfter(wallDeadline: .now() + 1.0) { [weak self] in
+        DispatchQueue.main.async { [weak self] in
             guard let self = self else { return }
             self.eventHandler?(self.imageData[indexPath.item])
         }
